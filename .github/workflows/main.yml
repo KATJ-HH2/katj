@@ -9,8 +9,8 @@ env:
   ECR_REPOSITORY: katj-cicd-dev
   ECS_SERVICE: katj-service-ecs-dev4
   ECS_CLUSTER: katj-cluster-ecs-dev
-  CONTAINER_NAME: katj-cicd-dev
-  ECS_TASK_DEFINITION: katj-cicd-task-revision1.json
+  CONTAINER_NAME: katj-dev
+  ECS_TASK_DEFINITION: hh2-katj.json
 #  ACTIVE_PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
 permissions:

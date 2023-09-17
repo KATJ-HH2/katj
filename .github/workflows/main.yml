@@ -6,8 +6,8 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: katj-cicd-dev
-  ECS_SERVICE: katj-dev-service
+  ECR_REPOSITORY: katj-dev
+  ECS_SERVICE: service-katj-dev
   ECS_CLUSTER: katj-cluster-ecs-dev
   CONTAINER_NAME: katj-dev
   ECS_TASK_DEFINITION: katj-dev.json

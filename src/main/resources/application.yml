@@ -6,9 +6,9 @@ spring:
         base-path: /applications
 
   datasource:
-    url: jdbc:mysql://jdbc:mysql://katj-db.clwqjlzrayle.ap-northeast-2.rds.amazonaws.com:3306/katj
+    url: jdbc:mysql://katj-db.clwqjlzrayle.ap-northeast-2.rds.amazonaws.com:3306/katj
     username: katj
-    password: katj4
+    password: katj123!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

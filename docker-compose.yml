@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  cicd-test-app:
+  katj-dev:
     image: katj-dev
     container_name: katj-dev
     build:

@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  katj:
+    container_name: katj-mysql
+    image: mysql
+    environment:
+      MYSQL_DATABASE: katj
+      MYSQL_ROOT_PASSWORD: katj4
+    ports:
+      - "3306:3306"
+  cicd-test-app:
+    image: cicd-test-app
+    container_name: cici-test-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - katj
+    restart: always

@@ -6,11 +6,11 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  ECR_REPOSITORY: katj-cicd-dev
-  ECS_SERVICE: katj-service-ecs-dev4
+  ECR_REPOSITORY: katj-dev
+  ECS_SERVICE: service-katj-dev
   ECS_CLUSTER: katj-cluster-ecs-dev
-  CONTAINER_NAME: katj-cicd-dev
-  ECS_TASK_DEFINITION: katj-cicd-task-revision1.json
+  CONTAINER_NAME: katj-dev
+  ECS_TASK_DEFINITION: katj-dev.json
 #  ACTIVE_PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
 permissions:
@@ -97,3 +97,19 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+  slack_noti:
+    name: Slack_notification
+    runs-on: ubuntu-latest
+    needs: build-dev
+    steps:
+        - name: action-slack
+          uses: 8398a7/action-slack@v3
+          with:
+            status: ${{ job.status }}
+            author_name: www-be
+            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+            if_mention: failure,cancelled
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+          if: always() # Pick up events even if the job fails or is canceled.

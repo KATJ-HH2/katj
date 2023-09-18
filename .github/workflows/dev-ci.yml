@@ -3,7 +3,7 @@ name: CI from sub feature branches
 on:
   pull_request_review_comment:
     types: [ created, edited ]
-    branches: [ "feature/*" ]
+    branches: [ "dev" ]
 
 env:
   ACTIVE_PROFILE: dev

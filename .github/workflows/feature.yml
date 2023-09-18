@@ -5,8 +5,8 @@ on:
     branches:
       - feature-tony-dev_test
 
-# env:
-#  ACTIVE_PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+env:
+  ACTIVE_PROFILE: dev
 
 jobs:
   build-dev:

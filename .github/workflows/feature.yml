@@ -2,8 +2,7 @@ name: CI from sub feature branches
 
 on:
   pull_request_review_comment:
-    branches:
-      - feature-tony-dev_test
+    branches: [ "feature", "feature-tony-ci_test" ]
 
 env:
   ACTIVE_PROFILE: dev

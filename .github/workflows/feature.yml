@@ -1,9 +1,11 @@
 name: CI from sub feature branches
 
 on:
-  #
-  pull_request_review_comment:
-    branches: [ "feature-tony-cicd_test" ]
+  pull_request:
+    branches:
+      - feature-tony-dev_test
+    types:
+      - pull-request_review_comment
 
 # env:
 #  ACTIVE_PROFILE: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}

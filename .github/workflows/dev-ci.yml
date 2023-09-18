@@ -50,22 +50,6 @@ jobs:
           ./gradlew clean build
           ./gradlew test
 
-      # Coverage report 작성
-      - name: Build with Gradle
-        id: build
-        run: ./gradlew clean build -x test
-
-      - name: Generate coverage report
-        run: |
-          ./gradlew jacocoTestReport
-
-      # Coverage report 업로드
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: build/reports/jacoco/test/html
-
       # test 결과 업로드
       - name: Upload test results
         uses: actions/upload-artifact@v3

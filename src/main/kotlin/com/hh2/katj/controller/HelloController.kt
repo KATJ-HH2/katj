@@ -9,5 +9,4 @@ class HelloController {
     fun hello(): String {
         return "slack notification hello world!!"
     }
-
 }

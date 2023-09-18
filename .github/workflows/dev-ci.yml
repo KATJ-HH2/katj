@@ -8,7 +8,6 @@ on:
 env:
   ACTIVE_PROFILE: dev
 
-
 jobs:
   build-dev:
 

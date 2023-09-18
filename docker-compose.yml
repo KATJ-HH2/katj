@@ -1,8 +1,9 @@
 version: '3.8'
 services:
-  katj-dev:
-    image: katj-dev
-    container_name: katj-dev
+  katj:
+    platform: linux/amd64
+    image: katj
+    container_name: katj
     build:
       context: .
       dockerfile: Dockerfile

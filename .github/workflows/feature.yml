@@ -1,8 +1,8 @@
 name: CI from sub feature branches
 
 on:
-  #일단 push 일 때 발생 하도록 하여 테스트
-  push:
+  #
+  pull_request_review_comment:
     branches: [ "feature-tony-cicd_test" ]
 
 # env:

@@ -1,8 +1,7 @@
 name: CI from sub feature branches
 
 on:
-  pull_request_review_comment:
-    types: [ created, edited ]
+  push:
     branches: [ "feature-tony-ci_test" ]
 
 env:

@@ -2,13 +2,13 @@ name: Deploy Product to Amazon ECS
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "prod" ]
 
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: katj-prod
   ECS_SERVICE: service-katj-prod
-  ECS_CLUSTER: cluster-katj-prod
+  ECS_CLUSTER: cluster-katj-ecs-prod
   CONTAINER_NAME: katj-prod
   ECS_TASK_DEFINITION: katj-prod.json
 

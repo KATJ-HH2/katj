@@ -9,7 +9,6 @@ on:
 env:
   ACTIVE_PROFILE: dev
 
-
 jobs:
   build-dev:
     #빌드 되는지 확인

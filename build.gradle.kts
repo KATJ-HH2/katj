@@ -46,16 +46,43 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-// build, bootJar 등의 작업은 test 작업을 포함한다
-// test 가 수행될 때마다 jacocoTestReport 작업도 수행하도록 설정하는 내용이다
 jacoco {
-	toolVersion = "0.8.8" // 버전 명시
+	// JaCoCo 버전
+	toolVersion = "0.8.8"
+
+//  테스트결과 리포트를 저장할 경로 변경
+//  default는 "${project.reporting.baseDir}/jacoco"
+//  reportsDir = file("$buildDir/customJacocoReportDir")
 }
+
 
 tasks.test{
 	extensions.configure(JacocoTaskExtension::class) {
+		isEnabled = true
 		destinationFile = file("$buildDir/jacoco/jacoco.exec")
 	}
-	finalizedBy("jacocoTestReport")
+	finalizedBy("jacocoTestReport") // 테스트가 실행된 후에 JaCoCo 보고서 생성
+}
 
+tasks.jacocoTestReport {
+	reports {
+		csv.required.set(true)
+		xml.required.set(true) // XML 형식의 보고서 생성
+		html.required.set(true) // HTML 형식의 보고서 생성
+	}
+}
+
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element = "CLASS"
+
+			limit {
+				counter = "BRANCH"
+				value = "COVEREDRATIO"
+				minimum = "0.90".toBigDecimal()
+			}
+		}
+	}
 }

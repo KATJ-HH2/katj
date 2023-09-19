@@ -1,4 +1,3 @@
-# 개발 환경용 Dockerfile
 
 # 베이스 이미지 설정 (Java 17을 사용) oracle
 FROM eclipse-temurin:17-jdk-alpine

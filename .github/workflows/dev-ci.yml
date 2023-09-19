@@ -1,4 +1,4 @@
-name: CI from sub feature branches
+name: CI from sub feature branches to develop branch
 
 on:
   #pull_request_review_comment:

@@ -40,8 +40,8 @@ jobs:
       - name: Set .env for configuration
         run: |
           touch ./.env
-          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME_PROD }}" >> ./.env
-          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD_PROD }}" >> ./.env
+          echo "SPRING_DATASOURCE_USERNAME=katj" >> ./.env
+          echo "SPRING_DATASOURCE_PASSWORD=katj123!}" >> ./.env
         #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
         shell: bash
 

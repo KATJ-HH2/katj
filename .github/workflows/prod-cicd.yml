@@ -8,7 +8,7 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: katj-prod
   ECS_SERVICE: service-katj-prod
-  ECS_CLUSTER: cluster-katj-ecs-prod
+  ECS_CLUSTER: katj-cluster-ecs-prod
   CONTAINER_NAME: katj-prod
   ECS_TASK_DEFINITION: katj-prod.json
 

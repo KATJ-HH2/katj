@@ -52,13 +52,7 @@ jobs:
       - name: Build with Gradle
         id: build
         run: ./gradlew clean build -x test
-        
 
-  deploy-prod:
-    name: Deploy-prod
-    runs-on: ubuntu-latest
-    needs: build-prod
-    steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

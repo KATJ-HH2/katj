@@ -1,9 +1,10 @@
 name: CI from sub feature branches
 
 on:
-  pull_request_review_comment:
+  #pull_request_review_comment:
+  pull_request:
     types:
-      - created
+      - opened
 
 env:
   ACTIVE_PROFILE: dev

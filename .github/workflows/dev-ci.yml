@@ -60,7 +60,7 @@ jobs:
       - name: Auto-Merge PR
         run: |
           PR_NUMBER="${{ github.event.pull_request.number }}"
-          GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN="${{ secrets.git_hub_token }}"
           curl -X PUT \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \

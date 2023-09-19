@@ -3,8 +3,7 @@ name: CI from sub feature branches
 on:
   #pull_request_review_comment:
   pull_request:
-    types:
-      - opened
+    types: [ opened, reopened ]
 
 env:
   ACTIVE_PROFILE: dev

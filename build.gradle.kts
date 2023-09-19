@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
 	kotlin("plugin.jpa") version "1.8.22"
+	jacoco
 }
 
 group = "com.hh2"
@@ -43,4 +44,18 @@ tasks.named<Jar>("jar") {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+// build, bootJar 등의 작업은 test 작업을 포함한다
+// test 가 수행될 때마다 jacocoTestReport 작업도 수행하도록 설정하는 내용이다
+jacoco {
+	toolVersion = "0.8.8" // 버전 명시
+}
+
+tasks.test{
+	extensions.configure(JacocoTaskExtension::class) {
+		destinationFile = file("$buildDir/jacoco/jacoco.exec")
+	}
+	finalizedBy("jacocoTestReport")
+
 }

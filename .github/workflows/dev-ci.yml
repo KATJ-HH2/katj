@@ -24,12 +24,12 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
-      # Link Check
-#      - name: ktlint
-#        uses: ScaCap/action-ktlint@master
-#        with:
-#          github_token: ${{ secrets.git_hub_token }}
-#          reporter: github-pr-check # Change report
+#       Link Check
+      - name: ktlint
+        uses: ScaCap/action-ktlint@master
+        with:
+          github_token: ${{ secrets.git_hub_token }}
+          reporter: github-pr-check # Change report
 
       # 환경변수 .env 파일 생성 및 write
       - name: Set .env for configuration

@@ -55,7 +55,7 @@ jobs:
   deploy-prod:
     name: Deploy-prod
     runs-on: ubuntu-latest
-    environment: prod
+    #environment: prod
     needs: build-prod
     steps:
       - name: Configure AWS credentials

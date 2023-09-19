@@ -42,6 +42,7 @@ jobs:
           touch ./.env
           echo "SPRING_DATASOURCE_USERNAME=katj" >> ./.env
           echo "SPRING_DATASOURCE_PASSWORD=katj123!" >> ./.env
+          echo ${{ github.workspace }}
         #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
         shell: bash
 
@@ -51,6 +52,7 @@ jobs:
       - name: Build with Gradle
         id: build
         run: ./gradlew clean build -x test
+        
 
 #  deploy-prod:
 #    name: Deploy-prod

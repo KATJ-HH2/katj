@@ -40,7 +40,6 @@ jobs:
       # 환경변수 .env 파일 생성 및 write
       - name: Set .env for configuration
         run: |
-#          rm ./.env
           touch ./.env
           echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
           echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env

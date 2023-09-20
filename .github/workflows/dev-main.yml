@@ -5,7 +5,7 @@ on:
     types:
       - opened
     branches:
-      - 'feature/**'
+      - 'feature/*/*'
 jobs:
   build-dev:
     environment: dev # github에서 설정한 환경 Secret 파일 사용

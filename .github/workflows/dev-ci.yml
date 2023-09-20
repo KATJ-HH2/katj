@@ -63,14 +63,14 @@ jobs:
           path: build/test-results
 
       # CI 동작시 자동 Merge 동작
-      - name: Auto-Merge PR
-        run: |
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          GITHUB_TOKEN="${{ secrets.git_hub_token }}"
-          curl -X PUT \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/merge"
+#      - name: Auto-Merge PR
+#        run: |
+#          PR_NUMBER="${{ github.event.pull_request.number }}"
+#          GITHUB_TOKEN="${{ secrets.git_hub_token }}"
+#          curl -X PUT \
+#            -H "Authorization: token $GITHUB_TOKEN" \
+#            -H "Accept: application/vnd.github.v3+json" \
+#            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/merge"
 
       # Coverage 동작 확인용
       - name: Upload coverage to Codecov
@@ -79,15 +79,15 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/reports/jacoco/test/jacocoTestReport.xml
 
-      - name: 테스트 커버리지를 PR에 코멘트로 등록합니다
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.2
-        with:
-          title: 📝 테스트 커버리지 리포트입니다
-          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.git_hub_token }}
-          min-coverage-overall: 50
-          min-coverage-changed-files: 50
+#      - name: 테스트 커버리지를 PR에 코멘트로 등록합니다
+#        id: jacoco
+#        uses: madrapps/jacoco-report@v1.2
+#        with:
+#          title: 📝 테스트 커버리지 리포트입니다
+#          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+#          token: ${{ secrets.git_hub_token }}
+#          min-coverage-overall: 50
+#          min-coverage-changed-files: 50
 
   slack_noti:
     name: Slack_notification

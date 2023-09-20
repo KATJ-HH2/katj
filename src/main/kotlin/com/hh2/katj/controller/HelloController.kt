@@ -12,6 +12,6 @@ class HelloController {
 
     @GetMapping("/test")
     fun test(): String {
-        return "new dev ci!!!"
+        return "new dev ci!!"
     }
 }

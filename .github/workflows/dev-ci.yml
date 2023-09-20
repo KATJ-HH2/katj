@@ -11,8 +11,7 @@ on:
 #    types: [submitted, dismissed]
   push:
     branches:
-      - 'feature/*'
-
+      - 'feature/**'
 
 env:
   ACTIVE_PROFILE: dev

@@ -10,7 +10,8 @@ on:
 #  pull_request_review:
 #    types: [submitted, dismissed]
   push:
-    branches: [feature/*]
+    branches:
+      - 'feature/*'
 
 
 env:

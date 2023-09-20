@@ -11,7 +11,7 @@ on:
 #    types: [submitted, dismissed]
   push:
     branches:
-      - 'feature/*'
+      - feature/tony/dev-ci-test
 
 
 env:

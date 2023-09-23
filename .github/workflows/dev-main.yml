@@ -3,7 +3,7 @@ name: Dev main yml
 on:
   push:
     paths:
-      - "feature/**"
+      - "feature/*/*"
   pull_request:
     types:
       - opened

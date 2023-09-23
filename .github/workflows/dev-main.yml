@@ -1,9 +1,9 @@
 name: Dev main yml
 
 on:
-  push:
-    paths:
-      - "feature/*/*"
+  check_run:
+    types:
+      - rerequested
   pull_request:
     types:
       - opened

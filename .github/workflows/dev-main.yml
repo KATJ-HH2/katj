@@ -26,8 +26,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
+            ./gradle-cache
+
           key: ${{ github.repository }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
               ${{ github.repository }}-gradle-
@@ -47,10 +47,11 @@ jobs:
       # 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      # 빌드 클린 후 빌드 진행
+
+      # 빌드 진행
       - name: Build with Gradle
+        shell: bash
         run: |
-          ./gradlew clean build
           ./gradlew build \
           --no-daemon \
           -Dorg.gradle.jvmargs=-Xmx1024m \
@@ -87,6 +88,12 @@ jobs:
           min-coverage-overall: 50
           min-cove`rage-changed-files: 50
 
+      - name: 테스트 결과를 PR에 코멘트로 등록합니다.
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: ${{ github.workspace }}/build/test-results/test/TEST-*.xml
+
 
   slack_noti:
     name: Slack_notification
@@ -97,7 +104,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: www-be
+          author_name: dev 빌드 알림
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           if_mention: failure,cancelled
         env:

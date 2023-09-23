@@ -7,6 +7,14 @@ on:
       - synchronize
     branches:
       - 'dev'
+
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build-dev:
     environment: dev # github에서 설정한 환경 Secret 파일 사용
@@ -26,11 +34,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ./gradle-cache
-
-          key: ${{ github.repository }}-gradle-${{ hashFiles('**/*.gradle*') }}
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-              ${{ github.repository }}-gradle-
+            ${{ runner.os }}-gradle-
 
       # application 파일 생성
       - name: make application.yml

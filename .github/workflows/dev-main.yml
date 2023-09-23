@@ -1,12 +1,10 @@
 name: Dev main yml
 
 on:
-  check_run:
-    types:
-      - rerequested
   pull_request:
     types:
       - opened
+      - synchronize
     branches:
       - 'dev'
 jobs:

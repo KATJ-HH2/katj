@@ -9,4 +9,9 @@ class HelloController {
     fun hello(): String {
         return "slack notification hello world!!"
     }
+
+    @GetMapping("/test")
+    fun test(): String {
+        return "new dev ci!!"
+    }
 }

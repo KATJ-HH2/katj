@@ -14,5 +14,4 @@ class HelloController {
     fun test(): String {
         return "new dev ci!!"
     }
-
 }

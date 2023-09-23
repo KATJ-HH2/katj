@@ -69,8 +69,8 @@ jobs:
           --project-dir="./"
 
       # 테스트 빌드 진행
-#      - name: Test Build with Gradle
-#        run: ./gradlew test
+      - name: Test Build with Gradle
+        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results

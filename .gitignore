@@ -29,7 +29,6 @@ application.yml
 application-dev.yml
 application-prod.yml
 
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

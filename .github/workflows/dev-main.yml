@@ -60,17 +60,17 @@ jobs:
       - name: Build with Gradle
         shell: bash
         run: |
-          ./gradlew build \
-          --no-daemon \
-          -Dorg.gradle.jvmargs=-Xmx1024m \
-          --build-cache \
-          --project-cache-dir=./gradle-cache/project \
-          --gradle-user-home=./gradle-cache/global \
-          --project-dir="./"
+          ./gradlew build # \
+#          --no-daemon \
+#          -Dorg.gradle.jvmargs=-Xmx1024m \
+#          --build-cache \
+#          --project-cache-dir=./gradle-cache/project \
+#          --gradle-user-home=./gradle-cache/global \
+#          --project-dir="./"
 
       # 테스트 빌드 진행
-      - name: Test Build with Gradle
-        run: ./gradlew test
+#      - name: Test Build with Gradle
+#        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results

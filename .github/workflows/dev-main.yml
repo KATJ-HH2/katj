@@ -27,9 +27,12 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ github.repository }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+              ${{ github.repository }}-gradle-
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
 
       # application 파일 생성
       - name: make application.yml
@@ -46,10 +49,21 @@ jobs:
       # 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      # 빌드 클린 후 테스트 진행
+      # 빌드 클린 후 빌드 진행
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: |
+          ./gradlew clean build
+          ./gradlew build \
+          --no-daemon \
+          -Dorg.gradle.jvmargs=-Xmx1024m \
+          --build-cache \
+          --project-cache-dir=./gradle-cache/project \
+          --gradle-user-home=./gradle-cache/global \
+          --project-dir="./"
+
+      # 테스트 빌드 진행
+      - name: Test Build with Gradle
+        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results

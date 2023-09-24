@@ -46,29 +46,19 @@ jobs:
           echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
 
-#      # 환경변수 .env 파일 생성 및 write
-#      - name: Set .env for configuration
-#        run: |
-#          touch ./.env
-#          echo "SPRING_DATASOURCE_USERNAME=katj" >> ./.env
-#          echo "SPRING_DATASOURCE_PASSWORD=katj123!" >> ./.env
-#          echo ${{ github.workspace }}
-#        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
-#        shell: bash
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
         id: build
         run: ./gradlew clean build -x test
-#
-#  deploy-prod:
-#    name: Deploy-prod
-#    runs-on: ubuntu-latest
-#    environment: prod
-#    needs: build-prod
-#    steps:
+
+  deploy-prod:
+    name: Deploy-prod
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: build-prod
+    steps:
       # - name: Checkout
       #   uses: actions/checkout@v3
 

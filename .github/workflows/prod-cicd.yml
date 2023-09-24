@@ -2,7 +2,7 @@ name: Deploy Product to Amazon ECS
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "prod" ]
 
 env:
   AWS_REGION: ap-northeast-2
@@ -36,15 +36,24 @@ jobs:
           github_token: ${{ secrets.git_hub_token }}
           reporter: github-pr-check # Change reporte
 
-      # 환경변수 .env 파일 생성 및 write
-      - name: Set .env for configuration
+      # application 파일 생성
+      - name: make application.yml
         run: |
-          touch ./.env
-          echo "SPRING_DATASOURCE_USERNAME=katj" >> ./.env
-          echo "SPRING_DATASOURCE_PASSWORD=katj123!" >> ./.env
-          echo ${{ github.workspace }}
-        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
+          mkdir ./src/main/resources
+          cd ./src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
+
+#      # 환경변수 .env 파일 생성 및 write
+#      - name: Set .env for configuration
+#        run: |
+#          touch ./.env
+#          echo "SPRING_DATASOURCE_USERNAME=katj" >> ./.env
+#          echo "SPRING_DATASOURCE_PASSWORD=katj123!" >> ./.env
+#          echo ${{ github.workspace }}
+#        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
+#        shell: bash
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew

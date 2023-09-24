@@ -3,10 +3,10 @@
 # 베이스 이미지 설정 (Java 17을 사용) oracle
 FROM eclipse-temurin:17-jdk-alpine
 
-RUN ls -l
+RUN ls -l build/libs
 
 # 애플리케이션 JAR 파일 복사
-COPY ./build/libs/*.jar ./app.jar
+COPY build/libs/*.jar ./app.jar
 
 ## 개발 환경 프로파일 설정
 #ENV SPRING_PROFILES_ACTIVE=dev

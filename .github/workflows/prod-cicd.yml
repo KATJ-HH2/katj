@@ -69,8 +69,8 @@ jobs:
 #    environment: prod
 #    needs: build-prod
 #    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # - name: Checkout
+      #   uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   build-prod:
+    environment: prod
     name: Build-prod
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +115,7 @@ jobs:
   slack_noti:
     name: Slack_notification
     runs-on: ubuntu-latest
-    needs: build-dev
+    needs: deploy-prod
     steps:
       - name: action-slack
         uses: 8398a7/action-slack@v3

@@ -1,7 +1,7 @@
 name: Slack Notification
 on:
   workflow_run:
-    workflows: [Dev-CI/CD]
+    workflows: ["Dev-CI/CD"]
     types:
       - completed
 jobs:

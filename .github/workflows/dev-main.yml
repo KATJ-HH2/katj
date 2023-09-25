@@ -91,7 +91,7 @@ jobs:
         with:
           title: 📝 테스트 커버리지 리포트입니다
           paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.GIT_HUB_TOKEN }}
           min-coverage-overall: 50
           min-cove`rage-changed-files: 50
 

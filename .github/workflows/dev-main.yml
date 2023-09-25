@@ -1,11 +1,5 @@
 name: Dev main yml
 
-permissions:
-  contents: read
-  issues: read
-  checks: write
-  pull-requests: write
-
 on:
   pull_request:
     types:
@@ -13,6 +7,12 @@ on:
       - synchronize
     branches:
       - 'dev'
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
 
 jobs:
   build-dev:

@@ -1,4 +1,4 @@
-name: Dev CI yml
+name: Dev-CI/CD
 
 permissions:
   contents: read

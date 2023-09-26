@@ -93,7 +93,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/reports/jacoco/test/jacocoTestReport.xml
 
-
   slack_noti:
     name: Slack_notification
     runs-on: ubuntu-latest

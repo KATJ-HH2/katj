@@ -1,18 +1,22 @@
-name: Feature Branch CI
+name: Dev-CI
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
     branches:
-      - 'feature/**'
-
-env:
-  ACTIVE_PROFILE: dev
+      - 'dev'
 
 jobs:
   build-dev:
-
-    #빌드 되는지 확인
-    name: Build-dev
+    environment: dev # github에서 설정한 환경 Secret 파일 사용
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,6 +41,9 @@ jobs:
 
       # application 파일 생성
       - name: make application.yml
+#        if: |
+#          contains(github.ref, 'main') ||
+#          contains(github.ref, 'develop')
         run: |
           mkdir ./src/main/resources 
           cd ./src/main/resources 
@@ -44,31 +51,24 @@ jobs:
           echo "${{ secrets.YML }}" > ./application.yml
         shell: bash
 
-#       Link Check
-      - name: ktlint
-        uses: ScaCap/action-ktlint@master
-        with:
-          github_token: ${{ secrets.git_hub_token }}
-          reporter: github-pr-check # Change report
-
-      # 환경변수 .env 파일 생성 및 write
-#      - name: Set .env for configuration
-#        run: |
-#          touch ./.env
-#          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
-#          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
-#        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
-#        shell: bash
-
+      # 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       # 빌드 진행
       - name: Build with Gradle
-        run: ./gradlew build
+        shell: bash
+        run: |
+          ./gradlew build # \
+#          --no-daemon \
+#          -Dorg.gradle.jvmargs=-Xmx1024m \
+#          --build-cache \
+#          --project-cache-dir=./gradle-cache/project \
+#          --gradle-user-home=./gradle-cache/global \
+#          --project-dir="./"
 
-      # 빌드 클린 후 테스트 진행
-#      - name: Test
+      # 테스트 빌드 진행
+#      - name: Test Build with Gradle
 #        run: ./gradlew test
 
       # test 결과 업로드
@@ -106,13 +106,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-dev
     steps:
-        - name: action-slack
-          uses: 8398a7/action-slack@v3
-          with:
-            status: ${{ job.status }}
-            author_name: www-be
-            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-            if_mention: failure,cancelled
-          env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-          if: always() # Pick up events even if the job fails or is canceled.
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: dev CI 빌드 알림
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.

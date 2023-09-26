@@ -18,6 +18,18 @@ jobs:
   build-dev:
     environment: dev # github에서 설정한 환경 Secret 파일 사용
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
+          MYSQL_DATABASE: katj
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -54,15 +66,6 @@ jobs:
       # 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          host port: 3306
-          container port: 3306
-          mysql database: 'katj'
-          mysql user: 'katj'
-          mysql password: ${{ secrets.DB_PASSWORD_PROD }}
 
       # 빌드 진행
       - name: Build with Gradle

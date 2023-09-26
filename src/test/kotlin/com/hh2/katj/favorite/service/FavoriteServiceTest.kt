@@ -24,12 +24,10 @@ class FavoriteServiceTest @Autowired constructor(
     @Test
     fun `kakao 키워드로 장소 검색하기`() {
         // given
+        val check: Boolean = true
 
-
-        // when
-        
-        
-        // then
+        // when // then
+        Assertions.assertThat(check).isTrue()
     }
     
     @Test

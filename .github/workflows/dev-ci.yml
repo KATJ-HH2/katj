@@ -1,22 +1,18 @@
-name: Dev-CI
-
-permissions:
-  contents: read
-  issues: read
-  checks: write
-  pull-requests: write
+name: Feature Branch CI
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
+  push:
     branches:
-      - 'dev'
+      - 'feature/**'
+
+env:
+  ACTIVE_PROFILE: dev
 
 jobs:
   build-dev:
-    environment: dev # github에서 설정한 환경 Secret 파일 사용
+
+    #빌드 되는지 확인
+    name: Build-dev
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -111,7 +107,6 @@ jobs:
         if: always()
         with:
           files: '**/build/test-results/test/TEST-*.xml'
-
 
   slack_noti:
     name: Slack_notification

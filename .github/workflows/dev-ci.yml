@@ -62,6 +62,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Setup MySQL
+        uses: katj/mysql-action@v1.1
+        with:
+          mysql database: 'katj'
+          mysql user: 'katj'
+          mysql password: ${{ secrets.DB_PASSWORD_PROD }}
+
       # 빌드 진행
       - name: Build with Gradle
         shell: bash

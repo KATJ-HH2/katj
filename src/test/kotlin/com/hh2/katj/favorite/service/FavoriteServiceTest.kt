@@ -1,10 +1,8 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.cmn.model.RoadAddress
-import com.hh2.katj.cmn.resttemplate.RestTemplateClient
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite
-import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.User
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.user.util.Gender
@@ -21,13 +19,11 @@ import org.springframework.boot.test.context.SpringBootTest
 class FavoriteServiceTest @Autowired constructor(
         private val userRepository: UserRepository,
         private val favoriteService: FavoriteService,
-        private val restTemplateClient: RestTemplateClient
 ){
 
     @Test
     fun `kakao 키워드로 장소 검색하기`() {
         // given
-//        restTemplateClient.restApi("카카오프랜즈")
 
 
         // when

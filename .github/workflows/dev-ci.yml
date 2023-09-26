@@ -32,6 +32,26 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
 
+      # gradle caching
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # application 파일 생성
+      - name: make application.yml
+        run: |
+          mkdir ./src/main/resources 
+          cd ./src/main/resources 
+          touch ./application.yml 
+          echo "${{ secrets.YML }}" > ./application.yml
+        shell: bash
+
 #       Link Check
       - name: ktlint
         uses: ScaCap/action-ktlint@master

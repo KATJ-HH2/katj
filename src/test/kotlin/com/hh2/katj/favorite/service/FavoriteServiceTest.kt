@@ -26,6 +26,7 @@ class FavoriteServiceTest @Autowired constructor(
         // given
         val check: Boolean = true
 
+
         // when // then
         Assertions.assertThat(check).isTrue()
     }

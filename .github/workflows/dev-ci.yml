@@ -1,14 +1,6 @@
 name: Feature Branch CI
 
 on:
-#  pull_request_review:
-#    types: [submitted]
-#  pull_request:
-#    types: [review_requested]
-#  issue_comment:
-#    types: [created]
-#  pull_request_review:
-#    types: [submitted, dismissed]
   push:
     branches:
       - 'feature/**'
@@ -60,13 +52,13 @@ jobs:
           reporter: github-pr-check # Change report
 
       # 환경변수 .env 파일 생성 및 write
-      - name: Set .env for configuration
-        run: |
-          touch ./.env
-          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
-          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
-        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
-        shell: bash
+#      - name: Set .env for configuration
+#        run: |
+#          touch ./.env
+#          echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> ./.env
+#          echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./.env
+#        #          echo "SPRING_PROFILES_ACTIVE=${{ env.ACTIVE_PROFILE }}" >> ./.env
+#        shell: bash
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -76,8 +68,8 @@ jobs:
         run: ./gradlew build
 
       # 빌드 클린 후 테스트 진행
-      - name: Test
-        run: ./gradlew test
+#      - name: Test
+#        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results
@@ -86,12 +78,28 @@ jobs:
           name: test-results
           path: build/test-results
 
-      # Jacoco Coverage Report
+      # Coverage 동작 확인용
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/reports/jacoco/test/jacocoTestReport.xml
+
+      - name: 테스트 커버리지를 PR에 코멘트로 등록합니다.
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.2
+        with:
+          title: 📝 테스트 커버리지 리포트입니다
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GIT_HUB_TOKEN }}
+          min-coverage-overall: 50
+          min-cove`rage-changed-files: 50
+
+      - name: 테스트 결과를 PR에 코멘트로 등록합니다.
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: '**/build/test-results/test/TEST-*.xml'
 
   slack_noti:
     name: Slack_notification

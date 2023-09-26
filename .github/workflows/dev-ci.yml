@@ -56,8 +56,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Setup MySQL
-        uses: katj/mysql-action@v1.1
+        uses: mirromutth/mysql-action@v1.1
         with:
+          host port: 3306
+          container port: 3306
           mysql database: 'katj'
           mysql user: 'katj'
           mysql password: ${{ secrets.DB_PASSWORD_PROD }}

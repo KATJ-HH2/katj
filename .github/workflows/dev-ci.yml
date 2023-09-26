@@ -72,6 +72,10 @@ jobs:
         shell: bash
         run: |
           ./gradlew build # \
+        env:
+          DATABASE_URL: jdbc:mysql://mysql:3306/katj
+          DATABASE_USERNAME: ${{ secrets.DB_USERNAME_PROD }}
+          DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
 #          --no-daemon \
 #          -Dorg.gradle.jvmargs=-Xmx1024m \
 #          --build-cache \

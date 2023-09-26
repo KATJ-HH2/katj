@@ -71,11 +71,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # 빌드 진행
+      - name: Build with Gradle
+        run: ./gradlew build
+
       # 빌드 클린 후 테스트 진행
-      - name: Build and test
-        run: |
-          ./gradlew clean build
-#          ./gradlew test
+      - name: Test
+        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results

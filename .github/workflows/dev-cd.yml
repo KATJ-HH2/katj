@@ -43,13 +43,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # application 파일 생성
-      - name: make application.yml
+        # src application 파일 생성
+      - name: make application-test.yml
+        #        if: |
+        #          contains(github.ref, 'main') ||
+        #          contains(github.ref, 'develop')
         run: |
           mkdir ./src/main/resources 
           cd ./src/main/resources 
           touch ./application.yml 
           echo "${{ secrets.YML }}" > ./application.yml
+        shell: bash
+
+      - name: make Test application.yml
+        run: |
+          mkdir ./src/test/resources 
+          cd ./src/test/resources 
+          touch ./application-test.yml 
+          echo "${{ secrets.YML }}" > ./application-test.yml
         shell: bash
 
       # 권한 부여

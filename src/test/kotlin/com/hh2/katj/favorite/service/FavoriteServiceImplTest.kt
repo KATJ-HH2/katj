@@ -8,7 +8,6 @@ import com.hh2.katj.user.model.User
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.user.util.Gender
 import com.hh2.katj.user.util.UserStatus
-import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -17,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 
 @SpringBootTest
-class FavoriteServiceTest @Autowired constructor(
+class FavoriteServiceImplTest @Autowired constructor(
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,

@@ -1,18 +1,22 @@
-name: Feature Branch CI
+name: Dev-CI
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
     branches:
-      - 'feature/**'
-
-env:
-  ACTIVE_PROFILE: dev
+      - 'dev'
 
 jobs:
   build-dev:
-
-    #빌드 되는지 확인
-    name: Build-dev
+    environment: dev # github에서 설정한 환경 Secret 파일 사용
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -54,13 +58,6 @@ jobs:
       # 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Setup MySQL
-        uses: katj/mysql-action@v1.1
-        with:
-          mysql database: 'katj'
-          mysql user: 'katj'
-          mysql password: ${{ secrets.DB_PASSWORD_PROD }}
 
       # 빌드 진행
       - name: Build with Gradle

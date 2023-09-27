@@ -8,14 +8,18 @@ import com.hh2.katj.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 
 @Component
+@Transactional(readOnly = true)
 class FavoriteReader @Autowired constructor(
         private val favoriteRepository: FavoriteRepository,
         private val userRepository: UserRepository
 
 ) {
+
+    @Transactional
     fun addFavorite(userId: Long?, request: RequestFavorite): Boolean {
         // user 찾기 실패시 오류 반환 또는 false 반환 정책 정해야 할듯
         val findUser = userValidation(userId)
@@ -28,7 +32,7 @@ class FavoriteReader @Autowired constructor(
             return false
         }
 
-        val favorite: Favorite = Favorite(
+        val favorite = Favorite(
                 user = findUser,
                 roadAddress = request.roadAddress,
                 title = request.title,
@@ -41,7 +45,7 @@ class FavoriteReader @Autowired constructor(
     }
 
     fun findAllFavorite(userId: Long?): MutableList<Favorite> {
-        val findUser = userValidation(userId)
+        userValidation(userId)
 
         val findAllFavorite = favoriteRepository.findAll()
 

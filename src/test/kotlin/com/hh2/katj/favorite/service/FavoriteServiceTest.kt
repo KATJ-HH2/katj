@@ -1,34 +1,46 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.cmn.model.RoadAddress
+import com.hh2.katj.cmn.resttemplate.KakaoSearchService
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite
+import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.User
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.user.util.Gender
 import com.hh2.katj.user.util.UserStatus
 import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 
-@Transactional
 @SpringBootTest
 class FavoriteServiceTest @Autowired constructor(
         private val userRepository: UserRepository,
+        private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
+        private val kakaoSearchService: KakaoSearchService
 ){
+
+    @AfterEach
+    fun tearUp() {
+        userRepository.deleteAllInBatch()
+        favoriteRepository.deleteAllInBatch()
+    }
 
     @Test
     fun `kakao 키워드로 장소 검색하기`() {
         // given
-        val check: Boolean = true
-
+        val searchResult = kakaoSearchService.searchByKeyword("카카오프렌즈")
 
         // when // then
-        Assertions.assertThat(check).isTrue()
+        for (document in searchResult) {
+            println("Place Name: ${document.placeName}")
+            println("Address: ${document.addressName}")
+        }
     }
     
     @Test
@@ -75,6 +87,84 @@ class FavoriteServiceTest @Autowired constructor(
         // then
         val result: Boolean = favoriteService.addFavorite(saveUser.id, requestFavorite)
         Assertions.assertThat(result).isTrue()
+    }
+
+    @Test
+    fun `사용자가 즐겨찾기를 전부 조회한다`() {
+        // given
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE
+        )
+
+        val roadAddressA: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val roadAddressB: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val favoriteA: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressA,
+                title = "favorite_titleA",
+                description = "favorite_descriptionA"
+        )
+
+        val favoriteB: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressB,
+                title = "favorite_titleB",
+                description = "favorite_descriptionB"
+        )
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        val requestFavoriteA: RequestFavorite = RequestFavorite(
+                roadAddress = roadAddressA,
+                favoriteA.title,
+                favoriteA.description
+        )
+        val requestFavoriteB: RequestFavorite = RequestFavorite(
+                roadAddress = roadAddressB,
+                favoriteB.title,
+                favoriteB.description
+        )
+        favoriteService.addFavorite(saveUser.id, requestFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestFavoriteB)
+
+        val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        // then
+        Assertions.assertThat(favorites.size).isEqualTo(2)
+
     }
     
 }

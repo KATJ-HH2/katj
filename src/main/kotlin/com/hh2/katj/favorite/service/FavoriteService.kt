@@ -7,5 +7,6 @@ interface FavoriteService {
 
     fun addFavorite(userId: Long?, request: RequestFavorite): Boolean
     fun findAllFavorite(userId: Long?): MutableList<Favorite>
+    fun findOneFavorite(userId: Long?, favoriteId: Long): Favorite
 
 }

@@ -6,4 +6,6 @@ import java.util.*
 
 interface FavoriteRepository: JpaRepository<Favorite, Long> {
     fun findByTitle(title: String): Optional<Favorite>
+    fun findAllByUserId(userId: Long?): MutableList<Favorite>
+    fun findByUserIdAndId(userId: Long, favoriteId: Long): Optional<Favorite>
 }

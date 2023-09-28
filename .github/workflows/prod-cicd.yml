@@ -59,11 +59,6 @@ jobs:
     environment: prod
     needs: build-prod
     steps:
-      - uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: build/libs
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -90,6 +85,10 @@ jobs:
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        uses: actions/upload-artifact@v3
+        with:
+          name: Build, tag, and push image to Amazon ECR
+          path: build/libs
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def

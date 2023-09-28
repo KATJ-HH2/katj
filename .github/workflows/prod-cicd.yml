@@ -73,11 +73,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: build/libs
-
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
@@ -88,6 +83,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          find . -name *.jar 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 

@@ -59,6 +59,11 @@ jobs:
     environment: prod
     needs: build-prod
     steps:
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build/libs
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -78,10 +83,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: build/libs
         run: |
           # Build a docker container and
           # push it to ECR so that it can

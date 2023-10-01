@@ -51,13 +51,7 @@ jobs:
 
       - name: Build with Gradle
         id: build
-        run: |
-          ./gradlew clean build -x test
-          sudo find . -name katj-0.0.1-SNAPSHOT.jar
-          ls build/libs
-#
-#      - name: Copy Jar file
-#        run: mv build/libs/${ls build/libs) app.jar
+        run: ./gradlew clean build -x test
 
       - name: Upload Jar file
         uses: actions/upload-artifact@v3
@@ -89,9 +83,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jar-file
-          path: build/libs/*.jar
-#      - name: Set artifact
-#        run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
+          path: build/libs/
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
@@ -102,10 +94,8 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          ls -al
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           sudo find . -name katj-0.0.1-SNAPSHOT.jar
-          ls -al
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 

@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jar-file
-          path: ${ls build/libs)
+          path: $(ls build/libs)
 
   deploy-prod:
     name: Deploy-prod

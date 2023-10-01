@@ -54,6 +54,7 @@ jobs:
         run: |
           ./gradlew clean build -x test
           sudo find . -name katj-0.0.1-SNAPSHOT.jar
+          ls build/libs
 #
 #      - name: Copy Jar file
 #        run: mv build/libs/${ls build/libs) app.jar
@@ -62,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jar-file
-          path: $(ls build/libs)
+          path: ls build/libs
 
   deploy-prod:
     name: Deploy-prod
@@ -88,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jar-file
-          path: ${ls build/libs)
+          path: ls build/libs
 #      - name: Set artifact
 #        run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
 

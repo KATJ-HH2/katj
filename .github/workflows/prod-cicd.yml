@@ -51,7 +51,18 @@ jobs:
 
       - name: Build with Gradle
         id: build
-        run: ./gradlew clean build -x test
+        run: |
+          ./gradlew clean build -x test
+          sudo find . -name katj-0.0.1-SNAPSHOT.jar
+#
+#      - name: Copy Jar file
+#        run: mv build/libs/${ls build/libs) app.jar
+
+      - name: Upload Jar file
+        uses: actions/upload-artifact@mastser
+        with:
+          name: jar-file
+          path: ${ls build/libs)
 
   deploy-prod:
     name: Deploy-prod
@@ -73,6 +84,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Download Jar file
+        uses: actions/download-artifact@master
+        with:
+          name: jar-file
+          path: ${ls build/libs)
 #      - name: Set artifact
 #        run: echo "artifact=$(ls ./build/libs)" >> $GITHUB_ENV
 
@@ -88,7 +104,6 @@ jobs:
           ls -al
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           sudo find . -name katj-0.0.1-SNAPSHOT.jar
-          echo artifact=$(sudo find . -name katj-0.0.1-SNAPSHOT.jar) >> $GITHUB_ENV
           cp ${{env.artifact}} ./app.jar
           ls -al
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

@@ -59,7 +59,7 @@ jobs:
 #        run: mv build/libs/${ls build/libs) app.jar
 
       - name: Upload Jar file
-        uses: actions/upload-artifact@mastser
+        uses: actions/upload-artifact@v3
         with:
           name: jar-file
           path: ${ls build/libs)
@@ -85,7 +85,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Download Jar file
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v3
         with:
           name: jar-file
           path: ${ls build/libs)

@@ -87,6 +87,7 @@ jobs:
           # be deployed to ECS.
           ls -al
           docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          sudo find . -name katj-0.0.1-SNAPSHOT.jar
           echo artifact=$(sudo find . -name katj-0.0.1-SNAPSHOT.jar) >> $GITHUB_ENV
           cp ${{env.artifact}} ./app.jar
           ls -al

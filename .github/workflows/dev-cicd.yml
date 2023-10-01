@@ -76,7 +76,7 @@ jobs:
           path: build/libs/*.jar
 
   deploy_to_dev:
-    needs: build-dev
+    needs: ci-cd-dev
     environment: dev
     runs-on: ubuntu-latest
     steps:

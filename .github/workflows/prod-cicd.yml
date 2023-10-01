@@ -53,14 +53,14 @@ jobs:
         id: build
         run: ./gradlew clean build -x test
 
-#  deploy-prod:
-#    name: Deploy-prod
-#    runs-on: ubuntu-latest
-#    environment: prod
-#    needs: build-prod
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
+  deploy-prod:
+    name: Deploy-prod
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: build-prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

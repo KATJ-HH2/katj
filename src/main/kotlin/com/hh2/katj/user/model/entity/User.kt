@@ -7,31 +7,41 @@ import com.hh2.katj.payment.model.entity.PaymentMethod
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
+import org.jetbrains.annotations.NotNull
+import org.springframework.validation.annotation.Validated
 
 
 @Entity(name = "users")
 @DynamicInsert
 @DynamicUpdate
 class User (
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
 
-        @OneToMany(mappedBy = "user")
-        var favorites: MutableList<Favorite>? = mutableListOf<Favorite>(),
+        @Column(nullable = false)
+        var name: String,
 
-        var name: String = "",
-        var phoneNumber: String = "",
-        var email: String = "",
+        @Column(nullable = false)
+        var phoneNumber: String,
 
+        @Column(nullable = false)
+        var email: String,
+
+        @Column(nullable = false)
         @Enumerated(EnumType.STRING)
-        var gender: Gender? = null,
+        var gender: Gender,
 
         @OneToMany(mappedBy = "user")
         var paymentMethods: MutableList<PaymentMethod>? = mutableListOf(),
 
         @Embedded
-        var roadAddress: RoadAddress? = null,
+        var roadAddress: RoadAddress?,
 
-        var status: UserStatus
+        var status: UserStatus?,
+
+        @OneToMany(mappedBy = "user")
+        var favorites: MutableList<Favorite>? = mutableListOf<Favorite>(),
+
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long? = null
+
 ): BaseEntity(){
 }

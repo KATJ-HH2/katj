@@ -1,7 +1,6 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.util.model.RoadAddress
-import com.hh2.katj.cmn.resttemplate.KakaoSearchService
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
@@ -21,7 +20,6 @@ class FavoriteServiceTest @Autowired constructor(
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
-        private val kakaoSearchService: KakaoSearchService
 ){
 
     @AfterEach
@@ -30,28 +28,10 @@ class FavoriteServiceTest @Autowired constructor(
         favoriteRepository.deleteAllInBatch()
     }
 
-    @Test
-    fun `kakao 키워드로 장소 검색하기`() {
-        // given
-        val searchResult = kakaoSearchService.searchByKeyword("카카오프렌즈")
-
-        // when // then
-        for (document in searchResult) {
-            println("Place Name: ${document.placeName}")
-            println("Address: ${document.addressName}")
-        }
-    }
     
     @Test
-    fun `사용자가_경로를_즐겨찾기에_추가한다`() {
+    fun `사용자가 경로를 즐겨찾기에 추가한다`() {
         // given
-        val user: User = User(
-                name = "newUser",
-                phoneNumber = "123-456-789",
-                email = "user@gmail.com",
-                gender = Gender.MALE,
-                status = UserStatus.ACTIVE
-        )
 
         val roadAddress: RoadAddress = RoadAddress(
                 addressName = "address_name",
@@ -66,6 +46,15 @@ class FavoriteServiceTest @Autowired constructor(
                 zoneNo = "11232",
                 x = "x.123",
                 y = "y.321"
+        )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddress
         )
 
         val favorite: Favorite = Favorite(
@@ -91,14 +80,6 @@ class FavoriteServiceTest @Autowired constructor(
     @Test
     fun `사용자가 즐겨찾기를 전부 조회한다`() {
         // given
-        val user: User = User(
-                name = "newUser",
-                phoneNumber = "123-456-789",
-                email = "user@gmail.com",
-                gender = Gender.MALE,
-                status = UserStatus.ACTIVE
-        )
-
         val roadAddressA: RoadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
@@ -113,6 +94,16 @@ class FavoriteServiceTest @Autowired constructor(
                 x = "x.123",
                 y = "y.321"
         )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddressA
+        )
+
 
         val roadAddressB: RoadAddress = RoadAddress(
                 addressName = "address_name",

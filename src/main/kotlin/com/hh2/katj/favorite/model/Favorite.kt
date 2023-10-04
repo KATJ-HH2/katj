@@ -13,20 +13,21 @@ import org.hibernate.annotations.DynamicUpdate
 @DynamicUpdate
 class Favorite(
 
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long? = null,
+        @Embedded
+        var roadAddress: RoadAddress,
+
+        @Column(unique = true)
+        var title: String,
+
+        var description: String?,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var user: User,
 
-        @Embedded
-        var roadAddress: RoadAddress,
-
-        @Column(unique = true)
-        var title: String,
-        var description: String?
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null
 
 ): BaseEntity() {
 }

@@ -18,18 +18,6 @@ jobs:
   build-dev:
     environment: dev # github에서 설정한 환경 Secret 파일 사용
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
-          MYSQL_DATABASE: katj
-        ports:
-          - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -76,20 +64,16 @@ jobs:
         shell: bash
         run: |
           ./gradlew build # \
-        env:
-          DATABASE_URL: jdbc:mysql://mysql:3306/katj
-          DATABASE_USERNAME: ${{ secrets.DB_USERNAME_PROD }}
-          DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
-#          --no-daemon \
-#          -Dorg.gradle.jvmargs=-Xmx1024m \
-#          --build-cache \
-#          --project-cache-dir=./gradle-cache/project \
-#          --gradle-user-home=./gradle-cache/global \
-#          --project-dir="./"
+      #          --no-daemon \
+      #          -Dorg.gradle.jvmargs=-Xmx1024m \
+      #          --build-cache \
+      #          --project-cache-dir=./gradle-cache/project \
+      #          --gradle-user-home=./gradle-cache/global \
+      #          --project-dir="./"
 
       # 테스트 빌드 진행
-#      - name: Test Build with Gradle
-#        run: ./gradlew test
+      #      - name: Test Build with Gradle
+      #        run: ./gradlew test
 
       # test 결과 업로드
       - name: Upload test results
@@ -120,6 +104,7 @@ jobs:
         if: always()
         with:
           files: '**/build/test-results/test/TEST-*.xml'
+
 
   slack_noti:
     name: Slack_notification

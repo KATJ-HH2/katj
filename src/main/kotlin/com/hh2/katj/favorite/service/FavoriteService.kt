@@ -1,6 +1,6 @@
 package com.hh2.katj.favorite.service
 
-import com.hh2.katj.cmn.model.RoadAddress
+import com.hh2.katj.util.model.RoadAddress
 import com.hh2.katj.favorite.component.FavoriteReader
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite

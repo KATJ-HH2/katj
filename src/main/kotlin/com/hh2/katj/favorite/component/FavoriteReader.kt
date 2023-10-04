@@ -3,7 +3,7 @@ package com.hh2.katj.favorite.component
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
-import com.hh2.katj.user.model.User
+import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull

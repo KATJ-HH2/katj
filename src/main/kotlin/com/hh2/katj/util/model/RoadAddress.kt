@@ -1,4 +1,4 @@
-package com.hh2.katj.cmn.model
+package com.hh2.katj.util.model
 
 import jakarta.persistence.Embeddable
 

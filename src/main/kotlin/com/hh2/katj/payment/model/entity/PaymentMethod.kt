@@ -1,9 +1,7 @@
-package com.hh2.katj.payment.model
+package com.hh2.katj.payment.model.entity
 
-import com.hh2.katj.cmn.model.BaseEntity
-import com.hh2.katj.payment.etc.Bank
-import com.hh2.katj.payment.etc.PaymentType
-import com.hh2.katj.user.model.User
+import com.hh2.katj.util.model.BaseEntity
+import com.hh2.katj.user.model.entity.User
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate

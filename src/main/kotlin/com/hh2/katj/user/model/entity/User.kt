@@ -1,11 +1,9 @@
-package com.hh2.katj.user.model
+package com.hh2.katj.user.model.entity
 
-import com.hh2.katj.cmn.model.BaseEntity
-import com.hh2.katj.cmn.model.RoadAddress
+import com.hh2.katj.util.model.BaseEntity
+import com.hh2.katj.util.model.RoadAddress
 import com.hh2.katj.favorite.model.Favorite
-import com.hh2.katj.payment.model.PaymentMethod
-import com.hh2.katj.user.util.Gender
-import com.hh2.katj.user.util.UserStatus
+import com.hh2.katj.payment.model.entity.PaymentMethod
 import jakarta.persistence.*
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate

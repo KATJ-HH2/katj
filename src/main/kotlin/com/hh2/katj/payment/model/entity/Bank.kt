@@ -1,4 +1,4 @@
-package com.hh2.katj.payment.etc
+package com.hh2.katj.payment.model.entity
 
 enum class Bank(bankName: String) {
 

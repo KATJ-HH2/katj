@@ -1,4 +1,4 @@
-package com.hh2.katj.user.util
+package com.hh2.katj.user.model.entity
 
 enum class Gender(s: String) {
         MALE("남자"),

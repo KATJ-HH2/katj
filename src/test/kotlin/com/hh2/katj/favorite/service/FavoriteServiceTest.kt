@@ -1,15 +1,14 @@
 package com.hh2.katj.favorite.service
 
-import com.hh2.katj.cmn.model.RoadAddress
+import com.hh2.katj.util.model.RoadAddress
 import com.hh2.katj.cmn.resttemplate.KakaoSearchService
 import com.hh2.katj.favorite.model.Favorite
 import com.hh2.katj.favorite.model.RequestFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
-import com.hh2.katj.user.model.User
+import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
-import com.hh2.katj.user.util.Gender
-import com.hh2.katj.user.util.UserStatus
-import jakarta.transaction.Transactional
+import com.hh2.katj.user.model.entity.Gender
+import com.hh2.katj.user.model.entity.UserStatus
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test

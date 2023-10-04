@@ -1,4 +1,4 @@
-package com.hh2.katj.user.util
+package com.hh2.katj.user.model.entity
 
 enum class UserStatus(status: String) {
     ACTIVE("활성"),

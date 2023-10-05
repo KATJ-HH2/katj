@@ -32,4 +32,27 @@ class RoadAddress (
                 ", x='$x'" +
                 ", y='$y')"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as RoadAddress
+
+        if (addressName != other.addressName) return false
+        if (region1depthName != other.region1depthName) return false
+        if (region2depthName != other.region2depthName) return false
+        if (region3depthName != other.region3depthName) return false
+        if (roadName != other.roadName) return false
+        if (undergroundYn != other.undergroundYn) return false
+        if (mainBuildingNo != other.mainBuildingNo) return false
+        if (subBuildingNo != other.subBuildingNo) return false
+        if (buildingName != other.buildingName) return false
+        if (zoneNo != other.zoneNo) return false
+        if (x != other.x) return false
+        if (y != other.y) return false
+
+        return true
+    }
+
 }

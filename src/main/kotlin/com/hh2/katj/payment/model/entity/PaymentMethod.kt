@@ -20,6 +20,10 @@ class PaymentMethod (
         @Column(nullable = false)
         private var isDefault: Boolean,
 
+        @ManyToOne
+        @JoinColumn(name = "user_id", nullable = false,
+                foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+        private var user: User,
 
         private var bankAccountNumber: String?,
 
@@ -33,10 +37,6 @@ class PaymentMethod (
         private var cardHolderName: String?,
         private var isValid: Boolean?,
 
-        @ManyToOne
-        @JoinColumn(name = "user_id", nullable = false,
-                foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        private var user: User,
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         private var id: Long? = null

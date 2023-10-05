@@ -1,4 +1,4 @@
-package com.hh2.katj.favorite.model
+package com.hh2.katj.favorite.model.entity
 
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
@@ -19,15 +19,16 @@ class Favorite(
         @Column(unique = true)
         var title: String,
 
-        var description: String?,
-
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var user: User,
 
+        var description: String?,
+
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null
+
 
 ): BaseEntity() {
 }

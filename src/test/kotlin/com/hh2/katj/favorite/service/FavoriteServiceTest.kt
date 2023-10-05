@@ -9,8 +9,11 @@ import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.UserStatus
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.AssertionsForInterfaceTypes
+import org.assertj.core.api.AssertionsForInterfaceTypes.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -32,7 +35,6 @@ class FavoriteServiceTest @Autowired constructor(
     @Test
     fun `사용자가 경로를 즐겨찾기에 추가한다`() {
         // given
-
         val roadAddress: RoadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
@@ -76,6 +78,72 @@ class FavoriteServiceTest @Autowired constructor(
         val result: Boolean = favoriteService.addFavorite(saveUser.id, requestAddFavorite)
         Assertions.assertThat(result).isTrue()
     }
+
+    @Test
+    fun `사용자가 같은 타이틀의 즐겨찾기를 추가하려고 하면 오류가 발생한다`() {
+        // given
+
+        val roadAddress: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddress
+        )
+
+        val favorite: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddress,
+                title = "favorite_title",
+                description = "favorite_description"
+        )
+
+        val saveUser = userRepository.save(user)
+        val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddress,
+                favorite.title,
+                favorite.description
+        )
+
+        favoriteService.addFavorite(saveUser.id, requestAddFavorite)
+
+        // when
+        val duplicatedFavorite: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddress,
+                title = "favorite_title",
+                description = "favorite_duplicated_description"
+        )
+        val requestDuplicatedFavorite: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddress,
+                duplicatedFavorite.title,
+                duplicatedFavorite.description
+        )
+
+        // then
+        assertThrows<IllegalArgumentException> {
+            favoriteService.addFavorite(saveUser.id, requestDuplicatedFavorite)
+        }.apply {
+            assertThat(message).isEqualTo("duplicated title already exists")
+        }
+    }
+
 
     @Test
     fun `사용자가 즐겨찾기를 전부 조회한다`() {

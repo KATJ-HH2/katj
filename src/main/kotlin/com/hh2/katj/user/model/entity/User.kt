@@ -30,7 +30,7 @@ class User (
         var gender: Gender,
 
         @OneToMany(mappedBy = "user")
-        var paymentMethods: MutableList<PaymentMethod>? = mutableListOf(),
+        var paymentMethods: MutableList<PaymentMethod> = mutableListOf(),
 
         @Embedded
         var roadAddress: RoadAddress?,
@@ -38,7 +38,7 @@ class User (
         var status: UserStatus?,
 
         @OneToMany(mappedBy = "user")
-        var favorites: MutableList<Favorite>? = mutableListOf<Favorite>(),
+        var favorites: MutableList<Favorite> = mutableListOf<Favorite>(),
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null

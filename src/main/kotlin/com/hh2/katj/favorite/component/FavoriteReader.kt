@@ -1,7 +1,7 @@
 package com.hh2.katj.favorite.component
 
-import com.hh2.katj.favorite.model.Favorite
-import com.hh2.katj.favorite.model.RequestFavorite
+import com.hh2.katj.favorite.model.entity.Favorite
+import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
@@ -19,11 +19,13 @@ class FavoriteReader @Autowired constructor(
 ) {
 
     @Transactional
-    fun addFavorite(userId: Long?, request: RequestFavorite): Boolean {
+    fun addFavorite(userId: Long?, request: RequestAddFavorite): Boolean {
         // user 찾기 실패시 오류 반환 또는 false 반환 정책 정해야 할듯
         val findUser = userValidation(userId)
 
         // 즐겨찾기 타이틀 중복 체크
+        // 조회 결과 있음 -> true
+        // 조회 결과 없음 -> false
         val favoriteTitleDuplicate = favoriteRepository.findByTitle(request.title).isEmpty
 
         if (!favoriteTitleDuplicate) {

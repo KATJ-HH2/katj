@@ -1,6 +1,6 @@
 package com.hh2.katj.favorite.repository
 
-import com.hh2.katj.favorite.model.Favorite
+import com.hh2.katj.favorite.model.entity.Favorite
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 

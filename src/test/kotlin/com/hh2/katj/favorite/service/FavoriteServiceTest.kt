@@ -1,8 +1,8 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.util.model.RoadAddress
-import com.hh2.katj.favorite.model.Favorite
-import com.hh2.katj.favorite.model.RequestFavorite
+import com.hh2.katj.favorite.model.entity.Favorite
+import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
@@ -66,14 +66,14 @@ class FavoriteServiceTest @Autowired constructor(
         
         // when
         val saveUser = userRepository.save(user)
-        val requestFavorite: RequestFavorite = RequestFavorite(
+        val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
                 favorite.title,
                 favorite.description
         )
 
         // then
-        val result: Boolean = favoriteService.addFavorite(saveUser.id, requestFavorite)
+        val result: Boolean = favoriteService.addFavorite(saveUser.id, requestAddFavorite)
         Assertions.assertThat(result).isTrue()
     }
 
@@ -137,18 +137,18 @@ class FavoriteServiceTest @Autowired constructor(
         // when
         val saveUser = userRepository.save(user)
 
-        val requestFavoriteA: RequestFavorite = RequestFavorite(
+        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 favoriteA.title,
                 favoriteA.description
         )
-        val requestFavoriteB: RequestFavorite = RequestFavorite(
+        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 favoriteB.title,
                 favoriteB.description
         )
-        favoriteService.addFavorite(saveUser.id, requestFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestFavoriteB)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
 
         val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
 

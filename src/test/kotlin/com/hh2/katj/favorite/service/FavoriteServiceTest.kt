@@ -82,7 +82,7 @@ class FavoriteServiceTest (
         )
 
         // then
-        val addFavorite = favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavorite))
+        val addFavorite = favoriteService.addFavorite(saveUser.id, requestAddFavorite)
 
         assertThat(addFavorite.title).isEqualTo(requestAddFavorite.title)
         assertThat(addFavorite.description).isEqualTo(requestAddFavorite.description)
@@ -133,7 +133,7 @@ class FavoriteServiceTest (
                 id = null,
         )
 
-        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavorite))
+        favoriteService.addFavorite(saveUser.id, requestAddFavorite)
 
         // when
         val duplicatedFavorite: Favorite = Favorite(
@@ -152,7 +152,7 @@ class FavoriteServiceTest (
 
         // then
         assertThrows<IllegalArgumentException> {
-            favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestDuplicatedFavorite))
+            favoriteService.addFavorite(saveUser.id, requestDuplicatedFavorite)
         }.apply {
             assertThat(message).isEqualTo(DUPLICATED_DATA_ALREADY_EXISTS.name)
         }
@@ -235,7 +235,9 @@ class FavoriteServiceTest (
         favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
         favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
 
-        val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
+        val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        // then
         val findFavoriteA = favorites.first { it.title == requestAddFavoriteA.title }
 
         // then
@@ -322,8 +324,8 @@ class FavoriteServiceTest (
                 user = saveUser,
                 id = null,
         )
-        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
-        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
 
         val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 

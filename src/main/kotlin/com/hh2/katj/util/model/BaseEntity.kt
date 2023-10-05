@@ -1,4 +1,4 @@
-package com.hh2.katj.common
+package com.hh2.katj.util.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners

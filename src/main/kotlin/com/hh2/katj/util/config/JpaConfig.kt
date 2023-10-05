@@ -1,4 +1,4 @@
-package com.hh2.katj.common.config
+package com.hh2.katj.util.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing

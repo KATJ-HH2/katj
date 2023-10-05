@@ -1,6 +1,6 @@
 package com.hh2.katj.domain.user.model
 
-import com.hh2.katj.common.BaseEntity
+import com.hh2.katj.util.model.BaseEntity
 import jakarta.persistence.*
 
 @Entity

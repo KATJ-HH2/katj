@@ -5,9 +5,10 @@ import com.hh2.katj.favorite.model.RequestFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
+import com.hh2.katj.util.exception.findByIdOrThrowMessage
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 
 @Component
@@ -16,6 +17,8 @@ class FavoriteReader @Autowired constructor(
         private val userRepository: UserRepository
 
 ) {
+
+    @Transactional
     fun addFavorite(userId: Long?, request: RequestFavorite): Boolean {
         // user 찾기 실패시 오류 반환 또는 false 반환 정책 정해야 할듯
         val findUser = userValidation(userId)
@@ -25,7 +28,7 @@ class FavoriteReader @Autowired constructor(
 
         if (!favoriteTitleDuplicate) {
             // 중복시 오류 반환? false 반환?
-            return false
+            throw IllegalArgumentException("duplicated title already exists")
         }
 
         val favorite: Favorite = Favorite(
@@ -40,6 +43,7 @@ class FavoriteReader @Autowired constructor(
         return true
     }
 
+    @Transactional(readOnly = true)
     fun findAllFavorite(userId: Long?): MutableList<Favorite> {
         val findUser = userValidation(userId)
 
@@ -52,7 +56,7 @@ class FavoriteReader @Autowired constructor(
      * 유저 유효성 체크
      */
     private fun userValidation(userId: Long?): User {
-        return userRepository.findByIdOrNull(userId) ?: throw IllegalArgumentException("user doesn't exist")
+        return userRepository.findByIdOrThrowMessage(userId, "user doesn't exist")
     }
 
 }

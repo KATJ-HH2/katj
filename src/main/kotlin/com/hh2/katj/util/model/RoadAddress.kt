@@ -17,4 +17,19 @@ class RoadAddress (
         private var x: String,
         private var y: String
 ) {
+
+    override fun toString(): String {
+        return "RoadAddress(addressName='$addressName'" +
+                ", region1depthName='$region1depthName'" +
+                ", region2depthName='$region2depthName'" +
+                ", region3depthName='$region3depthName'" +
+                ", roadName='$roadName'" +
+                ", undergroundYn='$undergroundYn'" +
+                ", mainBuildingNo='$mainBuildingNo'" +
+                ", subBuildingNo='$subBuildingNo'" +
+                ", buildingName='$buildingName'" +
+                ", zoneNo='$zoneNo'" +
+                ", x='$x'" +
+                ", y='$y')"
+    }
 }

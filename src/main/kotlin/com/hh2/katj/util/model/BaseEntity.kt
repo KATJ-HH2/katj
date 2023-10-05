@@ -22,6 +22,7 @@ abstract class BaseEntity{
     @CreatedBy
     @Column(updatable = false)
     lateinit var createdBy: String
+        protected set
 
     @LastModifiedDate
     var updatedAt: LocalDateTime = LocalDateTime.now()
@@ -29,5 +30,6 @@ abstract class BaseEntity{
 
     @LastModifiedBy
     lateinit var updatedBy: String
+        protected set
 
 }

@@ -2,20 +2,24 @@ package com.hh2.katj.util.model
 
 import jakarta.persistence.Embeddable
 
+/**
+ * 필드가 val로 정의되어 있기 때문에 역직렬화시 문제가 발생 할 수 있음
+ * 나중에 필요시 수정할것
+ */
 @Embeddable
 class RoadAddress (
-        private var addressName: String,
-        private var region1depthName: String,
-        private var region2depthName: String,
-        private var region3depthName: String,
-        private var roadName: String,
-        private var undergroundYn: String,
-        private var mainBuildingNo: String,
-        private var subBuildingNo: String,
-        private var buildingName: String,
-        private var zoneNo: String,
-        private var x: String,
-        private var y: String
+        val addressName: String,
+        val region1depthName: String,
+        val region2depthName: String,
+        val region3depthName: String,
+        val roadName: String,
+        val undergroundYn: String,
+        val mainBuildingNo: String,
+        val subBuildingNo: String,
+        val buildingName: String,
+        val zoneNo: String,
+        val x: String,
+        val y: String,
 ) {
 
     override fun toString(): String {
@@ -53,6 +57,22 @@ class RoadAddress (
         if (y != other.y) return false
 
         return true
+    }
+
+    override fun hashCode(): Int {
+        var result = addressName.hashCode()
+        result = 31 * result + region1depthName.hashCode()
+        result = 31 * result + region2depthName.hashCode()
+        result = 31 * result + region3depthName.hashCode()
+        result = 31 * result + roadName.hashCode()
+        result = 31 * result + undergroundYn.hashCode()
+        result = 31 * result + mainBuildingNo.hashCode()
+        result = 31 * result + subBuildingNo.hashCode()
+        result = 31 * result + buildingName.hashCode()
+        result = 31 * result + zoneNo.hashCode()
+        result = 31 * result + x.hashCode()
+        result = 31 * result + y.hashCode()
+        return result
     }
 
 }

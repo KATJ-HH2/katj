@@ -10,36 +10,40 @@ import org.hibernate.annotations.DynamicUpdate
 
 
 @Entity(name = "users")
-@DynamicInsert
-@DynamicUpdate
 class User (
+        name: String,
+        phoneNumber: String,
+        email: String,
+        gender: Gender,
+        roadAddress: RoadAddress,
+        status: UserStatus,
+) : BaseEntity(){
 
         @Column(nullable = false)
-        var name: String,
+        var name: String = name
+                protected set
 
         @Column(nullable = false)
-        var phoneNumber: String,
+        var phoneNumber: String = phoneNumber
+                protected set
 
         @Column(nullable = false)
-        var email: String,
+        var email: String = email
+                protected set
 
         @Column(nullable = false)
         @Enumerated(EnumType.STRING)
-        var gender: Gender,
-
-        @OneToMany(mappedBy = "user")
-        var paymentMethods: MutableList<PaymentMethod> = mutableListOf(),
-
-        @OneToMany(mappedBy = "user")
-        var favorites: MutableList<Favorite> = mutableListOf<Favorite>(),
+        var gender: Gender = gender
+                protected set
 
         @Embedded
-        var roadAddress: RoadAddress?,
+        var roadAddress: RoadAddress = roadAddress
+                protected set
 
-        var status: UserStatus?,
+        var status: UserStatus = status
+                protected set
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null
 
-): BaseEntity(){
 }

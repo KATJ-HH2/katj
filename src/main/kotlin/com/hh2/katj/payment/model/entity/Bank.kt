@@ -6,6 +6,6 @@ enum class Bank(bankName: String) {
     WOORIE("우리 은행"),
     KB("KB국민 은행"),
     KAKAO("카카오 뱅크"),
-    NH("농협")
+    NH("농협"),
 
 }

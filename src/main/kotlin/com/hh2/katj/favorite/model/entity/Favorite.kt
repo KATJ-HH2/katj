@@ -9,26 +9,36 @@ import org.hibernate.annotations.DynamicUpdate
 
 
 @Entity
-@DynamicInsert
-@DynamicUpdate
 class Favorite(
 
+        roadAddress: RoadAddress,
+        title: String,
+        user: User,
+        description: String?,
+
+): BaseEntity() {
+
         @Embedded
-        var roadAddress: RoadAddress,
+        var roadAddress: RoadAddress = roadAddress
+                protected set
 
         @Column(unique = true)
-        var title: String,
+        var title: String = title
+                protected set
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var user: User,
+        var user: User = user
+                protected set
 
-        var description: String?,
+        var description: String? = description
+                protected set
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null
 
-
-): BaseEntity() {
+        fun updateRoadAddress(newRoadAddress: RoadAddress) {
+                this.roadAddress = newRoadAddress
+        }
 }

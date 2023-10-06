@@ -1,11 +1,9 @@
 package com.hh2.katj.favorite.model.entity
 
+import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
-import com.hh2.katj.user.model.entity.User
 import jakarta.persistence.*
-import org.hibernate.annotations.DynamicInsert
-import org.hibernate.annotations.DynamicUpdate
 
 
 @Entity
@@ -38,9 +36,6 @@ class Favorite(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null
 
-        fun updateRoadAddress(newRoadAddress: RoadAddress) {
-                this.roadAddress = newRoadAddress
-        }
 
         fun update(requestFavorite: Favorite) {
             this.roadAddress = requestFavorite.roadAddress

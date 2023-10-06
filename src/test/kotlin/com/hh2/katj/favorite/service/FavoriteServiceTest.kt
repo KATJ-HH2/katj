@@ -1,6 +1,7 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.Gender
@@ -78,7 +79,7 @@ class FavoriteServiceTest (
         )
 
         // then
-        val addFavorite = favoriteService.addFavorite(saveUser.id, requestAddFavorite)
+        val addFavorite = favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
 
         assertThat(addFavorite.title).isEqualTo(requestAddFavorite.title)
         assertThat(addFavorite.description).isEqualTo(requestAddFavorite.description)
@@ -127,7 +128,7 @@ class FavoriteServiceTest (
                 favorite.description
         )
 
-        favoriteService.addFavorite(saveUser.id, requestAddFavorite)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
 
         // when
         val duplicatedFavorite: Favorite = Favorite(
@@ -144,7 +145,7 @@ class FavoriteServiceTest (
 
         // then
         assertThrows<IllegalArgumentException> {
-            favoriteService.addFavorite(saveUser.id, requestDuplicatedFavorite)
+            favoriteService.addFavorite(saveUser.id!!, requestDuplicatedFavorite)
         }.apply {
             assertThat(message).isEqualTo(DUPLICATED_DATA_ALREADY_EXISTS.name)
         }
@@ -220,15 +221,15 @@ class FavoriteServiceTest (
                 favoriteB.title,
                 favoriteB.description
         )
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
 
-        val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
         val findFavoriteA = favorites.first { it.title == requestAddFavoriteA.title }
 
         // then
 
-        val findOneFavorite = favoriteService.findOneFavorite(saveUser.id, findFavoriteA.id)
+        val findOneFavorite = favoriteService.findOneFavorite(saveUser.id!!, findFavoriteA.id!!)
 
         assertThat(findOneFavorite.roadAddress).isEqualTo(requestAddFavoriteA.roadAddress)
         assertThat(findOneFavorite.title).isEqualTo(requestAddFavoriteA.title)
@@ -306,10 +307,10 @@ class FavoriteServiceTest (
                 favoriteB.title,
                 favoriteB.description
         )
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
 
-        val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         // then
         Assertions.assertThat(favorites.size).isEqualTo(2)
@@ -367,7 +368,7 @@ class FavoriteServiceTest (
                 favorite.description
         )
 
-        favoriteService.addFavorite(saveUser.id, requestAddFavorite)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
         val savedFavorite = favoriteRepository.findByTitle(requestAddFavorite.title) ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
         // when
@@ -392,7 +393,7 @@ class FavoriteServiceTest (
                 title = "update_favorite_title",
                 description = "update_favorite_description"
         )
-        val updatedFavorite = favoriteService.updateFavorite(savedFavorite.user.id, savedFavorite.id, requestFavorite)
+        val updatedFavorite = favoriteService.updateFavorite(savedFavorite.user.id!!, savedFavorite.id!!, requestFavorite)
 
         requestFavorite.id = savedFavorite.id
 
@@ -470,17 +471,17 @@ class FavoriteServiceTest (
                 favoriteB.title,
                 favoriteB.description
         )
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
 
 
 
-        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val beforeDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         val deleteFavorite = beforeDeleteFavorites.first { it.title == favoriteB.title }
-        val deleteResult: Boolean = favoriteService.deleteOneFavorite(saveUser.id, deleteFavorite.id)
+        val deleteResult: Boolean = favoriteService.deleteOneFavorite(saveUser.id!!, deleteFavorite.id!!)
 
-        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val afterDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         // then
         assertThat(afterDeleteFavorites.size).isEqualTo(1)
@@ -564,16 +565,16 @@ class FavoriteServiceTest (
                 favoriteB.title,
                 favoriteB.description
         )
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
 
 
 
-        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val beforeDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
-        val deleteAllResult: Boolean = favoriteService.deleteAllFavorite(saveUser.id)
+        val deleteAllResult: Boolean = favoriteService.deleteAllFavorite(saveUser.id!!)
 
-        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val afterDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         // then
 
@@ -680,24 +681,24 @@ class FavoriteServiceTest (
                 favoriteC.description
         )
 
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
-        favoriteService.addFavorite(saveUser.id, requestAddFavoriteC)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteC)
 
 
 
-        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val beforeDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
-        val deleteFavoriteList = beforeDeleteFavorites.filter { it.title != favoriteA.title }
-        val deleteResult: Boolean = favoriteService.deleteMultiFavorite(saveUser.id, deleteFavoriteList)
+        val deleteFavoriteList = beforeDeleteFavorites.filter { it.title != favoriteA.title }.map { it.id!! }
+        val deleteResult: Int = favoriteService.deleteMultiFavorite(saveUser.id!!, deleteFavoriteList)
 
-        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val afterDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         // then
 
         assertThat(beforeDeleteFavorites).hasSize(3)
         assertThat(afterDeleteFavorites).hasSize(1)
-        assertThat(deleteResult).isTrue()
+        assertThat(deleteResult).isEqualTo(2)
     }
 
 

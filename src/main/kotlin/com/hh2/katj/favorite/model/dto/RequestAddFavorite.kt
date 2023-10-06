@@ -1,5 +1,6 @@
 package com.hh2.katj.favorite.model.dto
 
+import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.RoadAddress
 
 /**
@@ -8,7 +9,9 @@ import com.hh2.katj.util.model.RoadAddress
  * @since : 2023-10-05
  */
 data class RequestAddFavorite(
-    var roadAddress: RoadAddress,
-    var title: String,
-    var description: String?,
+        val id: Long?,
+        var roadAddress: RoadAddress,
+        var title: String,
+        var description: String?,
+        var user: User,
 )

@@ -1,7 +1,6 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.favorite.component.FavoriteManager
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.favorite.model.dto.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.component.UserManager
@@ -17,7 +16,7 @@ class FavoriteService (
         private val favoriteManager: FavoriteManager,
         private val userManager: UserManager,
 ){
-    fun addFavorite(userId: Long, request: RequestAddFavorite): ResponseFavorite {
+    fun addFavorite(userId: Long, request: Favorite): ResponseFavorite {
         val validatedUser = userValidation(userId)
 
         val addedFavorite = favoriteManager.addFavorite(validatedUser, request)
@@ -73,4 +72,5 @@ class FavoriteService (
      */
     private fun userValidation(userId: Long): User =
             userManager.userValidation(userId)
+
 }

@@ -74,12 +74,14 @@ class FavoriteServiceTest (
         val saveUser = userRepository.save(user)
         val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
-                favorite.title,
-                favorite.description
+                title = favorite.title,
+                description = favorite.description,
+                user = saveUser,
+                id = null
         )
 
         // then
-        val addFavorite = favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
+        val addFavorite = favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavorite))
 
         assertThat(addFavorite.title).isEqualTo(requestAddFavorite.title)
         assertThat(addFavorite.description).isEqualTo(requestAddFavorite.description)
@@ -124,11 +126,13 @@ class FavoriteServiceTest (
         val saveUser = userRepository.save(user)
         val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
-                favorite.title,
-                favorite.description
+                title = favorite.title,
+                description = favorite.description,
+                user = saveUser,
+                id = null,
         )
 
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavorite))
 
         // when
         val duplicatedFavorite: Favorite = Favorite(
@@ -139,13 +143,15 @@ class FavoriteServiceTest (
         )
         val requestDuplicatedFavorite: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
-                duplicatedFavorite.title,
-                duplicatedFavorite.description
+                title = duplicatedFavorite.title,
+                description = duplicatedFavorite.description,
+                user = user,
+                id = null,
         )
 
         // then
         assertThrows<IllegalArgumentException> {
-            favoriteService.addFavorite(saveUser.id!!, requestDuplicatedFavorite)
+            favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestDuplicatedFavorite))
         }.apply {
             assertThat(message).isEqualTo(DUPLICATED_DATA_ALREADY_EXISTS.name)
         }
@@ -213,16 +219,20 @@ class FavoriteServiceTest (
 
         val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
-                favoriteA.title,
-                favoriteA.description
+                title = favoriteA.title,
+                description = favoriteA.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
-                favoriteB.title,
-                favoriteB.description
+                title = favoriteB.title,
+                description = favoriteB.description,
+                user = saveUser,
+                id = null
         )
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
 
         val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
         val findFavoriteA = favorites.first { it.title == requestAddFavoriteA.title }
@@ -299,16 +309,20 @@ class FavoriteServiceTest (
 
         val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
-                favoriteA.title,
-                favoriteA.description
+                title = favoriteA.title,
+                description = favoriteA.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
-                favoriteB.title,
-                favoriteB.description
+                title = favoriteB.title,
+                description = favoriteB.description,
+                user = saveUser,
+                id = null,
         )
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
 
         val favorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
@@ -364,11 +378,13 @@ class FavoriteServiceTest (
         val saveUser = userRepository.save(user)
         val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
-                favorite.title,
-                favorite.description
+                title = favorite.title,
+                description = favorite.description,
+                user = saveUser,
+                id = null
         )
 
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavorite)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavorite))
         val savedFavorite = favoriteRepository.findByTitle(requestAddFavorite.title) ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
         // when
@@ -463,16 +479,20 @@ class FavoriteServiceTest (
 
         val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
-                favoriteA.title,
-                favoriteA.description
+                title = favoriteA.title,
+                description = favoriteA.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
-                favoriteB.title,
-                favoriteB.description
+                title = favoriteB.title,
+                description = favoriteB.description,
+                user = saveUser,
+                id = null,
         )
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
 
 
 
@@ -557,16 +577,20 @@ class FavoriteServiceTest (
 
         val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
-                favoriteA.title,
-                favoriteA.description
+                title = favoriteA.title,
+                description = favoriteA.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
-                favoriteB.title,
-                favoriteB.description
+                title = favoriteB.title,
+                description = favoriteB.description,
+                user = saveUser,
+                id = null
         )
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
 
 
 
@@ -667,23 +691,29 @@ class FavoriteServiceTest (
 
         val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressA,
-                favoriteA.title,
-                favoriteA.description
+                title = favoriteA.title,
+                description = favoriteA.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressB,
-                favoriteB.title,
-                favoriteB.description
+                title = favoriteB. title,
+                description = favoriteB.description,
+                user = saveUser,
+                id = null,
         )
         val requestAddFavoriteC: RequestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddressC,
-                favoriteC.title,
-                favoriteC.description
+                title = favoriteC.title,
+                description = favoriteC.description,
+                user = saveUser,
+                id = null,
         )
 
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteA)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteB)
-        favoriteService.addFavorite(saveUser.id!!, requestAddFavoriteC)
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteA))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteB))
+        favoriteService.addFavorite(saveUser.id!!, Favorite.toEntity(requestAddFavoriteC))
 
 
 

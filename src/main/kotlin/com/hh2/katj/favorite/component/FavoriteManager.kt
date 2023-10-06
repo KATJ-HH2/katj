@@ -1,6 +1,5 @@
 package com.hh2.katj.favorite.component
 
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
@@ -29,7 +28,7 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun addFavorite(user: User, request: RequestAddFavorite): Favorite {
+    fun addFavorite(user: User, request: Favorite): Favorite {
         // 즐겨찾기 타이틀 중복 체크
         val favoriteTitleDuplicate = favoriteRepository.findByTitle(request.title)
 
@@ -37,14 +36,7 @@ class FavoriteManager (
             throw IllegalArgumentException(DUPLICATED_DATA_ALREADY_EXISTS.name)
         }
 
-        val favorite: Favorite = Favorite(
-                user = user,
-                roadAddress = request.roadAddress,
-                title = request.title,
-                description = request.description
-        )
-
-        val savedFavorite = favoriteRepository.save(favorite)
+        val savedFavorite = favoriteRepository.save(request)
 
         return savedFavorite
     }

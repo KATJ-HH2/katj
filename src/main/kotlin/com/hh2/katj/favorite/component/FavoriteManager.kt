@@ -15,14 +15,14 @@ class FavoriteManager (
 ) {
 
     @Transactional(readOnly = true)
-    fun findAllFavorite(userId: Long?): MutableList<Favorite> {
+    fun findAllFavorite(userId: Long): MutableList<Favorite> {
         val findAllFavorite = favoriteRepository.findAllByUserId(userId)
 
         return findAllFavorite
     }
 
     @Transactional(readOnly = true)
-    fun findOneFavorite(userId: Long?, favoriteId: Long?): Favorite {
+    fun findOneFavorite(userId: Long, favoriteId: Long): Favorite {
         val findOneFavorite = favoriteExistValidation(userId, favoriteId)
 
         return findOneFavorite
@@ -50,7 +50,7 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun updateFavorite(userId: Long?, favoriteId: Long?, requestFavorite: Favorite): Favorite {
+    fun updateFavorite(userId: Long, favoriteId: Long, requestFavorite: Favorite): Favorite {
         favoriteExistValidation(userId, favoriteId)
 
         val findFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
@@ -68,7 +68,7 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun deleteOneFavorite(userId: Long?, favoriteId: Long?): Boolean {
+    fun deleteOneFavorite(userId: Long, favoriteId: Long): Boolean {
 
         val deleteFavorite = favoriteExistValidation(userId, favoriteId)
 
@@ -82,7 +82,7 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun deleteAllFavorite(userId: Long?): Boolean {
+    fun deleteAllFavorite(userId: Long): Boolean {
 
         try {
             favoriteRepository.deleteAllByUserId(userId)
@@ -94,22 +94,23 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun deleteMultiFavorite(userId: Long?, deleteFavoriteIds: List<Long?>): Boolean {
+    fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Int {
+        var deleteRowCount = 0
 
         try {
-            favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
+            deleteRowCount = favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
         } catch (e: Exception) {
             throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
-        return true
+        return deleteRowCount
     }
 
     /**
      * 즐겨찾기 유효성 체크
      * 해당 유저에게 즐겨찾기가 존재하는지 확인한다
      */
-    private fun favoriteExistValidation(userId: Long?, favoriteId: Long?): Favorite =
+    private fun favoriteExistValidation(userId: Long, favoriteId: Long): Favorite =
             favoriteRepository.findByUserIdAndId(userId, favoriteId)
                     ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 

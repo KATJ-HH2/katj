@@ -13,7 +13,7 @@ class UserManager(
 ) {
 
     @Transactional(readOnly = true)
-    fun userValidation(userId: Long?): User =
+    fun userValidation(userId: Long): User =
             userRepository.findByIdOrThrowMessage(userId, ExceptionMessage.USER_DOES_NOT_EXIST.name)
 
 }

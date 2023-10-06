@@ -27,8 +27,8 @@ class FavoriteService (
         return findFavorite
     }
 
-    fun updateFavorite(userId: Long?, favoriteId: Long?, newRoadAddress: RoadAddress): Boolean {
-
-        return true
+    fun updateFavorite(userId: Long?, favoriteId: Long?, request: Favorite): Favorite {
+        val updatedFavorite = favoriteReader.updateFavorite(userId, favoriteId, request)
+        return updatedFavorite
     }
 }

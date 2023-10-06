@@ -224,12 +224,15 @@ class FavoriteServiceTest (
         favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
 
         val favorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+        val findFavoriteA = favorites.first { it.title == requestAddFavoriteA.title }
 
         // then
-        val findFavoriteA = favorites.first { it.title == requestAddFavoriteA.title }
-        assertThat(findFavoriteA.roadAddress).isEqualTo(requestAddFavoriteA.roadAddress)
-        assertThat(findFavoriteA.title).isEqualTo(requestAddFavoriteA.title)
-        assertThat(findFavoriteA.description).isEqualTo(requestAddFavoriteA.description)
+
+        val findOneFavorite = favoriteService.findOneFavorite(saveUser.id, findFavoriteA.id)
+
+        assertThat(findOneFavorite.roadAddress).isEqualTo(requestAddFavoriteA.roadAddress)
+        assertThat(findOneFavorite.title).isEqualTo(requestAddFavoriteA.title)
+        assertThat(findOneFavorite.description).isEqualTo(requestAddFavoriteA.description)
 
     }
 
@@ -321,7 +324,7 @@ class FavoriteServiceTest (
     }
 
     @Test
-    fun `사용자가 즐겨찾기 주소를 수정한다`() {
+    fun `사용자가 즐겨찾기 정보를 수정한다`() {
         // given
         val roadAddress: RoadAddress = RoadAddress(
                 addressName = "address_name",
@@ -380,10 +383,18 @@ class FavoriteServiceTest (
                 y = "y.321"
         )
 
-        val result = favoriteService.updateFavorite(savedFavorite.user.id, savedFavorite.id, newRoadAddress)
+        val requestFavorite = Favorite(
+                user = user,
+                roadAddress = newRoadAddress,
+                title = "update_favorite_title",
+                description = "update_favorite_description"
+        )
+        val updatedFavorite = favoriteService.updateFavorite(savedFavorite.user.id, savedFavorite.id, requestFavorite)
+
+        requestFavorite.id = savedFavorite.id
 
         // then
-        assertThat(result).isTrue()
+        assertThat(updatedFavorite).isEqualTo(requestFavorite)
     }
 
 

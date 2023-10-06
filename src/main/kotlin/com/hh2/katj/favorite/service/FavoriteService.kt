@@ -3,7 +3,6 @@ package com.hh2.katj.favorite.service
 import com.hh2.katj.favorite.component.FavoriteReader
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
-import com.hh2.katj.util.model.RoadAddress
 import org.springframework.stereotype.Service
 
 @Service

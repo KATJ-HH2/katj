@@ -397,5 +397,305 @@ class FavoriteServiceTest (
         assertThat(updatedFavorite).isEqualTo(requestFavorite)
     }
 
+    @Test
+    fun `사용자가 즐겨찾기 하나를 삭제한다`() {
+        // given
+        val roadAddressA: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddressA
+        )
+
+
+        val roadAddressB: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val favoriteA: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressA,
+                title = "favorite_titleA",
+                description = "favorite_descriptionA"
+        )
+
+        val favoriteB: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressB,
+                title = "favorite_titleB",
+                description = "favorite_descriptionB"
+        )
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressA,
+                favoriteA.title,
+                favoriteA.description
+        )
+        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressB,
+                favoriteB.title,
+                favoriteB.description
+        )
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+
+
+
+        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        val deleteFavorite = beforeDeleteFavorites.first { it.title == favoriteB.title }
+        val deleteResult: Boolean = favoriteService.deleteOneFavorite(saveUser.id, deleteFavorite.id)
+
+        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        // then
+        assertThat(afterDeleteFavorites.size).isEqualTo(1)
+        assertThat(deleteResult).isTrue()
+
+        assertThat(afterDeleteFavorites).extracting("roadAddress")
+                .containsExactlyInAnyOrder(requestAddFavoriteA.roadAddress)
+        assertThat(afterDeleteFavorites).extracting("title")
+                .containsExactlyInAnyOrder(requestAddFavoriteA.title)
+        assertThat(afterDeleteFavorites).extracting("description")
+                .containsExactlyInAnyOrder(requestAddFavoriteA.description)
+    }
+
+    @Test
+    fun `사용자가 즐겨찾기를 전부 삭제한다`() {
+        // given
+        val roadAddressA: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddressA
+        )
+
+
+        val roadAddressB: RoadAddress = RoadAddress(
+                addressName = "address_name",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val favoriteA: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressA,
+                title = "favorite_titleA",
+                description = "favorite_descriptionA"
+        )
+
+        val favoriteB: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressB,
+                title = "favorite_titleB",
+                description = "favorite_descriptionB"
+        )
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressA,
+                favoriteA.title,
+                favoriteA.description
+        )
+        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressB,
+                favoriteB.title,
+                favoriteB.description
+        )
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+
+
+
+        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        val deleteAllResult: Boolean = favoriteService.deleteAllFavorite(saveUser.id)
+
+        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        // then
+
+        assertThat(beforeDeleteFavorites).hasSize(2)
+        assertThat(afterDeleteFavorites).hasSize(0)
+        assertThat(deleteAllResult).isTrue()
+    }
+
+    @Test
+    fun `사용자가 선택한 여러개의 즐겨찾기를 삭제한다`() {
+        // given
+        val roadAddressA: RoadAddress = RoadAddress(
+                addressName = "address_nameA",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val user: User = User(
+                name = "newUser",
+                phoneNumber = "123-456-789",
+                email = "user@gmail.com",
+                gender = Gender.MALE,
+                status = UserStatus.ACTIVE,
+                roadAddress = roadAddressA
+        )
+
+
+        val roadAddressB: RoadAddress = RoadAddress(
+                addressName = "address_nameB",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val roadAddressC: RoadAddress = RoadAddress(
+                addressName = "address_nameC",
+                region1depthName = "r_1",
+                region2depthName = "r_2",
+                region3depthName = "r_3",
+                roadName = "road_name",
+                undergroundYn = "Y",
+                mainBuildingNo = "1",
+                subBuildingNo = "2",
+                buildingName = "bn",
+                zoneNo = "11232",
+                x = "x.123",
+                y = "y.321"
+        )
+
+        val favoriteA: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressA,
+                title = "favorite_titleA",
+                description = "favorite_descriptionA"
+        )
+
+        val favoriteB: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressB,
+                title = "favorite_titleB",
+                description = "favorite_descriptionB"
+        )
+
+        val favoriteC: Favorite = Favorite(
+                user = user,
+                roadAddress = roadAddressC,
+                title = "favorite_titleC",
+                description = "favorite_descriptionC"
+        )
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressA,
+                favoriteA.title,
+                favoriteA.description
+        )
+        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressB,
+                favoriteB.title,
+                favoriteB.description
+        )
+        val requestAddFavoriteC: RequestAddFavorite = RequestAddFavorite(
+                roadAddress = roadAddressC,
+                favoriteC.title,
+                favoriteC.description
+        )
+
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteA)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteB)
+        favoriteService.addFavorite(saveUser.id, requestAddFavoriteC)
+
+
+
+        val beforeDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        val deleteFavoriteList = beforeDeleteFavorites.filter { it.title != favoriteA.title }
+        val deleteResult: Boolean = favoriteService.deleteMultiFavorite(saveUser.id, deleteFavoriteList)
+
+        val afterDeleteFavorites: MutableList<Favorite> = favoriteService.findAllFavorite(saveUser.id)
+
+        // then
+
+        assertThat(beforeDeleteFavorites).hasSize(3)
+        assertThat(afterDeleteFavorites).hasSize(1)
+        assertThat(deleteResult).isTrue()
+    }
+
 
 }

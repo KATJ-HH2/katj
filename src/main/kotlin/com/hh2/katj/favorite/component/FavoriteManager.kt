@@ -10,9 +10,23 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class FavoriteReader (
+class FavoriteManager (
         private val favoriteRepository: FavoriteRepository,
 ) {
+
+    @Transactional(readOnly = true)
+    fun findAllFavorite(userId: Long?): MutableList<Favorite> {
+        val findAllFavorite = favoriteRepository.findAllByUserId(userId)
+
+        return findAllFavorite
+    }
+
+    @Transactional(readOnly = true)
+    fun findOneFavorite(userId: Long?, favoriteId: Long?): Favorite {
+        val findOneFavorite = favoriteExistValidation(userId, favoriteId)
+
+        return findOneFavorite
+    }
 
     @Transactional
     fun addFavorite(user: User, request: RequestAddFavorite): Favorite {
@@ -33,20 +47,6 @@ class FavoriteReader (
         val savedFavorite = favoriteRepository.save(favorite)
 
         return savedFavorite
-    }
-
-    @Transactional(readOnly = true)
-    fun findAllFavorite(userId: Long?): MutableList<Favorite> {
-        val findAllFavorite = favoriteRepository.findAllByUserId(userId)
-
-        return findAllFavorite
-    }
-
-    @Transactional(readOnly = true)
-    fun findOneFavorite(userId: Long?, favoriteId: Long?): Favorite {
-        val findOneFavorite = favoriteExistValidation(userId, favoriteId)
-
-        return findOneFavorite
     }
 
     @Transactional

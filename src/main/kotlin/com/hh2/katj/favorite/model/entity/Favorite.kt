@@ -1,5 +1,6 @@
 package com.hh2.katj.favorite.model.entity
 
+import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
@@ -41,6 +42,17 @@ class Favorite(
             this.roadAddress = requestFavorite.roadAddress
             this.title = requestFavorite.title
             this.description = requestFavorite.description
+        }
+
+        companion object {
+                fun toEntity(request: RequestAddFavorite): Favorite {
+                        return Favorite(
+                                roadAddress = request.roadAddress,
+                                title = request.title,
+                                user = request.user,
+                                description = request.description
+                        )
+                }
         }
 
         override fun equals(other: Any?): Boolean {

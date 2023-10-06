@@ -1,29 +1,21 @@
 package com.hh2.katj.favorite.component
 
-import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
-import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.exception.ExceptionMessage.*
 import com.hh2.katj.util.exception.failWithMessage
-import com.hh2.katj.util.exception.findByIdOrThrowMessage
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 @Component
 class FavoriteReader (
         private val favoriteRepository: FavoriteRepository,
-        private val userRepository: UserRepository,
-
 ) {
 
     @Transactional
-    fun addFavorite(userId: Long?, request: RequestAddFavorite): Favorite {
-        // user 찾기 실패시 오류 반환 또는 false 반환 정책 정해야 할듯
-        val findUser = userValidation(userId)
-
+    fun addFavorite(user: User, request: RequestAddFavorite): Favorite {
         // 즐겨찾기 타이틀 중복 체크
         val favoriteTitleDuplicate = favoriteRepository.findByTitle(request.title)
 
@@ -32,7 +24,7 @@ class FavoriteReader (
         }
 
         val favorite: Favorite = Favorite(
-                user = findUser,
+                user = user,
                 roadAddress = request.roadAddress,
                 title = request.title,
                 description = request.description
@@ -45,41 +37,81 @@ class FavoriteReader (
 
     @Transactional(readOnly = true)
     fun findAllFavorite(userId: Long?): MutableList<Favorite> {
-        userValidation(userId)
-
-        val findAllFavorite = favoriteRepository.findAll()
+        val findAllFavorite = favoriteRepository.findAllByUserId(userId)
 
         return findAllFavorite
     }
 
     @Transactional(readOnly = true)
     fun findOneFavorite(userId: Long?, favoriteId: Long?): Favorite {
-        userValidation(userId)
-
-        val findOneFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
-                ?: failWithMessage(ID_DOES_NOT_EXIST.name)
+        val findOneFavorite = favoriteExistValidation(userId, favoriteId)
 
         return findOneFavorite
     }
 
     @Transactional
     fun updateFavorite(userId: Long?, favoriteId: Long?, requestFavorite: Favorite): Favorite {
-        userValidation(userId)
+        favoriteExistValidation(userId, favoriteId)
 
         val findFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
                 ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
         findFavorite.update(requestFavorite)
 
+        try {
+            findFavorite.update(requestFavorite)
+        } catch (e: Exception) {
+            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        }
+
         return findFavorite
     }
 
-    /**
-     * 유저 유효성 체크
-     */
-    private fun userValidation(userId: Long?): User {
-        return userRepository.findByIdOrThrowMessage(userId, USER_DOES_NOT_EXIST.name)
+    @Transactional
+    fun deleteOneFavorite(userId: Long?, favoriteId: Long?): Boolean {
+
+        val deleteFavorite = favoriteExistValidation(userId, favoriteId)
+
+        try {
+            favoriteRepository.delete(deleteFavorite)
+        } catch (e: Exception) {
+            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        }
+
+        return true
     }
+
+    @Transactional
+    fun deleteAllFavorite(userId: Long?): Boolean {
+
+        try {
+            favoriteRepository.deleteAllByUserId(userId)
+        } catch (e: Exception) {
+            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        }
+
+        return true
+    }
+
+    @Transactional
+    fun deleteMultiFavorite(userId: Long?, deleteFavoriteIds: List<Long?>): Boolean {
+
+        try {
+            favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
+        } catch (e: Exception) {
+            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        }
+
+        return true
+    }
+
+    /**
+     * 즐겨찾기 유효성 체크
+     * 해당 유저에게 즐겨찾기가 존재하는지 확인한다
+     */
+    private fun favoriteExistValidation(userId: Long?, favoriteId: Long?): Favorite =
+            favoriteRepository.findByUserIdAndId(userId, favoriteId)
+                    ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
 
 }

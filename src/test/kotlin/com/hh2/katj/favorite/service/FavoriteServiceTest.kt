@@ -690,7 +690,7 @@ class FavoriteServiceTest (
         val beforeDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
         val deleteFavoriteList = beforeDeleteFavorites.filter { it.title != favoriteA.title }.map { it.id!! }
-        val deleteResult: Int = favoriteService.deleteMultiFavorite(saveUser.id!!, deleteFavoriteList)
+        val deleteResult: Boolean = favoriteService.deleteMultiFavorite(saveUser.id!!, deleteFavoriteList)
 
         val afterDeleteFavorites: List<ResponseFavorite> = favoriteService.findAllFavorite(saveUser.id!!)
 
@@ -698,7 +698,7 @@ class FavoriteServiceTest (
 
         assertThat(beforeDeleteFavorites).hasSize(3)
         assertThat(afterDeleteFavorites).hasSize(1)
-        assertThat(deleteResult).isEqualTo(2)
+        assertThat(deleteResult).isTrue()
     }
 
 

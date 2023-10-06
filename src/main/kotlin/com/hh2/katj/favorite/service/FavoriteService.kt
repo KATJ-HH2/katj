@@ -61,7 +61,7 @@ class FavoriteService (
         return deleteAllResult
     }
 
-    fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Int {
+    fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Boolean {
         val validatedUser = userValidation(userId)
 
         val deleteMultiFavoriteResult = favoriteManager.deleteMultiFavorite(validatedUser.id!!, deleteFavoriteIds)

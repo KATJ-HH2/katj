@@ -41,4 +41,36 @@ class Favorite(
         fun updateRoadAddress(newRoadAddress: RoadAddress) {
                 this.roadAddress = newRoadAddress
         }
+
+        fun update(requestFavorite: Favorite) {
+            this.roadAddress = requestFavorite.roadAddress
+            this.title = requestFavorite.title
+            this.description = requestFavorite.description
+        }
+
+        override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (javaClass != other?.javaClass) return false
+
+                other as Favorite
+
+                if (roadAddress != other.roadAddress) return false
+                if (title != other.title) return false
+                if (user != other.user) return false
+                if (description != other.description) return false
+                if (id != other.id) return false
+
+                return true
+        }
+
+        override fun hashCode(): Int {
+                var result = roadAddress.hashCode()
+                result = 31 * result + title.hashCode()
+                result = 31 * result + user.hashCode()
+                result = 31 * result + (description?.hashCode() ?: 0)
+                result = 31 * result + (id?.hashCode() ?: 0)
+                return result
+        }
+
+
 }

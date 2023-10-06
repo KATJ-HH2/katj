@@ -323,6 +323,9 @@ class FavoriteServiceTest (
 
     }
 
+    /**
+     * request에는 변경된 정보, 변경되지 않을 정보 모두 담겨있어야 한다.
+     */
     @Test
     fun `사용자가 즐겨찾기 정보를 수정한다`() {
         // given

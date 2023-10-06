@@ -95,11 +95,10 @@ class FavoriteManager (
 
     @Transactional
     fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Int {
-        var deleteRowCount = 0
 
-        try {
-            deleteRowCount = favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
-        } catch (e: Exception) {
+        val deleteRowCount = favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
+
+        if (deleteRowCount != deleteFavoriteIds.size) {
             throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 

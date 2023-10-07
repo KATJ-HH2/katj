@@ -17,9 +17,9 @@ class FavoriteService (
         private val userManager: UserManager,
 ){
     fun addFavorite(userId: Long, request: Favorite): ResponseFavorite {
-        val validatedUser = userValidation(userId)
+        userValidation(userId)
 
-        val addedFavorite = favoriteManager.addFavorite(validatedUser, request)
+        val addedFavorite = favoriteManager.addFavorite(request)
         // 저장후 Component 에서 결과를 받아야 함
         return ResponseFavorite.of(addedFavorite)
     }

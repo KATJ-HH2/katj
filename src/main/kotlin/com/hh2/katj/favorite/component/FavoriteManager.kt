@@ -2,7 +2,6 @@ package com.hh2.katj.favorite.component
 
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
-import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.exception.ExceptionMessage.*
 import com.hh2.katj.util.exception.failWithMessage
 import org.springframework.stereotype.Component
@@ -10,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 class FavoriteManager (
-        private val favoriteRepository: FavoriteRepository,
+    private val favoriteRepository: FavoriteRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -28,7 +27,7 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun addFavorite(user: User, request: Favorite): Favorite {
+    fun addFavorite(request: Favorite): Favorite {
         // 즐겨찾기 타이틀 중복 체크
         val favoriteTitleDuplicate = favoriteRepository.findByTitle(request.title)
 
@@ -104,6 +103,7 @@ class FavoriteManager (
     private fun favoriteExistValidation(userId: Long, favoriteId: Long): Favorite =
             favoriteRepository.findByUserIdAndId(userId, favoriteId)
                     ?: failWithMessage(ID_DOES_NOT_EXIST.name)
+
 
 
 }

@@ -10,23 +10,21 @@ import com.hh2.katj.util.model.RoadAddress
  * @since : 2023-10-06
  */
 data class ResponseFavorite(
-        val id: Long?,
-        var roadAddress: RoadAddress,
-        var title: String,
-        var description: String?,
-        var user: User,
+    val id: Long?,
+    var roadAddress: RoadAddress,
+    var title: String,
+    var description: String?,
+    var user: User,
 )  {
-
     companion object {
         fun of(favorite: Favorite): ResponseFavorite {
             return ResponseFavorite(
-                    id = favorite.id,
-                    roadAddress = favorite.roadAddress,
-                    title = favorite.title,
-                    description = favorite.description,
-                    user = favorite.user,
+                id = favorite.id,
+                roadAddress = favorite.roadAddress,
+                title = favorite.title,
+                description = favorite.description,
+                user = favorite.user,
             )
         }
     }
-
 }

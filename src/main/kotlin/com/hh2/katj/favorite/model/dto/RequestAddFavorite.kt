@@ -9,9 +9,9 @@ import com.hh2.katj.util.model.RoadAddress
  * @since : 2023-10-05
  */
 data class RequestAddFavorite(
-        val id: Long?,
-        var roadAddress: RoadAddress,
-        var title: String,
-        var description: String?,
-        var user: User,
+    val id: Long?,
+    var roadAddress: RoadAddress,
+    var title: String,
+    var description: String?,
+    var user: User,
 )

@@ -1,6 +1,7 @@
 package com.hh2.katj.favorite.model.entity
 
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.RequestUpdateFavorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
@@ -9,14 +10,11 @@ import jakarta.persistence.*
 
 @Entity
 class Favorite(
-
-        roadAddress: RoadAddress,
-        title: String,
-        user: User,
-        description: String?,
-
+    roadAddress: RoadAddress,
+    title: String,
+    user: User,
+    description: String?,
 ): BaseEntity() {
-
         @Embedded
         var roadAddress: RoadAddress = roadAddress
                 protected set
@@ -47,12 +45,21 @@ class Favorite(
         companion object {
                 fun toEntity(request: RequestAddFavorite): Favorite {
                         return Favorite(
-                                roadAddress = request.roadAddress,
-                                title = request.title,
-                                user = request.user,
-                                description = request.description
+                            roadAddress = request.roadAddress,
+                            title = request.title,
+                            user = request.user,
+                            description = request.description
                         )
                 }
+                fun toEntity(request: RequestUpdateFavorite): Favorite {
+                        return Favorite(
+                            roadAddress = request.roadAddress,
+                            title = request.title,
+                            user = request.user,
+                            description = request.description
+                        )
+                }
+
         }
 
         override fun equals(other: Any?): Boolean {

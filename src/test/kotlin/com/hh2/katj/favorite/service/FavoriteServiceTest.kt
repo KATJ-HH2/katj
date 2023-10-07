@@ -1,9 +1,11 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.RequestUpdateFavorite
 import com.hh2.katj.favorite.model.dto.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
+import com.hh2.katj.test.IntegrationTest
 import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
@@ -21,8 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
 
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@IntegrationTest
 class FavoriteServiceTest (
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
@@ -69,7 +70,7 @@ class FavoriteServiceTest (
                 title = "favorite_title",
                 description = "favorite_description"
         )
-        
+
         // when
         val saveUser = userRepository.save(user)
         val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
@@ -403,18 +404,21 @@ class FavoriteServiceTest (
                 y = "y.321"
         )
 
-        val requestFavorite = Favorite(
-                user = user,
-                roadAddress = newRoadAddress,
-                title = "update_favorite_title",
-                description = "update_favorite_description"
+        val requestUpdateFavorite = RequestUpdateFavorite(
+            id = null,
+            user = user,
+            roadAddress = newRoadAddress,
+            title = "update_favorite_title",
+            description = "update_favorite_description"
         )
-        val updatedFavorite = favoriteService.updateFavorite(savedFavorite.user.id!!, savedFavorite.id!!, requestFavorite)
+        val updatedFavorite = favoriteService.updateFavorite(savedFavorite.user.id!!, savedFavorite.id!!, Favorite.toEntity(requestUpdateFavorite))
 
-        requestFavorite.id = savedFavorite.id
 
         // then
-        assertThat(updatedFavorite).isEqualTo(requestFavorite)
+        assertThat(updatedFavorite.title).isEqualTo(requestUpdateFavorite.title)
+        assertThat(updatedFavorite.description).isEqualTo(requestUpdateFavorite.description)
+        assertThat(updatedFavorite.roadAddress).isEqualTo(requestUpdateFavorite.roadAddress)
+        assertThat(updatedFavorite.user).isEqualTo(requestUpdateFavorite.user)
     }
 
     @Test
@@ -730,6 +734,7 @@ class FavoriteServiceTest (
         assertThat(afterDeleteFavorites).hasSize(1)
         assertThat(deleteResult).isTrue()
     }
+
 
 
 }

@@ -4,7 +4,7 @@ import com.hh2.katj.favorite.component.FavoriteManager
 import com.hh2.katj.favorite.model.dto.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.component.UserManager
-import com.hh2.katj.user.model.entity.User
+import com.hh2.katj.user.service.UserService
 import org.springframework.stereotype.Service
 
 /**
@@ -14,9 +14,12 @@ import org.springframework.stereotype.Service
 @Service
 class FavoriteService (
         private val favoriteManager: FavoriteManager,
+        private val userService: UserService,
         private val userManager: UserManager,
 ){
     fun addFavorite(request: Favorite): ResponseFavorite {
+        val validatedUser = userService.userValidationCheck(request.user.id)
+        userService.userStatusActiveCheck(validatedUser)
 
         userManager.addFavoriteToUser(request.user, request)
 
@@ -27,7 +30,8 @@ class FavoriteService (
     }
 
     fun findAllFavorite(userId: Long): List<ResponseFavorite> {
-        val validatedUser = userValidation(userId)
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
 
         val findAllFavorite = favoriteManager.findAllFavorite(validatedUser.id).map(Favorite::toResponseDto)
 
@@ -35,43 +39,43 @@ class FavoriteService (
     }
 
     fun findOneFavorite(userId: Long, favoriteId: Long): ResponseFavorite {
-        val validatedUser = userValidation(userId)
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
 
         val findFavorite = favoriteManager.findOneFavorite(validatedUser.id, favoriteId)
         return findFavorite.toResponseDto()
     }
 
     fun updateFavorite(favoriteId: Long, request: Favorite): ResponseFavorite {
+        val validatedUser = userService.userValidationCheck(request.user.id)
+        userService.userStatusActiveCheck(validatedUser)
 
         val updatedFavorite = favoriteManager.updateFavorite(favoriteId, request)
         return updatedFavorite.toResponseDto()
     }
 
     fun deleteOneFavorite(userId: Long, favoriteId: Long): Boolean {
-        val validatedUser = userValidation(userId)
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
 
         val deleteResult = favoriteManager.deleteOneFavorite(validatedUser.id, favoriteId)
         return deleteResult
     }
 
     fun deleteAllFavorite(userId: Long): Boolean {
-        val validatedUser = userValidation(userId)
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
 
         val deleteAllResult = favoriteManager.deleteAllFavorite(validatedUser.id)
         return deleteAllResult
     }
 
     fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Boolean {
-        val validatedUser = userValidation(userId)
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
 
         val deleteMultiFavoriteResult = favoriteManager.deleteMultiFavorite(validatedUser.id, deleteFavoriteIds)
         return deleteMultiFavoriteResult
     }
-
-    /**
-     * 유저 유효성 체크
-     */
-    private fun userValidation(userId: Long): User =
-            userManager.userValidation(userId)
 
 }

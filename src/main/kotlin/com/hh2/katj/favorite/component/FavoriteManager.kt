@@ -41,16 +41,16 @@ class FavoriteManager (
     }
 
     @Transactional
-    fun updateFavorite(userId: Long, favoriteId: Long, requestFavorite: Favorite): Favorite {
-        favoriteExistValidation(userId, favoriteId)
+    fun updateFavorite(favoriteId: Long, request: Favorite): Favorite {
+        favoriteExistValidation(request.user.id, favoriteId)
 
-        val findFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
+        val findFavorite = favoriteRepository.findByUserIdAndId(request.user.id, favoriteId)
                 ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
-        findFavorite.update(requestFavorite)
+        findFavorite.update(request)
 
         try {
-            findFavorite.update(requestFavorite)
+            findFavorite.update(request)
         } catch (e: Exception) {
             throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }

@@ -20,11 +20,6 @@ class UserManager(
     fun userValidation(userId: Long): User =
             userRepository.findByIdOrThrowMessage(userId, USER_DOES_NOT_EXIST.name)
 
-    @Transactional(readOnly = true)
-    fun userStatusCheck(userId: Long): User =
-        userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE) ?: failWithMessage(ID_DOES_NOT_EXIST.name)
-
-
     @Transactional
     fun addFavoriteToUser(user: User, favorite: Favorite) {
         favorite.addFavoriteTo(user)

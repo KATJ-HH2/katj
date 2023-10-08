@@ -1,6 +1,5 @@
 package com.hh2.katj.favorite.model.dto
 
-import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.RoadAddress
 
@@ -15,16 +14,4 @@ data class ResponseFavorite(
     var title: String,
     var description: String?,
     var user: User,
-)  {
-    companion object {
-        fun of(favorite: Favorite): ResponseFavorite {
-            return ResponseFavorite(
-                id = favorite.id,
-                roadAddress = favorite.roadAddress,
-                title = favorite.title,
-                description = favorite.description,
-                user = favorite.user,
-            )
-        }
-    }
-}
+)

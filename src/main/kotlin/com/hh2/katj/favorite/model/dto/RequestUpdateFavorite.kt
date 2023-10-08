@@ -1,5 +1,6 @@
 package com.hh2.katj.favorite.model.dto
 
+import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.RoadAddress
 
@@ -13,5 +14,13 @@ data class RequestUpdateFavorite(
     var roadAddress: RoadAddress,
     var title: String,
     var description: String?,
-    var user: User,
-)
+) {
+    fun toEntity(user: User): Favorite {
+        return Favorite(
+            roadAddress = this.roadAddress,
+            title = this.title,
+            description = this.description,
+            user = user,
+        )
+    }
+}

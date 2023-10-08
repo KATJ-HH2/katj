@@ -1,7 +1,9 @@
 package com.hh2.katj.util.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import jakarta.persistence.Embeddable
 
+@Embeddable
 data class RoadAddress(
     @JsonProperty("address_name")
     val addressName: String?,

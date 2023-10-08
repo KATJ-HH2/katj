@@ -21,8 +21,8 @@ class FavoriteController (
      */
     @PostMapping
     fun addFavorite(@RequestParam userId: Long, @Valid @RequestBody requestAddFavorite: RequestAddFavorite): ResponseEntity<ResponseFavorite> {
-
         val findUser = userService.findByUserId(userId)
+
         val responseFavorite = favoriteService.addFavorite(requestAddFavorite.toEntity(findUser))
 
         return ResponseEntity.ok(responseFavorite)
@@ -37,7 +37,6 @@ class FavoriteController (
         val responseFavoriteList = favoriteService.findAllFavorite(userId)
         return ResponseEntity.ok(responseFavoriteList)
     }
-
     /**
      * 해당 사용자의 해당 즐겨찾기 조회
      */
@@ -52,8 +51,8 @@ class FavoriteController (
      */
     @PutMapping("/{favoriteId}")
     fun updateFavorite(@RequestParam userId: Long, @PathVariable("favoriteId") favoriteId: Long, @RequestBody requestUpdateFavorite: RequestUpdateFavorite): ResponseEntity<ResponseFavorite> {
-
         val findUser = userService.findByUserId(userId)
+
         val updateFavorite = favoriteService.updateFavorite(favoriteId, requestUpdateFavorite.toEntity(findUser))
         return ResponseEntity.ok(updateFavorite)
     }
@@ -76,7 +75,6 @@ class FavoriteController (
         return ResponseEntity.ok(deleteOneFavorite)
     }
 
-
     /**
      * 해당 사용자의 모든 즐겨찾기 삭제
      */
@@ -85,5 +83,4 @@ class FavoriteController (
         val deleteOneFavorite = favoriteService.deleteAllFavorite(userId)
         return ResponseEntity.ok(deleteOneFavorite)
     }
-
 }

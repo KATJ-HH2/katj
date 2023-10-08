@@ -105,7 +105,6 @@ jobs:
         with:
           files: '**/build/test-results/test/TEST-*.xml'
 
-
   slack_noti:
     name: Slack_notification
     runs-on: ubuntu-latest

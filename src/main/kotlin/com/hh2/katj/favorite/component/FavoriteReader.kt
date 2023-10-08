@@ -62,24 +62,11 @@ class FavoriteReader (
         return findOneFavorite
     }
 
-    @Transactional
-    fun updateFavorite(userId: Long?, favoriteId: Long?, requestFavorite: Favorite): Favorite {
-        userValidation(userId)
-
-        val findFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
-                ?: failWithMessage(ID_DOES_NOT_EXIST.name)
-
-        findFavorite.update(requestFavorite)
-
-        return findFavorite
-    }
-
     /**
      * 유저 유효성 체크
      */
     private fun userValidation(userId: Long?): User {
         return userRepository.findByIdOrThrowMessage(userId, USER_DOES_NOT_EXIST.name)
     }
-
 
 }

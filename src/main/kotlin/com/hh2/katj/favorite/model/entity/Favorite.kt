@@ -1,7 +1,6 @@
 package com.hh2.katj.favorite.model.entity
 
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
-import com.hh2.katj.favorite.model.dto.RequestUpdateFavorite
+import com.hh2.katj.favorite.model.dto.ResponseFavorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
@@ -9,6 +8,7 @@ import jakarta.persistence.*
 
 
 @Entity
+@Table(name = "favorite")
 class Favorite(
     roadAddress: RoadAddress,
     title: String,
@@ -26,14 +26,11 @@ class Favorite(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var user: User = user
+        var user: User = user!!
                 protected set
 
         var description: String? = description
                 protected set
-
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long? = null
 
 
         fun update(requestFavorite: Favorite) {
@@ -42,24 +39,18 @@ class Favorite(
             this.description = requestFavorite.description
         }
 
-        companion object {
-                fun toEntity(request: RequestAddFavorite): Favorite {
-                        return Favorite(
-                            roadAddress = request.roadAddress,
-                            title = request.title,
-                            user = request.user,
-                            description = request.description
-                        )
-                }
-                fun toEntity(request: RequestUpdateFavorite): Favorite {
-                        return Favorite(
-                            roadAddress = request.roadAddress,
-                            title = request.title,
-                            user = request.user,
-                            description = request.description
-                        )
-                }
+        fun addFavoriteTo(user: User) {
+                this.user = user
+        }
 
+        fun toResponseDto(): ResponseFavorite {
+                return ResponseFavorite(
+                    id = this.id,
+                    roadAddress = this.roadAddress,
+                    title = this.title,
+                    description = this.description,
+                    user = this.user,
+                )
         }
 
         override fun equals(other: Any?): Boolean {

@@ -25,7 +25,7 @@ class Favorite(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false,
         foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var user: User = user!!
+    var user: User = user
         protected set
 
     var description: String? = description
@@ -62,7 +62,6 @@ class Favorite(
         if (title != other.title) return false
         if (user != other.user) return false
         if (description != other.description) return false
-        if (id != other.id) return false
 
         return true
     }
@@ -72,8 +71,8 @@ class Favorite(
         result = 31 * result + title.hashCode()
         result = 31 * result + user.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
-        result = 31 * result + (id?.hashCode() ?: 0)
         return result
     }
+
 }
 

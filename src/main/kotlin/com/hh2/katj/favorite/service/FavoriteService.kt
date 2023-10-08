@@ -16,18 +16,20 @@ class FavoriteService (
         private val favoriteManager: FavoriteManager,
         private val userManager: UserManager,
 ){
-    fun addFavorite(userId: Long, request: Favorite): ResponseFavorite {
-        userValidation(userId)
+    fun addFavorite(request: Favorite): ResponseFavorite {
+
+        userManager.addFavoriteToUser(request.user, request)
 
         val addedFavorite = favoriteManager.addFavorite(request)
         // 저장후 Component 에서 결과를 받아야 함
-        return ResponseFavorite.of(addedFavorite)
+
+        return addedFavorite.toResponseDto()
     }
 
     fun findAllFavorite(userId: Long): List<ResponseFavorite> {
         val validatedUser = userValidation(userId)
 
-        val findAllFavorite = favoriteManager.findAllFavorite(validatedUser.id!!).map(ResponseFavorite::of)
+        val findAllFavorite = favoriteManager.findAllFavorite(validatedUser.id).map(Favorite::toResponseDto)
 
         return findAllFavorite
     }
@@ -35,35 +37,34 @@ class FavoriteService (
     fun findOneFavorite(userId: Long, favoriteId: Long): Favorite {
         val validatedUser = userValidation(userId)
 
-        val findFavorite = favoriteManager.findOneFavorite(validatedUser.id!!, favoriteId)
+        val findFavorite = favoriteManager.findOneFavorite(validatedUser.id, favoriteId)
         return findFavorite
     }
 
-    fun updateFavorite(userId: Long, favoriteId: Long, request: Favorite): Favorite {
-        val validatedUser = userValidation(userId)
+    fun updateFavorite(favoriteId: Long, request: Favorite): Favorite {
 
-        val updatedFavorite = favoriteManager.updateFavorite(validatedUser.id!!, favoriteId, request)
+        val updatedFavorite = favoriteManager.updateFavorite(favoriteId, request)
         return updatedFavorite
     }
 
     fun deleteOneFavorite(userId: Long, favoriteId: Long): Boolean {
         val validatedUser = userValidation(userId)
 
-        val deleteResult = favoriteManager.deleteOneFavorite(validatedUser.id!!, favoriteId)
+        val deleteResult = favoriteManager.deleteOneFavorite(validatedUser.id, favoriteId)
         return deleteResult
     }
 
     fun deleteAllFavorite(userId: Long): Boolean {
         val validatedUser = userValidation(userId)
 
-        val deleteAllResult = favoriteManager.deleteAllFavorite(validatedUser.id!!)
+        val deleteAllResult = favoriteManager.deleteAllFavorite(validatedUser.id)
         return deleteAllResult
     }
 
     fun deleteMultiFavorite(userId: Long, deleteFavoriteIds: List<Long>): Boolean {
         val validatedUser = userValidation(userId)
 
-        val deleteMultiFavoriteResult = favoriteManager.deleteMultiFavorite(validatedUser.id!!, deleteFavoriteIds)
+        val deleteMultiFavoriteResult = favoriteManager.deleteMultiFavorite(validatedUser.id, deleteFavoriteIds)
         return deleteMultiFavoriteResult
     }
 

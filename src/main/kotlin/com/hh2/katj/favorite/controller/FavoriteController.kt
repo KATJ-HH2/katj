@@ -2,8 +2,8 @@ package com.hh2.katj.favorite.controller
 
 import com.hh2.katj.favorite.model.dto.RequestAddFavorite
 import com.hh2.katj.favorite.model.dto.ResponseFavorite
-import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.service.FavoriteService
+import com.hh2.katj.user.service.UserService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class FavoriteController (
     private val favoriteService: FavoriteService,
+    private val userService: UserService,
 ){
 
     @PostMapping
-    fun addFavorite(@Valid @RequestBody requestAddFavorite: RequestAddFavorite): ResponseEntity<ResponseFavorite> {
-        val userId = requestAddFavorite.user.id!!
+    fun addFavorite(@Valid @RequestBody requestAddFavorite: RequestAddFavorite, userId: Long): ResponseEntity<ResponseFavorite> {
 
-        val responseFavorite = favoriteService.addFavorite(userId, Favorite.toEntity(requestAddFavorite))
+        val findUser = userService.findByUserId(userId)
+        val responseFavorite = favoriteService.addFavorite(requestAddFavorite.toEntity(findUser))
 
         return ResponseEntity.ok(responseFavorite)
     }

@@ -34,17 +34,17 @@ class FavoriteService (
         return findAllFavorite
     }
 
-    fun findOneFavorite(userId: Long, favoriteId: Long): Favorite {
+    fun findOneFavorite(userId: Long, favoriteId: Long): ResponseFavorite {
         val validatedUser = userValidation(userId)
 
         val findFavorite = favoriteManager.findOneFavorite(validatedUser.id, favoriteId)
-        return findFavorite
+        return findFavorite.toResponseDto()
     }
 
-    fun updateFavorite(favoriteId: Long, request: Favorite): Favorite {
+    fun updateFavorite(favoriteId: Long, request: Favorite): ResponseFavorite {
 
         val updatedFavorite = favoriteManager.updateFavorite(favoriteId, request)
-        return updatedFavorite
+        return updatedFavorite.toResponseDto()
     }
 
     fun deleteOneFavorite(userId: Long, favoriteId: Long): Boolean {

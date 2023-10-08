@@ -1,4 +1,4 @@
-package com.hh2.katj.domain.user.component
+package com.hh2.katj.user.component
 
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder

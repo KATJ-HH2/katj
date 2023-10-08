@@ -1,5 +1,6 @@
-package com.hh2.katj.domain.user.service
+package com.hh2.katj.user.service
 
+import com.hh2.katj.user.service.KakaoApiService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

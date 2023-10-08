@@ -1,4 +1,4 @@
-package com.hh2.katj.domain.user.model.dto
+package com.hh2.katj.user.model.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.hh2.katj.util.model.RoadAddress

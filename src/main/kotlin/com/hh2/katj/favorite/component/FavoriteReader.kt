@@ -1,7 +1,7 @@
 package com.hh2.katj.favorite.component
 
 import com.hh2.katj.favorite.model.entity.Favorite
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.request.RequestAddFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
@@ -14,9 +14,8 @@ import java.lang.IllegalArgumentException
 
 @Component
 class FavoriteReader (
-        private val favoriteRepository: FavoriteRepository,
-        private val userRepository: UserRepository,
-
+    private val favoriteRepository: FavoriteRepository,
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional
@@ -62,24 +61,11 @@ class FavoriteReader (
         return findOneFavorite
     }
 
-    @Transactional
-    fun updateFavorite(userId: Long?, favoriteId: Long?, requestFavorite: Favorite): Favorite {
-        userValidation(userId)
-
-        val findFavorite = favoriteRepository.findByUserIdAndId(userId, favoriteId)
-                ?: failWithMessage(ID_DOES_NOT_EXIST.name)
-
-        findFavorite.update(requestFavorite)
-
-        return findFavorite
-    }
-
     /**
      * 유저 유효성 체크
      */
     private fun userValidation(userId: Long?): User {
         return userRepository.findByIdOrThrowMessage(userId, USER_DOES_NOT_EXIST.name)
     }
-
 
 }

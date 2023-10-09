@@ -20,7 +20,6 @@ repositories {
 	mavenCentral()
 }
 
-extra["testcontainersVersion"] = "1.19.1"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -34,16 +33,6 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-	// testContainer
-	testImplementation ("org.testcontainers:testcontainers:1.19.1") // TC 의존성
-	testImplementation ("org.testcontainers:junit-jupiter:1.19.1")  // TC 의존성
-	testImplementation ("org.testcontainers:mysql:1.19.1")     // MySQL 컨테이너 사용
-}
-
-dependencyManagement {
-	imports {
-		mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
-	}
 }
 
 tasks.withType<KotlinCompile> {

@@ -9,34 +9,32 @@ import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
+import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.failWithMessage
+import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.TestConstructor
 
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@KATJTestContainerE2E
 class FavoriteServiceTest (
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
-){
-
+): BaseTestEnitity() {
     @AfterEach
     fun tearUp() {
         userRepository.deleteAllInBatch()
         favoriteRepository.deleteAllInBatch()
     }
 
-    
+
     @Test
     fun `사용자가 경로를 즐겨찾기에 추가한다`() {
         // given

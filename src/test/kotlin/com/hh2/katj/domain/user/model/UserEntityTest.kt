@@ -2,6 +2,7 @@ package com.hh2.katj.domain.user.model
 
 import com.hh2.katj.domain.user.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor

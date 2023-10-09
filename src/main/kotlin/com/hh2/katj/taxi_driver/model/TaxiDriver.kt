@@ -1,6 +1,6 @@
 package com.hh2.katj.taxi_driver.model
 
-import com.hh2.katj.common.BaseEntity
+import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.domain.user.model.Gender
 import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.util.model.RoadAddress

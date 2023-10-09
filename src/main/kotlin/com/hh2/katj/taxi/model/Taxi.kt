@@ -1,6 +1,6 @@
 package com.hh2.katj.taxi.model
 
-import com.hh2.katj.common.BaseEntity
+import com.hh2.katj.util.model.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import org.springframework.cglib.core.Local

@@ -1,6 +1,6 @@
 package com.hh2.katj.trip.model
 
-import com.hh2.katj.common.BaseEntity
+import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.taxi_driver.model.TaxiDriver
 import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.*

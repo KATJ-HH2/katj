@@ -29,38 +29,28 @@ class Trip(
 
     @Column(nullable = false)
     val fare: Int = fare
-        protected set
 
     @Column(nullable = false)
     val departure: RoadAddress = departure
-        protected set
 
     @Column(nullable = false)
     val destination: RoadAddress = destination
-        protected set
 
     @Column(nullable = false)
     val driveStartDate: LocalDate = driveStartDate
-        protected set
 
     @Column(nullable = false)
     val driveStartAt: LocalDateTime = driveStartAt
-        protected set
 
     val driveEndDate: LocalDate? = driveEndDate
-        protected set
 
     val driveEndAt: LocalDateTime? = driveEndAt
-        protected set
 
     @Column(nullable = false)
     val spentTime: LocalDateTime = spentTime
-        protected set
 
     @Column(nullable = false)
     var tripStatus: TripStatus = tripStatus
-        protected set
-
 
 
 }

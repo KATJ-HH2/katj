@@ -174,7 +174,7 @@ class PaymentMethodServiceTest(
         )
 
         val saveUser = userRepository.save(user)
-        val addCard = paymentMethodService.addCard(saveUser.id, cardInfo.toEntity(saveUser))
+        paymentMethodService.addCard(saveUser.id, cardInfo.toEntity(saveUser))
 
         // when
         val duplicatedCardInfo = RequestAddCard(
@@ -191,6 +191,65 @@ class PaymentMethodServiceTest(
             paymentMethodService.duplicatedCardCheck(saveUser.id, duplicatedCardInfo.toEntity(saveUser))
         }.apply {
             assertThat(message).isEqualTo(DUPLICATED_DATA_ALREADY_EXISTS.name)
+        }
+    }
+
+    @Test
+    fun `사용자가 등록하려는 카드의 유효기간이 지금보다 많이 남았다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress,
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777",
+        )
+
+        val saveUser = userRepository.save(user)
+
+        // when // then
+        val cardExpiryDateCheckResult = paymentMethodService.cardExpiryDateCheck(cardInfo.toEntity(saveUser).expiryDate!!)
+        assertThat(cardExpiryDateCheckResult).isTrue()
+    }
+
+    @Test
+    fun `사용자가 등록하려는 카드의 유효기간이 지금보다 적게 남았다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress,
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().minusDays(1),
+            cvv = "777",
+        )
+
+        val saveUser = userRepository.save(user)
+
+        // when // then
+        assertThrows<IllegalArgumentException> {
+            paymentMethodService.cardExpiryDateCheck(cardInfo.toEntity(saveUser).expiryDate!!)
+        }.apply {
+            assertThat(message).isEqualTo(INVALID_PAYMENT_METHOD.name)
         }
     }
 

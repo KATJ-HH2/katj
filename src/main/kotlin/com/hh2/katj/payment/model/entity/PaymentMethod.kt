@@ -1,15 +1,12 @@
 package com.hh2.katj.payment.model.entity
 
-import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.user.model.entity.User
+import com.hh2.katj.util.model.BaseEntity
 import jakarta.persistence.*
-import org.hibernate.annotations.DynamicInsert
-import org.hibernate.annotations.DynamicUpdate
-import org.jetbrains.annotations.NotNull
 import java.time.LocalDateTime
-import kotlin.math.exp
 
 @Entity
+@Table(name = "payment_method")
 class PaymentMethod (
         paymentType: PaymentType,
         isDefault: Boolean,
@@ -54,7 +51,40 @@ class PaymentMethod (
         var isValid: Boolean? = isValid
                 protected set
 
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null
+
+        override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (javaClass != other?.javaClass) return false
+
+                other as PaymentMethod
+
+                if (paymentType != other.paymentType) return false
+                if (isDefault != other.isDefault) return false
+                if (user != other.user) return false
+                if (bankAccountNumber != other.bankAccountNumber) return false
+                if (bankName != other.bankName) return false
+                if (cardNumber != other.cardNumber) return false
+                if (expiryDate != other.expiryDate) return false
+                if (cvv != other.cvv) return false
+                if (cardHolderName != other.cardHolderName) return false
+                if (isValid != other.isValid) return false
+
+                return true
+        }
+
+        override fun hashCode(): Int {
+                var result = paymentType.hashCode()
+                result = 31 * result + isDefault.hashCode()
+                result = 31 * result + user.hashCode()
+                result = 31 * result + (bankAccountNumber?.hashCode() ?: 0)
+                result = 31 * result + (bankName?.hashCode() ?: 0)
+                result = 31 * result + (cardNumber?.hashCode() ?: 0)
+                result = 31 * result + (expiryDate?.hashCode() ?: 0)
+                result = 31 * result + (cvv?.hashCode() ?: 0)
+                result = 31 * result + (cardHolderName?.hashCode() ?: 0)
+                result = 31 * result + (isValid?.hashCode() ?: 0)
+                return result
+        }
+
 
 }

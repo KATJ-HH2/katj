@@ -2,14 +2,11 @@ package com.hh2.katj.user.model.entity
 
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress
-import com.hh2.katj.favorite.model.entity.Favorite
-import com.hh2.katj.payment.model.entity.PaymentMethod
 import jakarta.persistence.*
-import org.hibernate.annotations.DynamicInsert
-import org.hibernate.annotations.DynamicUpdate
 
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 class User (
         name: String,
         phoneNumber: String,
@@ -43,9 +40,6 @@ class User (
         var status: UserStatus = status
                 protected set
 
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null
-
         override fun equals(other: Any?): Boolean {
                 if (this === other) return true
                 if (javaClass != other?.javaClass) return false
@@ -58,7 +52,6 @@ class User (
                 if (gender != other.gender) return false
                 if (roadAddress != other.roadAddress) return false
                 if (status != other.status) return false
-                if (id != other.id) return false
 
                 return true
         }
@@ -70,9 +63,7 @@ class User (
                 result = 31 * result + gender.hashCode()
                 result = 31 * result + roadAddress.hashCode()
                 result = 31 * result + status.hashCode()
-                result = 31 * result + (id?.hashCode() ?: 0)
                 return result
         }
-
 
 }

@@ -1,6 +1,6 @@
-package com.hh2.katj.user.service
+package com.hh2.katj.history.service
 
-import com.hh2.katj.user.service.KakaoApiService
+import com.hh2.katj.history.component.KakaoApiManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -8,8 +8,8 @@ import org.springframework.test.context.TestConstructor
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class KakaoApiServiceTest(
-    private val kakaoApiService: KakaoApiService,
+class KakaoApiManagerTest(
+    private val kakaoApiManager: KakaoApiManager,
 ) {
 
     @Test
@@ -18,7 +18,7 @@ class KakaoApiServiceTest(
         val address = null
 
         // when
-        val result = kakaoApiService.requestAddressSearch(address)
+        val result = kakaoApiManager.requestAddressSearch(address)
 
         // then
         assertThat(result).isNull()
@@ -30,7 +30,7 @@ class KakaoApiServiceTest(
         val address = "서울시 관악구 법원단지5가길 76"
 
         // when
-        val result = kakaoApiService.requestAddressSearch(address)
+        val result = kakaoApiManager.requestAddressSearch(address)
 
         // then
         assertThat(result!!.meta.totalCount).isGreaterThanOrEqualTo(1)
@@ -43,7 +43,7 @@ class KakaoApiServiceTest(
         val address = "서울시 관악구 법원단지5가길 7655555"
 
         // when
-        val result = kakaoApiService.requestAddressSearch(address)
+        val result = kakaoApiManager.requestAddressSearch(address)
 
         // then
         assertThat(result!!.meta.totalCount).isEqualTo(0)

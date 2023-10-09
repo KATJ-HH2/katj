@@ -1,16 +1,15 @@
-package com.hh2.katj.user.service
+package com.hh2.katj.history.component
 
-import com.hh2.katj.user.component.KakaoUriBuilder
-import com.hh2.katj.user.model.entity.KakaoAddressSearchResponse
+import com.hh2.katj.user.model.dto.KakaoAddressSearchResponse
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import java.net.URI
 
-@Service
-class KakaoApiService(
+@Component
+class KakaoApiManager(
     private val kakaoUriBuilder: KakaoUriBuilder,
     private val restTemplate: RestTemplate,
 ) {

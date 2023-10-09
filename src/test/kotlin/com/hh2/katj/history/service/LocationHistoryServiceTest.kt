@@ -5,12 +5,9 @@ import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
-import com.hh2.katj.user.service.UserService
 import com.hh2.katj.util.model.RoadAddress
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
@@ -61,7 +58,7 @@ class LocationHistoryServiceTest(
         val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76")
 
         // then
-        assertThat(response.roadAddress.addressName).isEqualTo(roadAddress.addressName)
+        assertThat(response.roadAddress.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
     }
 
 }

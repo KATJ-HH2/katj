@@ -94,7 +94,7 @@ class PaymentMethod (
                 this.isDefault = false
         }
 
-        fun 터() {
+        fun changeDefaultToTrue() {
                 this.isDefault = true
         }
 

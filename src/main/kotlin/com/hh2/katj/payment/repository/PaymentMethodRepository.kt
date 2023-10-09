@@ -14,7 +14,6 @@ interface PaymentMethodRepository : JpaRepository<PaymentMethod, Long> {
     @Query("SELECT pm FROM PaymentMethod pm WHERE pm.user.id = :userId AND pm.isDefault = true")
     fun findAllByUserIdAndIsDefault(@Param("userId") userId: Long): PaymentMethod?
 
-    @Modifying
     @Query("SELECT pm FROM PaymentMethod pm WHERE pm.user.id = :userId AND pm.isDefault = true")
     fun duplicatedDefaultPaymentMethodCheck(@Param("userId") userId: Long): List<PaymentMethod>
 

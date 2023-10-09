@@ -1,12 +1,11 @@
 package com.hh2.katj.user.component
 
 import com.hh2.katj.favorite.model.entity.Favorite
+import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.user.model.entity.User
-import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.USER_DOES_NOT_EXIST
-import com.hh2.katj.util.exception.failWithMessage
 import com.hh2.katj.util.exception.findByIdOrThrowMessage
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -28,5 +27,10 @@ class UserManager(
     @Transactional(readOnly = true)
     fun findByUserId(userId: Long): User =
         userRepository.findByIdOrThrowMessage(userId, ID_DOES_NOT_EXIST.name)
+
+    @Transactional
+    fun addPaymentMethodToUser(user: User, paymentMethod: PaymentMethod) {
+        paymentMethod.addPaymentMethodTo(user)
+    }
 
 }

@@ -2,14 +2,18 @@ package com.hh2.katj.taxi_driver.model
 
 import com.hh2.katj.common.BaseEntity
 import com.hh2.katj.domain.user.model.Gender
+import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToOne
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
 class TaxiDriver(
+    taxi: Taxi,
     driverLicenseId: String,
     issueDate: LocalDate,
     securityId: String,
@@ -20,6 +24,10 @@ class TaxiDriver(
     img: String,
     registAt: LocalDateTime
 ): BaseEntity() {
+
+    @OneToOne
+    @JoinColumn(name = "taxi_id")
+    val taxi: Taxi = taxi
 
     @Column(nullable = false)
     val driverLicenseId: String = driverLicenseId

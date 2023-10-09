@@ -7,53 +7,25 @@ import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
+import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.failWithMessage
+import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.springframework.test.context.TestConstructor
-import org.testcontainers.containers.MySQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Testcontainers
+@KATJTestContainerE2E
 class FavoriteServiceTest (
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
-){
-
-    companion object {
-        @Container
-        private val mySQLContainer = MySQLContainer<Nothing>("mysql:latest").apply {
-            withDatabaseName("katj")
-            withUsername("katj")
-            withPassword("katj123!")
-        }
-
-        @DynamicPropertySource
-        @JvmStatic
-        fun registerDynamicProperties(registry: DynamicPropertyRegistry) {
-            registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl)
-            registry.add("spring.datasource.username", mySQLContainer::getUsername)
-            registry.add("spring.datasource.password", mySQLContainer::getPassword)
-        }
-    }
-
-
+): BaseTestEnitity() {
     @AfterEach
     fun tearUp() {
         userRepository.deleteAllInBatch()

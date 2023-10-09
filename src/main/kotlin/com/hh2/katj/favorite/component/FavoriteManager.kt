@@ -12,20 +12,6 @@ class FavoriteManager (
     private val favoriteRepository: FavoriteRepository,
 ) {
 
-    @Transactional(readOnly = true)
-    fun findAllFavorite(userId: Long): MutableList<Favorite> {
-        val findAllFavorite = favoriteRepository.findAllByUserId(userId)
-
-        return findAllFavorite
-    }
-
-    @Transactional(readOnly = true)
-    fun findOneFavorite(userId: Long, favoriteId: Long): Favorite {
-        val findOneFavorite = favoriteExistValidation(userId, favoriteId)
-
-        return findOneFavorite
-    }
-
     @Transactional
     fun addFavorite(request: Favorite): Favorite {
         // 즐겨찾기 타이틀 중복 체크
@@ -96,14 +82,8 @@ class FavoriteManager (
         return true
     }
 
-    /**
-     * 즐겨찾기 유효성 체크
-     * 해당 유저에게 즐겨찾기가 존재하는지 확인한다
-     */
     private fun favoriteExistValidation(userId: Long, favoriteId: Long): Favorite =
-            favoriteRepository.findByUserIdAndId(userId, favoriteId)
-                    ?: failWithMessage(ID_DOES_NOT_EXIST.name)
-
-
+        favoriteRepository.findByUserIdAndId(userId, favoriteId)
+            ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
 }

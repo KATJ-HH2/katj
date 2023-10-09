@@ -1,6 +1,7 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.favorite.component.FavoriteManager
+import com.hh2.katj.favorite.component.FavoriteReader
 import com.hh2.katj.favorite.model.dto.response.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.component.UserManager
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class FavoriteService (
     private val favoriteManager: FavoriteManager,
+    private val favoriteReader: FavoriteReader,
     private val userService: UserService,
     private val userManager: UserManager,
 ){
@@ -33,7 +35,7 @@ class FavoriteService (
         val validatedUser = userService.userValidationCheck(userId)
         userService.userStatusActiveCheck(validatedUser)
 
-        val findAllFavorite = favoriteManager.findAllFavorite(validatedUser.id).map(Favorite::toResponseDto)
+        val findAllFavorite = favoriteReader.findAllFavorite(validatedUser.id).map(Favorite::toResponseDto)
 
         return findAllFavorite
     }
@@ -42,7 +44,7 @@ class FavoriteService (
         val validatedUser = userService.userValidationCheck(userId)
         userService.userStatusActiveCheck(validatedUser)
 
-        val findFavorite = favoriteManager.findOneFavorite(validatedUser.id, favoriteId)
+        val findFavorite = favoriteReader.findOneFavorite(validatedUser.id, favoriteId)
         return findFavorite.toResponseDto()
     }
 

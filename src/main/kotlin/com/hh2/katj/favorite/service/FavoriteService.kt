@@ -1,7 +1,7 @@
 package com.hh2.katj.favorite.service
 
 import com.hh2.katj.favorite.component.FavoriteManager
-import com.hh2.katj.favorite.model.dto.ResponseFavorite
+import com.hh2.katj.favorite.model.dto.response.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.component.UserManager
 import com.hh2.katj.user.service.UserService
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service
  */
 @Service
 class FavoriteService (
-        private val favoriteManager: FavoriteManager,
-        private val userService: UserService,
-        private val userManager: UserManager,
+    private val favoriteManager: FavoriteManager,
+    private val userService: UserService,
+    private val userManager: UserManager,
 ){
     fun addFavorite(request: Favorite): ResponseFavorite {
         val validatedUser = userService.userValidationCheck(request.user.id)

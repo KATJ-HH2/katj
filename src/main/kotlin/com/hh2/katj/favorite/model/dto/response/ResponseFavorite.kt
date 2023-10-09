@@ -1,4 +1,4 @@
-package com.hh2.katj.favorite.model.dto
+package com.hh2.katj.favorite.model.dto.response
 
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.RoadAddress

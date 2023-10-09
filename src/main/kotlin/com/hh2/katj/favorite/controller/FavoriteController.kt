@@ -1,8 +1,8 @@
 package com.hh2.katj.favorite.controller
 
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
-import com.hh2.katj.favorite.model.dto.RequestUpdateFavorite
-import com.hh2.katj.favorite.model.dto.ResponseFavorite
+import com.hh2.katj.favorite.model.dto.request.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.request.RequestUpdateFavorite
+import com.hh2.katj.favorite.model.dto.response.ResponseFavorite
 import com.hh2.katj.favorite.service.FavoriteService
 import com.hh2.katj.user.service.UserService
 import jakarta.validation.Valid

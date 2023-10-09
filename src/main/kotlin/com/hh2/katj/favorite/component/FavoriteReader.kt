@@ -1,7 +1,7 @@
 package com.hh2.katj.favorite.component
 
 import com.hh2.katj.favorite.model.entity.Favorite
-import com.hh2.katj.favorite.model.dto.RequestAddFavorite
+import com.hh2.katj.favorite.model.dto.request.RequestAddFavorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.repository.UserRepository
@@ -14,9 +14,8 @@ import java.lang.IllegalArgumentException
 
 @Component
 class FavoriteReader (
-        private val favoriteRepository: FavoriteRepository,
-        private val userRepository: UserRepository,
-
+    private val favoriteRepository: FavoriteRepository,
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional

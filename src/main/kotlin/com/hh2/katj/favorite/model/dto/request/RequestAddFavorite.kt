@@ -1,4 +1,4 @@
-package com.hh2.katj.favorite.model.dto
+package com.hh2.katj.favorite.model.dto.request
 
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.user.model.entity.User
@@ -6,10 +6,10 @@ import com.hh2.katj.util.model.RoadAddress
 
 /**
  * @author : tony
- * @description : 즐겨찾기 수정시 Controller 사용 목적의 DTO
+ * @description : 즐겨찾기 추가시 Controller 사용 목적의 DTO
  * @since : 2023-10-05
  */
-data class RequestUpdateFavorite(
+data class RequestAddFavorite(
     val id: Long?,
     var roadAddress: RoadAddress,
     var title: String,

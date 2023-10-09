@@ -5,34 +5,34 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 data class RoadAddress(
-    @JsonProperty("address_name")
+    @JsonProperty("addressName")
     val addressName: String?,
 
-    @JsonProperty("region_1depth_name")
+    @JsonProperty("region1depthName")
     val region1depthName: String?,
 
-    @JsonProperty("region_2depth_name")
+    @JsonProperty("region2depthName")
     val region2depthName: String?,
 
-    @JsonProperty("region_3depth_name")
+    @JsonProperty("region3depthName")
     val region3depthName: String?,
 
-    @JsonProperty("road_name")
+    @JsonProperty("roadName")
     val roadName: String?,
 
-    @JsonProperty("underground_yn")
+    @JsonProperty("undergroundYn")
     val undergroundYn: String?,
 
-    @JsonProperty("main_building_no")
+    @JsonProperty("mainBuildingNo")
     val mainBuildingNo: String?,
 
-    @JsonProperty("sub_building_no")
+    @JsonProperty("subBuildingNo")
     val subBuildingNo: String?,
 
-    @JsonProperty("building_name")
+    @JsonProperty("buildingName")
     val buildingName: String?,
 
-    @JsonProperty("zone_no")
+    @JsonProperty("zoneNo")
     val zoneNo: String?,
 
     @JsonProperty("x")

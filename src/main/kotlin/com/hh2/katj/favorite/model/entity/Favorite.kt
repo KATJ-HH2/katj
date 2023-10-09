@@ -1,6 +1,6 @@
 package com.hh2.katj.favorite.model.entity
 
-import com.hh2.katj.favorite.model.dto.ResponseFavorite
+import com.hh2.katj.favorite.model.dto.response.ResponseFavorite
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.RoadAddress

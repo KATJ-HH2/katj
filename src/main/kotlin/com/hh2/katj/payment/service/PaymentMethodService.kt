@@ -11,6 +11,7 @@ import com.hh2.katj.user.service.UserService
 import com.hh2.katj.util.exception.ExceptionMessage.*
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
+import java.time.LocalDateTime
 
 @Service
 class PaymentMethodService (
@@ -131,6 +132,8 @@ class PaymentMethodService (
         val validatedUser = userService.userValidationCheck(userId)
         userService.userStatusActiveCheck(validatedUser)
 
+        cardExpiryDateCheck(request.expiryDate!!)
+
         /**
          * 요청 카드 인증 유/무 확인
          */
@@ -172,6 +175,20 @@ class PaymentMethodService (
         if (!duplicatedCardCheckResult) {
             throw IllegalArgumentException(DUPLICATED_DATA_ALREADY_EXISTS.name)
         }
+    }
+
+    /**
+     * 요청온 카드의 유효기간이 유효한지 확인한다
+     */
+    internal fun cardExpiryDateCheck(expiryDate: LocalDateTime): Boolean {
+        val now = LocalDateTime.now()
+        val dateCheckResult = now.isBefore(expiryDate)
+
+        if (!dateCheckResult) {
+            throw IllegalArgumentException(INVALID_PAYMENT_METHOD.name)
+        }
+
+        return dateCheckResult
     }
 
 }

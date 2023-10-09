@@ -16,9 +16,11 @@ class LocationHistoryService(
     fun saveLocationHistory(user: User, keyword: String): ResponseLocationHistory {
         val response = kakaoApiManager.requestAddressSearch(keyword)
 
+        // TODO 예외 메시지
         checkNotNull(response) {
             failWithMessage("")
         }
+        check(response.documents.isEmpty()) { "" }
 
         val roadAddress = response.documents[0].roadAddress
 

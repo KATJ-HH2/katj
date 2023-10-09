@@ -7,6 +7,7 @@ import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "search_location_history")
 class SearchLocationHistory(
     user: User,
     roadAddress: RoadAddress,

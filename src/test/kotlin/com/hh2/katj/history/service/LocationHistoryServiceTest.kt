@@ -5,10 +5,12 @@ import com.hh2.katj.user.model.entity.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
+import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestConstructor
 
@@ -29,6 +31,33 @@ class LocationHistoryServiceTest(
     @Test
     fun `검색어를 통해 위치정보를 찾고 이력을 저장한다`() {
         // given
+        val user = initUser()
+
+        // when
+        val saveUser = userRepository.save(user)
+        val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76")
+
+        // then
+        assertThat(response.roadAddress.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
+    }
+
+    @Test
+    fun `검색어로 주소 검색후 결과가 없으면 예외 반환`() {
+        // given
+        val user = initUser()
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        // then
+        assertThrows<IllegalArgumentException> {
+            locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76555")
+        }.apply {
+            assertThat(message).isEqualTo(ExceptionMessage.NO_SEARCH_LOCATION_RESULT.name)
+        }
+    }
+
+    private fun initUser(): User {
         val roadAddress = RoadAddress(
             addressName = "서울 관악구 법원단지5가길 76",
             buildingName = "대명아트빌",
@@ -44,7 +73,7 @@ class LocationHistoryServiceTest(
             zoneNo = "08852",
         )
 
-        val user = User(
+        return User(
             name = "탁지성",
             phoneNumber = "01032535576",
             email = "email@naver.com",
@@ -52,13 +81,6 @@ class LocationHistoryServiceTest(
             status = UserStatus.ACTIVE,
             roadAddress = roadAddress,
         )
-
-        // when
-        val saveUser = userRepository.save(user)
-        val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76")
-
-        // then
-        assertThat(response.roadAddress.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
     }
 
 }

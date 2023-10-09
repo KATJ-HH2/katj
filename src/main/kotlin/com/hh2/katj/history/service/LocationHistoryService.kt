@@ -4,6 +4,7 @@ import com.hh2.katj.history.component.KakaoApiManager
 import com.hh2.katj.history.component.LocationHistoryManager
 import com.hh2.katj.history.model.dto.ResponseLocationHistory
 import com.hh2.katj.user.model.entity.User
+import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.exception.failWithMessage
 import org.springframework.stereotype.Service
 
@@ -17,10 +18,10 @@ class LocationHistoryService(
         val response = kakaoApiManager.requestAddressSearch(keyword)
 
         // TODO 예외 메시지
-        checkNotNull(response) {
-            failWithMessage("")
+        checkNotNull(response) { "api 호출 오류" }
+        check(response.documents.isNotEmpty()) {
+            failWithMessage(ExceptionMessage.NO_SEARCH_LOCATION_RESULT.name)
         }
-        check(response.documents.isEmpty()) { "" }
 
         val roadAddress = response.documents[0].roadAddress
 

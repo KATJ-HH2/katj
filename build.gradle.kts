@@ -37,7 +37,6 @@ dependencies {
 	testImplementation ("org.testcontainers:testcontainers:1.19.1") // TC 의존성
 	testImplementation ("org.testcontainers:junit-jupiter:1.19.1")  // TC 의존성
 	testImplementation ("org.testcontainers:mysql:1.19.1")     // MtSQL 컨테이너 사용
-	// testImplementation ("org.testcontainers:jdbc:1.16.0")           // DB와의 JDBC connection
 }
 
 dependencyManagement {

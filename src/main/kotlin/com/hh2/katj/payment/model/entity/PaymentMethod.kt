@@ -74,7 +74,7 @@ class PaymentMethod (
 
         override fun hashCode(): Int {
                 var result = paymentType.hashCode()
-                result = 31 * result + (isDefault?.hashCode() ?: 0)
+                result = 31 * result + (isDefault.hashCode())
                 result = 31 * result + user.hashCode()
                 result = 31 * result + (bankAccountNumber?.hashCode() ?: 0)
                 result = 31 * result + (bankName?.hashCode() ?: 0)

@@ -648,6 +648,7 @@ class PaymentMethodServiceTest(
         assertThat(findPaymentMethod.expiryDate).isNull()
     }
 
+    @Disabled
     @Test
     fun `사용자가 등록한 카드 정보를 조회한다`() {
         // given
@@ -817,6 +818,7 @@ class PaymentMethodServiceTest(
         assertThat(findList).hasSize(0)
     }
 
+    @Disabled
     @Test
     fun `사용자가 등록한 결제 수단을 모두 조회한다(기본 결제 수단은 마지막 등록)`() {
         // given

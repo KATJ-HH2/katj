@@ -13,7 +13,7 @@ class PaymentMethodManager (
 ){
 
     @Transactional
-    fun addBankAccount(request: PaymentMethod): PaymentMethod {
+    fun addPaymentMethod(request: PaymentMethod): PaymentMethod {
         val saveBackAccount = paymentMethodRepository.save(request)
         return saveBackAccount
     }

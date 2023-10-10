@@ -888,7 +888,6 @@ class PaymentMethodServiceTest(
         assertThat(paymentMethodList).extracting("cvv")
             .containsExactlyInAnyOrder(thirdCardInfo.cvv, fourthCardInfo.cvv, null, null)
 
-
         /**
          * 기본 결제 수단은 가장 마지막에 isDefault가 true였던 3번째로 저장한 카드 정보이다
          */

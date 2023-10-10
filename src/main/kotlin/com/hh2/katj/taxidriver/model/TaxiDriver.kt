@@ -1,7 +1,7 @@
 package com.hh2.katj.taxidriver.model
 
 import com.hh2.katj.util.model.BaseEntity
-import com.hh2.katj.user.model.entity.Gender
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.Column

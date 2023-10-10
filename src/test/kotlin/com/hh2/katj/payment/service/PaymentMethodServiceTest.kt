@@ -140,7 +140,7 @@ class PaymentMethodServiceTest(
         )
 
         val saveUser = userRepository.save(user)
-        val addBankAccount = paymentMethodService.addBankAccount(saveUser.id, bankAccountInfo.toEntity(saveUser))
+        paymentMethodService.addBankAccount(saveUser.id, bankAccountInfo.toEntity(saveUser))
 
         val duplicatedBankAccountInfo = RequestAddBankAccount(
             isDefault = true,
@@ -818,7 +818,6 @@ class PaymentMethodServiceTest(
         assertThat(findList).hasSize(0)
     }
 
-    @Disabled
     @Test
     fun `사용자가 등록한 결제 수단을 모두 조회한다(기본 결제 수단은 마지막 등록)`() {
         // given

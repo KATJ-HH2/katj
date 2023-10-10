@@ -648,7 +648,7 @@ class PaymentMethodServiceTest(
         assertThat(findPaymentMethod.expiryDate).isNull()
     }
 
-    @Disabled
+
     @Test
     fun `사용자가 등록한 카드 정보를 조회한다`() {
         // given

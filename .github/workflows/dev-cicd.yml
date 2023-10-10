@@ -57,7 +57,7 @@ jobs:
           mkdir ./src/test/resources 
           cd ./src/test/resources 
           touch ./application-test.yml 
-          echo "${{ secrets.YML }}" > ./application-test.yml
+          echo "${{ secrets.TEST_YML }}" > ./application-test.yml
         shell: bash
 
       # 권한 부여

@@ -12,6 +12,12 @@ enum class Bank(bankName: String) {
     TOSS("토스"),
     POST("우체국"),
     SH("수협"),
-    CITI("한국씨티"),
+    CITI("한국씨티"),;
+
+    companion object {
+        fun isValidBankName(bankName: Bank?): Boolean {
+            return Bank.values().any { it == bankName }
+        }
+    }
 
 }

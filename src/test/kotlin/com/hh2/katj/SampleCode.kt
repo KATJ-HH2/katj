@@ -1,4 +1,4 @@
-package com.hh2.katj.test
+package com.hh2.katj
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

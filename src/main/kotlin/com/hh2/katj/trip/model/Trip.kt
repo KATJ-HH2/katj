@@ -14,8 +14,8 @@ class Trip(
     user: User,
     taxiDriver: TaxiDriver,
     fare: Int,
-    departure: RoadAddress,
-    destination: RoadAddress,
+    departure: DepartureRoadAddress,
+    destination: DestinationRoadAddress,
     driveStartDate: LocalDate,
     driveStartAt: LocalDateTime,
     driveEndDate: LocalDate? = null,
@@ -35,10 +35,12 @@ class Trip(
     val fare: Int = fare
 
     @Column(nullable = false)
-    val departure: RoadAddress = departure
+    @Embedded
+    val departure: DepartureRoadAddress = departure
 
     @Column(nullable = false)
-    val destination: RoadAddress = destination
+    @Embedded
+    val destination: DestinationRoadAddress = destination
 
     @Column(nullable = false)
     val driveStartDate: LocalDate = driveStartDate

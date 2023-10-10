@@ -1,6 +1,7 @@
 package com.hh2.katj.user.model.entity
 
 import com.hh2.katj.util.model.BaseEntity
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.*
 
@@ -8,12 +9,12 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "users")
 class User (
-        name: String,
-        phoneNumber: String,
-        email: String,
-        gender: Gender,
-        roadAddress: RoadAddress,
-        status: UserStatus,
+    name: String,
+    phoneNumber: String,
+    email: String,
+    gender: Gender,
+    roadAddress: RoadAddress,
+    status: UserStatus,
 ) : BaseEntity(){
 
         @Column(nullable = false)

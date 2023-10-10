@@ -5,7 +5,7 @@ import com.hh2.katj.favorite.model.dto.request.RequestUpdateFavorite
 import com.hh2.katj.favorite.model.dto.response.ResponseFavorite
 import com.hh2.katj.favorite.model.entity.Favorite
 import com.hh2.katj.favorite.repository.FavoriteRepository
-import com.hh2.katj.user.model.entity.Gender
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository

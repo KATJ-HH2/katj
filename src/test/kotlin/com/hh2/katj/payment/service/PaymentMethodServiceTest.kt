@@ -5,7 +5,7 @@ import com.hh2.katj.payment.model.dto.request.RequestAddCard
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
-import com.hh2.katj.user.model.entity.Gender
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository

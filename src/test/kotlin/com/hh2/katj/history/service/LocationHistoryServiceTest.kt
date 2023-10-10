@@ -1,7 +1,7 @@
 package com.hh2.katj.history.service
 
 import com.hh2.katj.history.repository.LocationHistoryRepository
-import com.hh2.katj.user.model.entity.Gender
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository

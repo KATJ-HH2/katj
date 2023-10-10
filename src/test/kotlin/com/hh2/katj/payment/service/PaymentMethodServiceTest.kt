@@ -1,7 +1,9 @@
 package com.hh2.katj.payment.service
 
+import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.payment.model.dto.request.RequestAddBankAccount
 import com.hh2.katj.payment.model.dto.request.RequestAddCard
+import com.hh2.katj.payment.model.dto.response.ResponsePaymentMethod
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
@@ -26,6 +28,7 @@ import java.time.LocalDateTime
 class PaymentMethodServiceTest(
     private val paymentMethodService: PaymentMethodService,
     private val paymentMethodRepository: PaymentMethodRepository,
+    private val paymentMethodReader: PaymentMethodReader,
     private val userRepository: UserRepository,
 ){
 
@@ -98,13 +101,16 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
         // when
         val saveUser = userRepository.save(user)
-        val addCard = paymentMethodService.addCard(saveUser.id, cardInfo.toEntity(saveUser))
+        val cardPaymentMethod = cardInfo.toEntity(saveUser)
+        paymentMethodService.validateCard(cardPaymentMethod)
+
+        val addCard = paymentMethodService.addCard(saveUser.id, cardPaymentMethod)
 
         // then
         assertThat(cardInfo.isDefault).isEqualTo(addCard.isDefault)
@@ -116,7 +122,7 @@ class PaymentMethodServiceTest(
     }
 
     @Test
-    fun `사용자가 기등록 계좌 정보면 등록 할 수 없다`() {
+    fun `사용자가 기등록한 계좌 정보면 등록 할 수 없다`() {
         // given
         val user = User(
             name = "newUser",
@@ -169,7 +175,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
@@ -182,7 +188,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
@@ -195,7 +201,7 @@ class PaymentMethodServiceTest(
     }
 
     @Test
-    fun `사용자가 등록하려는 카드의 유효기간이 지금보다 많이 남았다`() {
+    fun `카드 정보 인증에 성공한다`() {
         // given
         val user = User(
             name = "newUser",
@@ -208,7 +214,38 @@ class PaymentMethodServiceTest(
 
         val cardInfo = RequestAddCard(
             isDefault = true,
-            isValid = true,
+            isValid = null,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777",
+        )
+
+        val saveUser = userRepository.save(user)
+
+        // when
+        val cardValidationCheckResult = paymentMethodService.validateCard(cardInfo.toEntity(saveUser))
+
+        // then
+        assertThat(cardValidationCheckResult).isTrue()
+    }
+
+    @Disabled
+    @Test
+    fun `카드 정보 인증에 실패한다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress,
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = null,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
             expiryDate = LocalDateTime.now().plusDays(1),
@@ -218,9 +255,13 @@ class PaymentMethodServiceTest(
         val saveUser = userRepository.save(user)
 
         // when // then
-        val cardExpiryDateCheckResult = paymentMethodService.cardExpiryDateCheck(cardInfo.toEntity(saveUser).expiryDate!!)
-        assertThat(cardExpiryDateCheckResult).isTrue()
+        assertThrows<RestClientException> {
+            paymentMethodService.validateCard(cardInfo.toEntity(saveUser))
+        }.apply {
+            assertThat(message).isEqualTo(INVALID_PAYMENT_METHOD.name)
+        }
     }
+
 
     @Test
     fun `사용자가 등록하려는 카드의 유효기간이 지금보다 적게 남았다`() {
@@ -251,6 +292,34 @@ class PaymentMethodServiceTest(
         }.apply {
             assertThat(message).isEqualTo(INVALID_PAYMENT_METHOD.name)
         }
+    }
+
+    @Test
+    fun `사용자가 등록하려는 카드의 유효기간이 지금보다 많이 남았다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress,
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777",
+        )
+
+        val saveUser = userRepository.save(user)
+
+        // when // then
+        val cardExpiryDateCheckResult = paymentMethodService.cardExpiryDateCheck(cardInfo.toEntity(saveUser).expiryDate!!)
+        assertThat(cardExpiryDateCheckResult).isTrue()
     }
 
     @Test
@@ -320,7 +389,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
@@ -351,7 +420,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
@@ -364,7 +433,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.of(2025, 10, 13, 23, 59, 59),
+            expiryDate = LocalDateTime.now().plusDays(1),
             cvv = "777"
         )
 
@@ -476,6 +545,38 @@ class PaymentMethodServiceTest(
         }
     }
 
+    @Test
+    fun `인증되지 않은 카드는 등록할 수 없다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = false,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777"
+        )
+
+        // when
+        val saveUser = userRepository.save(user)
+
+        // then
+        assertThrows<IllegalArgumentException> {
+            paymentMethodService.addBankAccount(saveUser.id, cardInfo.toEntity(saveUser))
+        }.apply {
+            assertThat(message).isEqualTo(INVALID_PAYMENT_METHOD.name)
+        }
+    }
+
     /**
      * 계좌 인증 API가 구현되어 있지 않아 예외를 발생시키는 조건이 성립하지 않음
      * 2023.10.09 tony
@@ -537,15 +638,54 @@ class PaymentMethodServiceTest(
         val findPaymentMethod = paymentMethodService.findOnePaymentMethod(saveUser.id, saveBankAccount.id)
 
         // then
-        assertThat(bankAccountInfo.isDefault).isEqualTo(findPaymentMethod.isDefault)
         assertThat(bankAccountInfo.bankAccountNumber).isEqualTo(findPaymentMethod.bankAccountNumber)
         assertThat(bankAccountInfo.bankName).isEqualTo(findPaymentMethod.bankName)
         assertThat(findPaymentMethod.isValid).isTrue()
+        assertThat(findPaymentMethod.isDefault).isTrue()
         assertThat(saveUser).isEqualTo(findPaymentMethod.user)
         assertThat(findPaymentMethod.cardNumber).isNull()
         assertThat(findPaymentMethod.cardHolderName).isNull()
         assertThat(findPaymentMethod.cvv).isNull()
         assertThat(findPaymentMethod.expiryDate).isNull()
+    }
+
+    @Test
+    fun `사용자가 등록한 카드 정보를 조회한다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = false,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777"
+        )
+
+        val saveUser = userRepository.save(user)
+        val saveCard = paymentMethodService.addCard(saveUser.id, cardInfo.toEntity(saveUser))
+
+        // when
+        val findPaymentMethod = paymentMethodService.findOnePaymentMethod(saveUser.id, saveCard.id)
+
+        // then
+        assertThat(cardInfo.cardNumber).isEqualTo(findPaymentMethod.cardNumber)
+        assertThat(cardInfo.cardHolderName).isEqualTo(findPaymentMethod.cardHolderName)
+        assertThat(cardInfo.cvv).isEqualTo(findPaymentMethod.cvv)
+        assertThat(cardInfo.expiryDate).isEqualTo(findPaymentMethod.expiryDate)
+        assertThat(saveUser).isEqualTo(findPaymentMethod.user)
+        assertThat(findPaymentMethod.isValid).isTrue()
+        assertThat(findPaymentMethod.isDefault).isFalse()
+        assertThat(findPaymentMethod.bankAccountNumber).isNull()
+        assertThat(findPaymentMethod.bankName).isNull()
     }
 
     @Test
@@ -583,6 +723,42 @@ class PaymentMethodServiceTest(
     }
 
     @Test
+    fun `사용자가 등록한 카드 정보를 삭제한다`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress
+        )
+
+        val cardInfo = RequestAddCard(
+            isDefault = false,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "777"
+        )
+
+        val saveUser = userRepository.save(user)
+        val saveCard = paymentMethodService.addCard(saveUser.id, cardInfo.toEntity(saveUser))
+
+        // when
+        val deleteResult = paymentMethodService.deleteOnePaymentMethod(saveUser.id, saveCard.id)
+
+        // then
+        assertThat(deleteResult).isTrue()
+        assertThrows<IllegalArgumentException> {
+            paymentMethodService.findOnePaymentMethod(saveUser.id, saveCard.id)
+        }.apply {
+            assertThat(message).isEqualTo(ID_DOES_NOT_EXIST.name)
+        }
+    }
+
+    @Test
     fun `사용자가 등록한 결제 수단을 모두 삭제한다`() {
         // given
         val user = User(
@@ -608,13 +784,31 @@ class PaymentMethodServiceTest(
             isValid = true,
         )
 
+        val thirdCardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1212-1212-1212-1212",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "878"
+        )
+
+        val fourthCardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "787"
+        )
+
+
         val saveUser = userRepository.save(user)
         paymentMethodService.addBankAccount(saveUser.id, firstBankAccountInfo.toEntity(saveUser))
         paymentMethodService.addBankAccount(saveUser.id, secondBankAccountInfo.toEntity(saveUser))
+        paymentMethodService.addCard(saveUser.id, thirdCardInfo.toEntity(saveUser))
+        paymentMethodService.addCard(saveUser.id, fourthCardInfo.toEntity(saveUser))
 
-        /**
-         * 카드 저장도 추가하여 검증 필요
-         */
         // when
         val deleteResult = paymentMethodService.deleteAllPaymentMethod(saveUser.id)
 
@@ -622,6 +816,85 @@ class PaymentMethodServiceTest(
         val findList: List<PaymentMethod> = paymentMethodRepository.findAllByUserId(saveUser.id)
         assertThat(deleteResult).isTrue()
         assertThat(findList).hasSize(0)
+    }
+
+    @Test
+    fun `사용자가 등록한 결제 수단을 모두 조회한다(기본 결제 수단은 마지막 등록)`() {
+        // given
+        val user = User(
+            name = "newUser",
+            phoneNumber = "123-456-789",
+            email = "user@gmail.com",
+            gender = Gender.MALE,
+            status = UserStatus.ACTIVE,
+            roadAddress = roadAddress
+        )
+
+        val firstBankAccountInfo = RequestAddBankAccount(
+            isDefault = true,
+            bankAccountNumber = "111-111-111111",
+            bankName = Bank.SHINHAN,
+            isValid = true,
+        )
+
+        val secondBankAccountInfo = RequestAddBankAccount(
+            isDefault = true,
+            bankAccountNumber = "1002-111-111111",
+            bankName = Bank.WOORIE,
+            isValid = true,
+        )
+
+        val thirdCardInfo = RequestAddCard(
+            isDefault = true,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1212-1212-1212-1212",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "878"
+        )
+
+        val fourthCardInfo = RequestAddCard(
+            isDefault = false,
+            isValid = true,
+            cardHolderName = "KATJ LEE",
+            cardNumber = "1111-1111-1111-1111",
+            expiryDate = LocalDateTime.now().plusDays(1),
+            cvv = "787"
+        )
+
+
+        val saveUser = userRepository.save(user)
+        paymentMethodService.addBankAccount(saveUser.id, firstBankAccountInfo.toEntity(saveUser))
+        paymentMethodService.addBankAccount(saveUser.id, secondBankAccountInfo.toEntity(saveUser))
+        val addCard = paymentMethodService.addCard(saveUser.id, thirdCardInfo.toEntity(saveUser))
+        paymentMethodService.addCard(saveUser.id, fourthCardInfo.toEntity(saveUser))
+
+        // when
+        val paymentMethodList: List<ResponsePaymentMethod> = paymentMethodService.findAllPaymentMethod(saveUser.id)
+
+        // then
+        assertThat(paymentMethodList).hasSize(4)
+
+        assertThat(paymentMethodList).extracting("bankAccountNumber")
+            .containsExactlyInAnyOrder(firstBankAccountInfo.bankAccountNumber, secondBankAccountInfo.bankAccountNumber, null, null)
+        assertThat(paymentMethodList).extracting("bankName")
+            .containsExactlyInAnyOrder(firstBankAccountInfo.bankName, secondBankAccountInfo.bankName, null, null)
+
+        assertThat(paymentMethodList).extracting("cardHolderName")
+            .containsExactlyInAnyOrder(thirdCardInfo.cardHolderName, fourthCardInfo.cardHolderName, null, null)
+        assertThat(paymentMethodList).extracting("cardNumber")
+            .containsExactlyInAnyOrder(thirdCardInfo.cardNumber, fourthCardInfo.cardNumber, null, null)
+        assertThat(paymentMethodList).extracting("expiryDate")
+            .containsExactlyInAnyOrder(thirdCardInfo.expiryDate, fourthCardInfo.expiryDate, null, null)
+        assertThat(paymentMethodList).extracting("cvv")
+            .containsExactlyInAnyOrder(thirdCardInfo.cvv, fourthCardInfo.cvv, null, null)
+
+
+        /**
+         * 기본 결제 수단은 가장 마지막에 isDefault가 true였던 3번째로 저장한 카드 정보이다
+         */
+        val defaultExistCheck = paymentMethodReader.isDefaultExistCheck(saveUser.id)
+        assertThat(addCard.cardNumber).isEqualTo(defaultExistCheck!!.cardNumber)
     }
 
 }

@@ -2,13 +2,14 @@ package com.hh2.katj.history.service
 
 import com.hh2.katj.history.component.KakaoApiManager
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
+import com.hh2.katj.util.model.BaseTestEnitity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 @KATJTestContainerE2E
 class KakaoApiManagerTest(
     private val kakaoApiManager: KakaoApiManager,
-) {
+): BaseTestEnitity() {
 
     @Test
     fun `주소가 null 이면 null 반환`() {

@@ -11,6 +11,7 @@ import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.*
+import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -25,7 +26,8 @@ class PaymentMethodServiceTest(
     private val paymentMethodService: PaymentMethodService,
     private val paymentMethodRepository: PaymentMethodRepository,
     private val userRepository: UserRepository,
-){
+): BaseTestEnitity(){
+
     @AfterEach
     fun tearDown() {
         paymentMethodRepository.deleteAllInBatch()

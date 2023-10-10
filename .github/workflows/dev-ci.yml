@@ -62,8 +62,7 @@ jobs:
       # 빌드 진행
       - name: Build with Gradle
         shell: bash
-        run: |
-          ./gradlew build
+        run: ./gradlew build
       #          --no-daemon \
       #          -Dorg.gradle.jvmargs=-Xmx1024m \
       #          --build-cache \

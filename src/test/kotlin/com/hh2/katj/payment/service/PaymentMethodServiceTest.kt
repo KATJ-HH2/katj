@@ -895,5 +895,4 @@ class PaymentMethodServiceTest(
         val defaultExistCheck = paymentMethodReader.isDefaultExistCheck(saveUser.id)
         assertThat(addCard.cardNumber).isEqualTo(defaultExistCheck!!.cardNumber)
     }
-
 }

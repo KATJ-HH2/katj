@@ -102,7 +102,7 @@ class PaymentMethod (
                 this.isValid = true
         }
 
-        fun toResponsePaymentMethod(): ResponsePaymentMethod {
+        fun toResponseDto(): ResponsePaymentMethod {
                 return ResponsePaymentMethod(
                     id = this.id,
                     bankAccountNumber = this.bankAccountNumber,

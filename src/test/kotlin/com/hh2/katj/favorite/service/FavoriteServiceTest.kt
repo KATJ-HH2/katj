@@ -28,6 +28,7 @@ class FavoriteServiceTest (
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
 ): BaseTestEnitity() {
+
     @AfterEach
     fun tearUp() {
         userRepository.deleteAllInBatch()

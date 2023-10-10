@@ -53,7 +53,7 @@ jobs:
           mkdir ./src/test/resources 
           cd ./src/test/resources 
           touch ./application-test.yml 
-          echo "${{ secrets.YML }}" > ./application-test.yml
+          echo "${{ secrets.TEST_YML }}" > ./application-test.yml
 
       # 권한 부여
       - name: Grant execute permission for gradlew
@@ -62,8 +62,7 @@ jobs:
       # 빌드 진행
       - name: Build with Gradle
         shell: bash
-        run: |
-          ./gradlew build # \
+        run: ./gradlew build
       #          --no-daemon \
       #          -Dorg.gradle.jvmargs=-Xmx1024m \
       #          --build-cache \

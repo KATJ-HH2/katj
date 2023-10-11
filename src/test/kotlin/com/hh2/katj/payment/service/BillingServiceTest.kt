@@ -22,8 +22,10 @@ import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
+import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.DataNotFoundException
 import com.hh2.katj.util.exception.ExceptionMessage
+import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
@@ -39,8 +41,7 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@KATJTestContainerE2E
 class BillingServiceTest(
     private val billingService: BillingService,
     private val paymentMethodService: PaymentMethodService,
@@ -50,8 +51,7 @@ class BillingServiceTest(
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-
-){
+) : BaseTestEnitity(){
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod
@@ -194,8 +194,6 @@ class BillingServiceTest(
     @Test
     fun `사용자가 기등록한 결제 정보를 사용하여 요금을 지불한다`() {
         // given
-        paymentMethodRepository.deleteAllInBatch()
-
         val driveStartAt = LocalDateTime.now().minusMinutes(20)
         val driveEndAt = LocalDateTime.now()
         val trip = Trip(
@@ -215,7 +213,7 @@ class BillingServiceTest(
         tripRepository.save(trip)
 
         // when
-        val payCompleteTrip = billingService.userPayWithRegiInfo(user.id, trip.id)
+        val payCompleteTrip = billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
 
         // then
         assertThat(payCompleteTrip.tripStatus).isEqualTo(TripStatus.PAY_COMPLETE)
@@ -242,11 +240,13 @@ class BillingServiceTest(
             tripStatus = TripStatus.PAY_REQUEST
         )
 
+        tripRepository.save(trip)
+
         // when // then
         assertThrows<DataNotFoundException> {
-//            billingService.userPayWithRegiInfo(user.id, trip.id)
+            billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
         }.apply {
-            Assertions.assertThat(message).isEqualTo(ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS.name)
+            Assertions.assertThat(message).isEqualTo("no payment method exists")
         }
     }
 

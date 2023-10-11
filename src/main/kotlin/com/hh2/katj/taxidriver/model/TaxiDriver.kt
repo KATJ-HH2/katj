@@ -4,10 +4,7 @@ import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.util.model.RoadAddress
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToOne
+import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
@@ -23,7 +20,8 @@ class TaxiDriver(
     img: String
 ): BaseEntity() {
     @OneToOne
-    @JoinColumn(name = "taxi_id")
+    @JoinColumn(name = "taxi_id", nullable = false,
+        foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val taxi: Taxi = taxi
 
     @Column(nullable = false)

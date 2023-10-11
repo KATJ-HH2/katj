@@ -24,6 +24,7 @@ class UserService(
      */
     fun userValidationCheck(userId: Long): User {
         val validatedUser = userManager.userValidation(userId)
+        userStatusActiveCheck(validatedUser)
         return validatedUser
     }
 

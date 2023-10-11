@@ -51,11 +51,11 @@ class PaymentMethodService (
          * 사용자에게 결제 수단 추가
          */
         userManager.addPaymentMethodToUser(validatedUser, request)
-        val addBankAccount = paymentMethodManager.addBankAccount(request)
+        val addBankAccount = paymentMethodManager.addPaymentMethod(request)
 
         doubleDefaultCheck(validatedUser)
 
-        return addBankAccount.toResponsePaymentMethod()
+        return addBankAccount.toResponseDto()
     }
 
 
@@ -93,23 +93,13 @@ class PaymentMethodService (
         }
     }
 
-    /**
-     * 사용자가 기본 결제수단을 두개 이상 가지고 있는지 마지막 검증
-     */
-    internal fun doubleDefaultCheck(validatedUser: User) {
-        val defaultList = paymentMethodReader.duplicatedDefaultPaymentMethodCheck(validatedUser.id)
-        if (defaultList.size > 1) {
-            throw IllegalStateException(DUPLICATED_DATA_ALREADY_EXISTS.name)
-        }
-    }
-
     fun findOnePaymentMethod(userId: Long, paymentMethodId: Long): ResponsePaymentMethod {
         val validatedUser = userService.userValidationCheck(userId)
         userService.userStatusActiveCheck(validatedUser)
 
         val findPaymentMethod = paymentMethodReader.findOnePaymentMethod(userId, paymentMethodId)
 
-        return findPaymentMethod.toResponsePaymentMethod()
+        return findPaymentMethod.toResponseDto()
     }
 
     fun deleteOnePaymentMethod(userId: Long, paymentMethodId: Long): Boolean {
@@ -131,8 +121,6 @@ class PaymentMethodService (
     fun addCard(userId: Long, request: PaymentMethod): ResponsePaymentMethod {
         val validatedUser = userService.userValidationCheck(userId)
         userService.userStatusActiveCheck(validatedUser)
-
-        cardExpiryDateCheck(request.expiryDate!!)
 
         /**
          * 요청 카드 인증 유/무 확인
@@ -160,11 +148,21 @@ class PaymentMethodService (
          * 사용자에게 결제 수단 추가
          */
         userManager.addPaymentMethodToUser(validatedUser, request)
-        val addBankAccount = paymentMethodManager.addBankAccount(request)
+        val addCard = paymentMethodManager.addPaymentMethod(request)
 
         doubleDefaultCheck(validatedUser)
 
-        return addBankAccount.toResponsePaymentMethod()
+        return addCard.toResponseDto()
+    }
+
+
+    fun findAllPaymentMethod(userId: Long): List<ResponsePaymentMethod> {
+        val validatedUser = userService.userValidationCheck(userId)
+        userService.userStatusActiveCheck(validatedUser)
+
+        val findAllFavorite = paymentMethodReader.findAllPaymentMethod(validatedUser.id).map(PaymentMethod::toResponseDto)
+
+        return findAllFavorite
     }
 
     /**
@@ -190,5 +188,29 @@ class PaymentMethodService (
 
         return dateCheckResult
     }
+
+    /**
+     * 저장 요청 계좌의 인증 진행
+     */
+    fun validateCard(request: PaymentMethod): Boolean {
+        cardExpiryDateCheck(request.expiryDate!!)
+
+        val cardValidationResult = paymentMethodValidationApi.cardValidation(request)
+        if (!cardValidationResult){
+            throw RestClientException(INVALID_PAYMENT_METHOD.name)
+        }
+        return cardValidationResult
+    }
+
+    /**
+     * 사용자가 기본 결제수단을 두개 이상 가지고 있는지 마지막 검증
+     */
+    internal fun doubleDefaultCheck(validatedUser: User) {
+        val defaultList = paymentMethodReader.duplicatedDefaultPaymentMethodCheck(validatedUser.id)
+        if (defaultList.size > 1) {
+            throw IllegalStateException(DUPLICATED_DATA_ALREADY_EXISTS.name)
+        }
+    }
+
 
 }

@@ -6,11 +6,15 @@ import com.hh2.katj.payment.service.PaymentMethodService
 import com.hh2.katj.trip.component.TripManager
 import com.hh2.katj.trip.component.TripReader
 import com.hh2.katj.trip.model.Trip
+import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.model.response.ResponseTrip
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.service.UserService
 import com.hh2.katj.util.exception.DataNotFoundException
+import com.hh2.katj.util.exception.ExceptionMessage
+import com.hh2.katj.util.exception.ExceptionMessage.*
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 
 @Service
 class BillingService(
@@ -23,6 +27,11 @@ class BillingService(
     fun userPayWithRegiPaymentMethod(userId: Long, tripId: Long): ResponseTrip {
         val validatedUser = userValidation(userId)
         val validatedTrip = tripValidation(validatedUser.id, tripId)
+
+        /**
+         * 요청온 trip의 상태 코드가 PAY_REQUEST인지 재검증
+         */
+        requestPayCheck(validatedTrip)
 
         /**
          * 사용자 결제 수단 조회
@@ -49,6 +58,12 @@ class BillingService(
          */
 
         return updateTrip.toResponseDto()
+    }
+
+    private fun requestPayCheck(trip: Trip) {
+        if (trip.tripStatus != TripStatus.PAY_REQUEST) {
+            throw IllegalArgumentException(INCORRECT_STATUS_VALUE.name)
+        }
     }
 
     private fun balanceCheck(userPaymentMethod: PaymentMethod, trip: Trip) {

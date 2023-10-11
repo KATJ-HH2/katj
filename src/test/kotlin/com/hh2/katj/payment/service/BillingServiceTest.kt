@@ -22,8 +22,8 @@ import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
-import com.hh2.katj.util.exception.DataNotFoundException
-import com.hh2.katj.util.exception.ExceptionMessage
+import com.hh2.katj.util.annotation.KATJTestContainerE2E
+import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
@@ -31,16 +31,12 @@ import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.test.context.TestConstructor
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@KATJTestContainerE2E
 class BillingServiceTest(
     private val billingService: BillingService,
     private val paymentMethodService: PaymentMethodService,
@@ -51,7 +47,7 @@ class BillingServiceTest(
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
 
-){
+): BaseTestEnitity() {
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod
@@ -243,11 +239,9 @@ class BillingServiceTest(
         )
 
         // when // then
-        assertThrows<DataNotFoundException> {
-//            billingService.userPayWithRegiInfo(user.id, trip.id)
-        }.apply {
-            Assertions.assertThat(message).isEqualTo(ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS.name)
-        }
+        Assertions.assertThatThrownBy {
+            billingService.userPayWithRegiInfo(user.id, trip.id)
+        }.isInstanceOf(IllegalArgumentException::class.java)
     }
 
 }

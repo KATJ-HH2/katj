@@ -38,6 +38,8 @@ class User (
         var roadAddress: RoadAddress = roadAddress
                 protected set
 
+        @Column(nullable = false)
+        @Enumerated(EnumType.STRING)
         var status: UserStatus = status
                 protected set
 

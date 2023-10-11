@@ -2,7 +2,6 @@ package com.hh2.katj.payment.component
 
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
-import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.exception.failWithMessage
 import org.springframework.stereotype.Component
@@ -51,5 +50,12 @@ class PaymentMethodReader (
     fun duplicatedCardCheck(userId: Long, paymentMethod: PaymentMethod): Boolean {
         val findCard = paymentMethodRepository.findByUserIdAndCardNumberAndCardHolderName(userId, paymentMethod.cardNumber, paymentMethod.cardHolderName)
         return findCard == null
+    }
+
+    @Transactional(readOnly = true)
+    fun findAllPaymentMethod(userId: Long): List<PaymentMethod> {
+        val findAllPaymentMethod = paymentMethodRepository.findAllByUserId(userId)
+
+        return findAllPaymentMethod
     }
 }

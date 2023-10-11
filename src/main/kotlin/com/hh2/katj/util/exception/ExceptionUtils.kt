@@ -20,3 +20,5 @@ fun <T, ID> CrudRepository<T, ID>.findByIdOrThrow(id: ID): T {
 fun <T, ID> CrudRepository<T, ID>.findByIdOrThrowMessage(id: ID, message: String): T {
     return this.findByIdOrNull(id) ?: failWithMessage(message)
 }
+
+class DataNotFoundException(message: String) : RuntimeException(message)

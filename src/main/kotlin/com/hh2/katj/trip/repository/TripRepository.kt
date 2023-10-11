@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TripRepository: JpaRepository<Trip, Long> {
+    fun findByIdAndUserId(tripId: Long, userId: Long): Trip?
+
 }

@@ -29,7 +29,7 @@ class PaymentMethod (
         var isDefault: Boolean = isDefault
                 protected set
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var user: User = user
@@ -102,7 +102,7 @@ class PaymentMethod (
                 this.isValid = true
         }
 
-        fun toResponsePaymentMethod(): ResponsePaymentMethod {
+        fun toResponseDto(): ResponsePaymentMethod {
                 return ResponsePaymentMethod(
                     id = this.id,
                     bankAccountNumber = this.bankAccountNumber,

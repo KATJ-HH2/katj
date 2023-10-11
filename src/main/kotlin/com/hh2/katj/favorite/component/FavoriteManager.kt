@@ -28,12 +28,7 @@ class FavoriteManager (
 
     @Transactional
     fun updateFavorite(favoriteId: Long, request: Favorite): Favorite {
-        favoriteExistValidation(request.user.id, favoriteId)
-
-        val findFavorite = favoriteRepository.findByUserIdAndId(request.user.id, favoriteId)
-                ?: failWithMessage(ID_DOES_NOT_EXIST.name)
-
-        findFavorite.update(request)
+        val findFavorite = favoriteExistValidation(request.user.id, favoriteId)
 
         try {
             findFavorite.update(request)

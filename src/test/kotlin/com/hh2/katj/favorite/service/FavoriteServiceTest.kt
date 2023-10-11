@@ -271,7 +271,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",

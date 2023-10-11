@@ -7,13 +7,13 @@ import com.hh2.katj.payment.model.dto.response.ResponsePaymentMethod
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
-import com.hh2.katj.util.model.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.*
 import com.hh2.katj.util.model.BaseTestEnitity
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -140,7 +140,7 @@ class PaymentMethodServiceTest(
         )
 
         val saveUser = userRepository.save(user)
-        val addBankAccount = paymentMethodService.addBankAccount(saveUser.id, bankAccountInfo.toEntity(saveUser))
+        paymentMethodService.addBankAccount(saveUser.id, bankAccountInfo.toEntity(saveUser))
 
         val duplicatedBankAccountInfo = RequestAddBankAccount(
             isDefault = true,
@@ -648,6 +648,7 @@ class PaymentMethodServiceTest(
         assertThat(findPaymentMethod.expiryDate).isNull()
     }
 
+
     @Test
     fun `사용자가 등록한 카드 정보를 조회한다`() {
         // given
@@ -888,12 +889,10 @@ class PaymentMethodServiceTest(
         assertThat(paymentMethodList).extracting("cvv")
             .containsExactlyInAnyOrder(thirdCardInfo.cvv, fourthCardInfo.cvv, null, null)
 
-
         /**
          * 기본 결제 수단은 가장 마지막에 isDefault가 true였던 3번째로 저장한 카드 정보이다
          */
         val defaultExistCheck = paymentMethodReader.isDefaultExistCheck(saveUser.id)
         assertThat(addCard.cardNumber).isEqualTo(defaultExistCheck!!.cardNumber)
     }
-
 }

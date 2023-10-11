@@ -13,6 +13,8 @@ import com.hh2.katj.taxi.repository.TaxiRepository
 import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.taxidriver.model.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
+import com.hh2.katj.trip.model.DepartureRoadAddress
+import com.hh2.katj.trip.model.DestinationRoadAddress
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
@@ -57,33 +59,33 @@ class BillingServiceTest(
     lateinit var card_not_enough: PaymentMethod
     lateinit var user: User
     lateinit var taxiDriver: TaxiDriver
-    var departure = RoadAddress(
-        addressName = "address_name",
-        region1depthName = "r_1",
-        region2depthName = "r_2",
-        region3depthName = "r_3",
-        roadName = "road_name",
-        undergroundYn = "Y",
-        mainBuildingNo = "1",
-        subBuildingNo = "2",
-        buildingName = "bn",
-        zoneNo = "11232",
-        longitude = "x.123",
-        latitude = "y.321",
+    var departure = DepartureRoadAddress(
+        departureAddressName = "address_name",
+        departureRegion1depthName = "r_1",
+        departureRegion2depthName = "r_2",
+        departureRegion3depthName = "r_3",
+        departureRoadName = "road_name",
+        departureUndergroundYn = "Y",
+        departureMainBuildingNo = "1",
+        departureSubBuildingNo = "2",
+        departureBuildingName = "bn",
+        departureZoneNo = "11232",
+        departureLongitude = "x.123",
+        departureLatitude = "y.321",
     )
-    var destination = RoadAddress(
-        addressName = "address_name",
-        region1depthName = "r_1",
-        region2depthName = "r_2",
-        region3depthName = "r_3",
-        roadName = "road_name",
-        undergroundYn = "Y",
-        mainBuildingNo = "1",
-        subBuildingNo = "2",
-        buildingName = "bn",
-        zoneNo = "11232",
-        longitude = "x.123",
-        latitude = "y.321",
+    var destination = DestinationRoadAddress(
+        destinationAddressName = "address_name",
+        destinationRegion1depthName = "r_1",
+        destinationRegion2depthName = "r_2",
+        destinationRegion3depthName = "r_3",
+        destinationRoadName = "road_name",
+        destinationUndergroundYn = "Y",
+        destinationMainBuildingNo = "1",
+        destinationSubBuildingNo = "2",
+        destinationBuildingName = "bn",
+        destinationZoneNo = "11232",
+        destinationLongitude = "x.123",
+        destinationLatitude = "y.321",
     )
 
     @BeforeEach

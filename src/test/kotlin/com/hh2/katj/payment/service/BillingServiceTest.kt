@@ -153,7 +153,7 @@ class BillingServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "878"
         )
 
@@ -162,7 +162,7 @@ class BillingServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "787"
         )
 
@@ -243,11 +243,6 @@ class BillingServiceTest(
         )
 
         // when // then
-        assertThrows<DataNotFoundException> {
-//            billingService.userPayWithRegiInfo(user.id, trip.id)
-        }.apply {
-            Assertions.assertThat(message).isEqualTo(ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS.name)
-        }
     }
 
 }

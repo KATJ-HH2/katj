@@ -1,6 +1,9 @@
 package com.hh2.katj.history.component
 
-import com.hh2.katj.user.model.dto.KakaoAddressSearchResponse
+import com.hh2.katj.history.model.dto.KakaoAddressSearchResponse
+import com.hh2.katj.history.model.dto.KakaoRouteSearchResponse
+import com.hh2.katj.trip.model.DepartureRoadAddress
+import com.hh2.katj.trip.model.DestinationRoadAddress
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -30,11 +33,10 @@ class KakaoApiManager(
         return response
     }
 
-    fun requestCarDirectionSearch(origin: String?, destination: String?): KakaoAddressSearchResponse? {
-        // TODO 형식 검사
-        // ${X좌표},${Y좌표},name=${출발지명} 또는 ${X좌표},${Y좌표}
-        checkNotNull(origin)
-        checkNotNull(destination)
+    fun requestCarDirectionSearch(departureRoadAddress: DepartureRoadAddress,
+                                  destinationRoadAddress: DestinationRoadAddress): KakaoRouteSearchResponse? {
+        val origin = "${departureRoadAddress.departureLongitude},${departureRoadAddress.departureLatitude}"
+        val destination = "${destinationRoadAddress.destinationLongitude},${destinationRoadAddress.destinationLatitude}"
 
         val uri = kakaoUriBuilder.buildUriByCarDirectionSearch(origin, destination)
         val headers = HttpHeaders()
@@ -42,7 +44,7 @@ class KakaoApiManager(
 
         val httpEntity = HttpEntity<String>(headers)
 
-        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoAddressSearchResponse::class.java).body
+        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoRouteSearchResponse::class.java).body
     }
 
 }

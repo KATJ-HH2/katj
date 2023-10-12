@@ -9,7 +9,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class RequestAddCard(
-
     @Pattern(regexp = "\\d{4}-\\d{4}-\\d{4}-\\d{4}", message = "NOT_A_PROPER_CARD_NUMBER")
     var cardNumber: String?,
 

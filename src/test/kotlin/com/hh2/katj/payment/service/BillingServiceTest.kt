@@ -23,6 +23,7 @@ import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
+import com.hh2.katj.util.exception.DataNotFoundException
 import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
@@ -31,6 +32,7 @@ import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.data.repository.findByIdOrNull
 import java.time.Duration
 import java.time.LocalDate
@@ -46,8 +48,7 @@ class BillingServiceTest(
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-
-): BaseTestEnitity() {
+) : BaseTestEnitity(){
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod
@@ -149,7 +150,7 @@ class BillingServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "878"
         )
 
@@ -158,7 +159,7 @@ class BillingServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "787"
         )
 
@@ -190,8 +191,6 @@ class BillingServiceTest(
     @Test
     fun `사용자가 기등록한 결제 정보를 사용하여 요금을 지불한다`() {
         // given
-        paymentMethodRepository.deleteAllInBatch()
-
         val driveStartAt = LocalDateTime.now().minusMinutes(20)
         val driveEndAt = LocalDateTime.now()
         val trip = Trip(
@@ -211,7 +210,7 @@ class BillingServiceTest(
         tripRepository.save(trip)
 
         // when
-        val payCompleteTrip = billingService.userPayWithRegiInfo(user.id, trip.id)
+        val payCompleteTrip = billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
 
         // then
         assertThat(payCompleteTrip.tripStatus).isEqualTo(TripStatus.PAY_COMPLETE)
@@ -238,10 +237,13 @@ class BillingServiceTest(
             tripStatus = TripStatus.PAY_REQUEST
         )
 
-        // when // then
-        Assertions.assertThatThrownBy {
-            billingService.userPayWithRegiInfo(user.id, trip.id)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-    }
+        tripRepository.save(trip)
 
+        // when // then
+        assertThrows<DataNotFoundException> {
+            billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
+        }.apply {
+            Assertions.assertThat(message).isEqualTo("no payment method exists")
+        }
+    }
 }

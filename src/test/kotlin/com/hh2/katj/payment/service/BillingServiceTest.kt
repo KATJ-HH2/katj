@@ -24,7 +24,6 @@ import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.DataNotFoundException
-import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
@@ -34,9 +33,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.test.context.TestConstructor
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime

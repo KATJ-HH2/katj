@@ -39,7 +39,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 경로를 즐겨찾기에 추가한다`() {
         // given
-        val roadAddress: RoadAddress = RoadAddress(
+        val roadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -54,7 +54,7 @@ class FavoriteServiceTest (
                 latitude = "y.321",
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -63,7 +63,7 @@ class FavoriteServiceTest (
                 roadAddress = roadAddress
         )
 
-        val favorite: Favorite = Favorite(
+        val favorite = Favorite(
                 user = user,
                 roadAddress = roadAddress,
                 title = "favorite_title",
@@ -72,7 +72,7 @@ class FavoriteServiceTest (
 
         // when
         val saveUser = userRepository.save(user)
-        val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
                 title = favorite.title,
                 description = favorite.description,
@@ -92,7 +92,7 @@ class FavoriteServiceTest (
     fun `사용자가 같은 타이틀의 즐겨찾기를 추가하려고 하면 오류가 발생한다`() {
         // given
 
-        val roadAddress: RoadAddress = RoadAddress(
+        val roadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -107,7 +107,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -116,7 +116,7 @@ class FavoriteServiceTest (
                 roadAddress = roadAddress
         )
 
-        val favorite: Favorite = Favorite(
+        val favorite = Favorite(
                 user = user,
                 roadAddress = roadAddress,
                 title = "favorite_title",
@@ -124,7 +124,7 @@ class FavoriteServiceTest (
         )
 
         val saveUser = userRepository.save(user)
-        val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
                 title = favorite.title,
                 description = favorite.description,
@@ -134,13 +134,13 @@ class FavoriteServiceTest (
         favoriteService.addFavorite(requestAddFavorite.toEntity(saveUser))
 
         // when
-        val duplicatedFavorite: Favorite = Favorite(
+        val duplicatedFavorite = Favorite(
                 user = user,
                 roadAddress = roadAddress,
                 title = "favorite_title",
                 description = "favorite_duplicated_description"
         )
-        val requestDuplicatedFavorite: RequestAddFavorite = RequestAddFavorite(
+        val requestDuplicatedFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
                 title = duplicatedFavorite.title,
                 description = duplicatedFavorite.description,
@@ -158,7 +158,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 등록한 즐겨찾기 중 하나만 선택하여 조회한다`() {
         // given
-        val roadAddressA: RoadAddress = RoadAddress(
+        val roadAddressA = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -173,7 +173,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -183,7 +183,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -198,14 +198,14 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val favoriteA: Favorite = Favorite(
+        val favoriteA = Favorite(
                 user = user,
                 roadAddress = roadAddressA,
                 title = "favorite_titleA",
                 description = "favorite_descriptionA"
         )
 
-        val favoriteB: Favorite = Favorite(
+        val favoriteB = Favorite(
                 user = user,
                 roadAddress = roadAddressB,
                 title = "favorite_titleB",
@@ -215,13 +215,13 @@ class FavoriteServiceTest (
         // when
         val saveUser = userRepository.save(user)
 
-        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteA = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 title = favoriteA.title,
                 description = favoriteA.description,
                 id = null,
         )
-        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteB = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 title = favoriteB.title,
                 description = favoriteB.description,
@@ -246,7 +246,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 즐겨찾기를 전부 조회한다`() {
         // given
-        val roadAddressA: RoadAddress = RoadAddress(
+        val roadAddressA = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -261,7 +261,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -271,7 +271,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -286,14 +286,14 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val favoriteA: Favorite = Favorite(
+        val favoriteA = Favorite(
                 user = user,
                 roadAddress = roadAddressA,
                 title = "favorite_titleA",
                 description = "favorite_descriptionA"
         )
 
-        val favoriteB: Favorite = Favorite(
+        val favoriteB = Favorite(
                 user = user,
                 roadAddress = roadAddressB,
                 title = "favorite_titleB",
@@ -303,13 +303,13 @@ class FavoriteServiceTest (
         // when
         val saveUser = userRepository.save(user)
 
-        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteA = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 title = favoriteA.title,
                 description = favoriteA.description,
                 id = null,
         )
-        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteB = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 title = favoriteB.title,
                 description = favoriteB.description,
@@ -340,7 +340,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 즐겨찾기 정보를 수정한다`() {
         // given
-        val roadAddress: RoadAddress = RoadAddress(
+        val roadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -355,7 +355,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -364,7 +364,7 @@ class FavoriteServiceTest (
                 roadAddress = roadAddress
         )
 
-        val favorite: Favorite = Favorite(
+        val favorite = Favorite(
                 user = user,
                 roadAddress = roadAddress,
                 title = "favorite_title",
@@ -372,7 +372,7 @@ class FavoriteServiceTest (
         )
 
         val saveUser = userRepository.save(user)
-        val requestAddFavorite: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavorite = RequestAddFavorite(
                 roadAddress = roadAddress,
                 title = favorite.title,
                 description = favorite.description,
@@ -383,7 +383,7 @@ class FavoriteServiceTest (
         val savedFavorite = favoriteRepository.findByTitle(requestAddFavorite.title) ?: failWithMessage(ID_DOES_NOT_EXIST.name)
 
         // when
-        val newRoadAddress: RoadAddress = RoadAddress(
+        val newRoadAddress = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -417,7 +417,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 즐겨찾기 하나를 삭제한다`() {
         // given
-        val roadAddressA: RoadAddress = RoadAddress(
+        val roadAddressA = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -432,7 +432,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -442,7 +442,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -457,14 +457,14 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val favoriteA: Favorite = Favorite(
+        val favoriteA = Favorite(
                 user = user,
                 roadAddress = roadAddressA,
                 title = "favorite_titleA",
                 description = "favorite_descriptionA"
         )
 
-        val favoriteB: Favorite = Favorite(
+        val favoriteB = Favorite(
                 user = user,
                 roadAddress = roadAddressB,
                 title = "favorite_titleB",
@@ -474,13 +474,13 @@ class FavoriteServiceTest (
         // when
         val saveUser = userRepository.save(user)
 
-        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteA = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 title = favoriteA.title,
                 description = favoriteA.description,
                 id = null,
         )
-        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteB = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 title = favoriteB.title,
                 description = favoriteB.description,
@@ -513,7 +513,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 즐겨찾기를 전부 삭제한다`() {
         // given
-        val roadAddressA: RoadAddress = RoadAddress(
+        val roadAddressA = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -528,7 +528,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -538,7 +538,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_name",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -553,14 +553,14 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val favoriteA: Favorite = Favorite(
+        val favoriteA = Favorite(
                 user = user,
                 roadAddress = roadAddressA,
                 title = "favorite_titleA",
                 description = "favorite_descriptionA"
         )
 
-        val favoriteB: Favorite = Favorite(
+        val favoriteB = Favorite(
                 user = user,
                 roadAddress = roadAddressB,
                 title = "favorite_titleB",
@@ -570,13 +570,13 @@ class FavoriteServiceTest (
         // when
         val saveUser = userRepository.save(user)
 
-        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteA = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 title = favoriteA.title,
                 description = favoriteA.description,
                 id = null,
         )
-        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteB = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 title = favoriteB.title,
                 description = favoriteB.description,
@@ -603,7 +603,7 @@ class FavoriteServiceTest (
     @Test
     fun `사용자가 선택한 여러개의 즐겨찾기를 삭제한다`() {
         // given
-        val roadAddressA: RoadAddress = RoadAddress(
+        val roadAddressA = RoadAddress(
                 addressName = "address_nameA",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -618,7 +618,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val user: User = User(
+        val user = User(
                 name = "newUser",
                 phoneNumber = "123-456-789",
                 email = "user@gmail.com",
@@ -628,7 +628,7 @@ class FavoriteServiceTest (
         )
 
 
-        val roadAddressB: RoadAddress = RoadAddress(
+        val roadAddressB = RoadAddress(
                 addressName = "address_nameB",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -643,7 +643,7 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val roadAddressC: RoadAddress = RoadAddress(
+        val roadAddressC = RoadAddress(
                 addressName = "address_nameC",
                 region1depthName = "r_1",
                 region2depthName = "r_2",
@@ -658,21 +658,21 @@ class FavoriteServiceTest (
                 latitude = "y.321"
         )
 
-        val favoriteA: Favorite = Favorite(
+        val favoriteA = Favorite(
                 user = user,
                 roadAddress = roadAddressA,
                 title = "favorite_titleA",
                 description = "favorite_descriptionA"
         )
 
-        val favoriteB: Favorite = Favorite(
+        val favoriteB = Favorite(
                 user = user,
                 roadAddress = roadAddressB,
                 title = "favorite_titleB",
                 description = "favorite_descriptionB"
         )
 
-        val favoriteC: Favorite = Favorite(
+        val favoriteC = Favorite(
                 user = user,
                 roadAddress = roadAddressC,
                 title = "favorite_titleC",
@@ -682,19 +682,19 @@ class FavoriteServiceTest (
         // when
         val saveUser = userRepository.save(user)
 
-        val requestAddFavoriteA: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteA = RequestAddFavorite(
                 roadAddress = roadAddressA,
                 title = favoriteA.title,
                 description = favoriteA.description,
                 id = null,
         )
-        val requestAddFavoriteB: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteB = RequestAddFavorite(
                 roadAddress = roadAddressB,
                 title = favoriteB. title,
                 description = favoriteB.description,
                 id = null,
         )
-        val requestAddFavoriteC: RequestAddFavorite = RequestAddFavorite(
+        val requestAddFavoriteC = RequestAddFavorite(
                 roadAddress = roadAddressC,
                 title = favoriteC.title,
                 description = favoriteC.description,
@@ -720,7 +720,4 @@ class FavoriteServiceTest (
         assertThat(afterDeleteFavorites).hasSize(1)
         assertThat(deleteResult).isTrue()
     }
-
-
-
 }

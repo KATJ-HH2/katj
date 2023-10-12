@@ -33,10 +33,7 @@ import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.test.context.TestConstructor
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -51,7 +48,7 @@ class BillingServiceTest(
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-) : BaseTestEnitity(){
+): BaseTestEnitity() {
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod
@@ -249,5 +246,4 @@ class BillingServiceTest(
             Assertions.assertThat(message).isEqualTo("no payment method exists")
         }
     }
-
 }

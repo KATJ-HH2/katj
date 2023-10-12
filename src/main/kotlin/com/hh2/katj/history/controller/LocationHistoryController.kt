@@ -17,8 +17,11 @@ class LocationHistoryController(
     private val userService: UserService,
 ) {
 
+    /**
+     * 검색어로 위치정보(RoadAddress) 검색 및 이력 저장
+     */
     @PostMapping
-    fun saveLocation(@RequestBody request: RequestLocationHistory): ResponseEntity<ResponseLocationHistory> {
+    fun addLocationHistory(@RequestBody request: RequestLocationHistory): ResponseEntity<ResponseLocationHistory> {
         val user = userService.findByUserId(userId = request.userId)
         val response = locationHistoryService.saveLocationHistory(user, request.keyword)
         return ResponseEntity.ok(response)

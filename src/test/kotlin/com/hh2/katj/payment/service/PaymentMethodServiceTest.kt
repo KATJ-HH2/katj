@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.web.client.RestClientException
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @KATJTestContainerE2E
 class PaymentMethodServiceTest(
@@ -100,7 +100,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -174,7 +174,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -187,7 +187,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -216,7 +216,7 @@ class PaymentMethodServiceTest(
             isValid = null,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777",
         )
 
@@ -247,7 +247,7 @@ class PaymentMethodServiceTest(
             isValid = null,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777",
         )
 
@@ -279,7 +279,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().minusDays(1),
+            expiryDate = LocalDate.now().minusDays(1),
             cvv = "777",
         )
 
@@ -310,7 +310,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777",
         )
 
@@ -388,7 +388,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -419,7 +419,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -432,7 +432,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -561,7 +561,7 @@ class PaymentMethodServiceTest(
             isValid = false,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -665,7 +665,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -738,7 +738,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "777"
         )
 
@@ -788,7 +788,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "878"
         )
 
@@ -797,7 +797,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "787"
         )
 
@@ -848,7 +848,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1212-1212-1212-1212",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "878"
         )
 
@@ -857,7 +857,7 @@ class PaymentMethodServiceTest(
             isValid = true,
             cardHolderName = "KATJ LEE",
             cardNumber = "1111-1111-1111-1111",
-            expiryDate = LocalDateTime.now().plusDays(1),
+            expiryDate = LocalDate.now().plusDays(1),
             cvv = "787"
         )
 

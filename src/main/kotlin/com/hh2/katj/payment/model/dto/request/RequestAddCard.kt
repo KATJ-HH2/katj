@@ -5,6 +5,7 @@ import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.model.entity.PaymentType
 import com.hh2.katj.user.model.entity.User
 import jakarta.validation.constraints.Pattern
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class RequestAddCard(
@@ -13,7 +14,7 @@ data class RequestAddCard(
     var cardNumber: String?,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    var expiryDate: LocalDateTime?,
+    var expiryDate: LocalDate?,
 
     @Pattern(regexp = "\\d{3}", message = "MUST_BE_3_DIGIT_NUMBERS")
     var cvv: String?,

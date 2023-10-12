@@ -11,6 +11,7 @@ import com.hh2.katj.user.service.UserService
 import com.hh2.katj.util.exception.ExceptionMessage.*
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClientException
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -178,8 +179,8 @@ class PaymentMethodService (
     /**
      * 요청온 카드의 유효기간이 유효한지 확인한다
      */
-    internal fun cardExpiryDateCheck(expiryDate: LocalDateTime): Boolean {
-        val now = LocalDateTime.now()
+    internal fun cardExpiryDateCheck(expiryDate: LocalDate): Boolean {
+        val now = LocalDate.now()
         val dateCheckResult = now.isBefore(expiryDate)
 
         if (!dateCheckResult) {

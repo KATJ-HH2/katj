@@ -30,6 +30,7 @@ SpringBoot + Kotlin taxi scenario
 - IDEA : IntelliJ
 - Cooperation tool : JIRA & SLACK & Gather
 
+
 ## 📌 우리들의 PR규칙
 # Git Flow
 <img width="698" alt="image" src="https://github.com/KATJ-HH2/katj/assets/38535971/ec400cf4-1858-41c9-9db9-3705ef46b726">
@@ -40,11 +41,13 @@ SpringBoot + Kotlin taxi scenario
 
 이러한 이유가 있지만, Git Flow의 흐름 및 전체적인 구조를 파악하는데 좋은 레퍼런스가 되며, 대부분의 기업과 우리는 Git Flow가 익숙하기 때문에 `GitHub Flow` 보다는 `Git Flow` 를 사용하고 있어요.
 
+
 ## 그럼 어떻게 사용하고있나요?
 각 개발 메인 브랜치는 Dev, Prod를 메인으로 두고 있어요. 이 두개의 브랜치에서 Feature 브랜치가 생성되요. 각 Feature 브랜치는 기능 기준으로 만들어집니다. 
   Ex) 사용자 등록 기능을 만들면 `feature/lil/createAddUser` 식으로 만들게 되죠.
 - 그리고 각 feature 브랜치를 생성하고 기능 개발이 끝나면 PR( Pull Request)를 생성하여, 팀원들의 코드리뷰를 받게됩니다.
 - feature 브랜치의 코드리뷰가 끝나면 Dev 브랜치로 Merge가 되고, Dev 브랜치는 Prod로 Push를 하게 되는거죠.
+
 
 ## 우리들의 규칙
 #### [ GitHub 템플릿으로 Issue & Feature Request 내용 규격화]
@@ -138,8 +141,9 @@ cd KATJ-HH2
 ```
 ### Open your web browser and go to [헬스체크 url](http:localhost:8080/hello)
 
-## 📌 Feature offered
 
+
+## 📌 Feature offered
 ### <택시 드라이버 관점>
 - EndPoint: POST ‘/taxidrivers/info’
 </br>Function: 택시기사 정보와 택시 정보를 등록합니다
@@ -224,8 +228,11 @@ cd KATJ-HH2
 - EndPoint: DELETE ‘/payment-method’
 </br>Function: 사용자가 등록된 결제 수단을 모두 삭제합니다.
 
+
+
 ## 📑 Table design
 ![Blank diagram](https://github.com/KATJ-HH2/katj/assets/87371627/557bcdc6-25cf-4840-b39b-9ea157cf27f8)
+
 
 
 ## 🤝Co-operation with JIRA

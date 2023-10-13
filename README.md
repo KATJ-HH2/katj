@@ -205,3 +205,9 @@ SpringBoot + Kotlin taxi scenario
 
 - EndPoint: DELETE ‘/payment-method’
 </br>Function: 사용자가 등록된 결제 수단을 모두 삭제합니다.
+
+
+## 🏃‍♂️Co-operation with JIRA
+#### [ Jira를 활용하여 팀별 회의 후에도 애자일 방법론에 따라 신속한 기능 구현 및 변경을 진행하였어요 ]
+![image](https://github.com/KATJ-HH2/katj/assets/87371627/71ce3ea4-bfe6-4daa-a686-1d1694097120)
+

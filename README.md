@@ -116,9 +116,27 @@ SpringBoot + Kotlin taxi scenario
   </div>
 </details>
 
-## 📑 Table design
-![Blank diagram](https://github.com/KATJ-HH2/katj/assets/87371627/557bcdc6-25cf-4840-b39b-9ea157cf27f8)
+## 🏃Getting started in the local environment
 
+### How to run
+1. 반드시 기기에 자바와 코틀린이 설치되어 있는지 확인해주세요.
+2. 이 리파지토리를 복제해 주세요:
+```bash
+git clone https://github.com/KATJ-HH2/katj.git
+```
+### Navigate to the project directory
+```bash
+cd KATJ-HH2
+```
+### Build the project
+```bash
+./gradlew build
+```
+### Run the application
+```bash
+./gradlew run
+```
+### Open your web browser and go to [헬스체크 url](http:localhost:8080/hello)
 
 ## 📌 Feature offered
 
@@ -206,8 +224,11 @@ SpringBoot + Kotlin taxi scenario
 - EndPoint: DELETE ‘/payment-method’
 </br>Function: 사용자가 등록된 결제 수단을 모두 삭제합니다.
 
+## 📑 Table design
+![Blank diagram](https://github.com/KATJ-HH2/katj/assets/87371627/557bcdc6-25cf-4840-b39b-9ea157cf27f8)
 
-## 🏃‍♂️Co-operation with JIRA
+
+## 🤝Co-operation with JIRA
 #### [ Jira를 활용하여 팀별 회의 후에도 애자일 방법론에 따라 신속한 기능 구현 및 변경을 진행하였어요 ]
 ![image](https://github.com/KATJ-HH2/katj/assets/87371627/71ce3ea4-bfe6-4daa-a686-1d1694097120)
 

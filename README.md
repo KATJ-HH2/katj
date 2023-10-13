@@ -116,6 +116,9 @@ SpringBoot + Kotlin taxi scenario
   </div>
 </details>
 
+## 📑 Table design
+![Blank diagram](https://github.com/KATJ-HH2/katj/assets/87371627/557bcdc6-25cf-4840-b39b-9ea157cf27f8)
+
 
 ## 📌 Feature offered
 

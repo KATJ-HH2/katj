@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 @Table(name = "TRIP")
 class Trip(
     user: User,
-    taxiDriver: TaxiDriver,
+    taxiDriver: TaxiDriver?,
     fare: Int,
     departure: DepartureRoadAddress,
     destination: DestinationRoadAddress,
@@ -21,7 +21,7 @@ class Trip(
     driveStartAt: LocalDateTime,
     driveEndDate: LocalDate? = null,
     driveEndAt: LocalDateTime? = null,
-    spentTime: Int,
+    spentTime: Int?,
     tripStatus: TripStatus
 ): BaseEntity() {
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +32,7 @@ class Trip(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "taxi_driver_id", nullable = false,
         foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    val taxiDriver: TaxiDriver = taxiDriver
+    val taxiDriver: TaxiDriver? = taxiDriver
 
     @Column(nullable = false)
     val fare: Int = fare
@@ -55,9 +55,10 @@ class Trip(
     val driveEndAt: LocalDateTime? = driveEndAt
 
     @Column(nullable = false)
-    val spentTime: Int = spentTime
+    val spentTime: Int? = spentTime
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     var tripStatus: TripStatus = tripStatus
 
 

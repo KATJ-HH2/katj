@@ -88,9 +88,6 @@ SpringBoot + Kotlin taxi scenario
 </details>
 
 
-
-
-
 ## 📌 Feature offered
 
 ### <택시 드라이버 관점>
@@ -104,6 +101,20 @@ Function: 택시 운행 상태를 변경하거나 조회합니다
 
 - EndPoint: GET ‘/trip/info’
 Function: 운행 예상경로와 요금 정보를 조회합니다
+
+#### trip 테이블 상태 변화
+- 사용자가 호출 요청 (수동 호출)
+   TripController.userCallTaxi(kakaoAPI 조회 반환값, 사용자id) -> trip 생성, TripStatus.CALL_TAXI
+- 택시 (랜덤) 배정 (자동 호출)
+   TripStatus.CALL_TAXI -> 운행 가능 택시 랜덤 조회(없더라도 5초간 지속 조회) -> 사용자에게 택시 랜덤 배정 --> TripStatus.ASSIGN_TAXI(TaxiDriver.WAITING -> ASSIGNMENT)
+- 보류 - 사용자가 호출 취소(opt)
+  보류 - 택시기사가 호출 취소(opt)
+- 택시 운행 중 (수동 호출)
+  TripController.taxiDriveStart(tripId)  -> TripStatus.DRIVING(TaxiDriver.START_DRIVING)
+- 택시 운행 완료 (수동 호출)
+  TripController.taxiDriverEnd(tripId)  -> TripStatus.END -> TaxiDriver.END_DRIVING -> TaxiDriver.WAITING
+- 사용자에게 결제 요청 -> TripStatus.END -> 사용자 결제 로직
+
 
 - EndPoint: GET ‘/trip/totalfare’
 Function: 당일 운임료 합계를 조회합니다

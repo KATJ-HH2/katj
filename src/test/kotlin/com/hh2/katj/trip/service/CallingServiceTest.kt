@@ -1,11 +1,11 @@
-package com.hh2.katj.payment.service
+package com.hh2.katj.trip.service
 
-import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.payment.model.dto.request.RequestAddBankAccount
 import com.hh2.katj.payment.model.dto.request.RequestAddCard
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
+import com.hh2.katj.payment.service.PaymentMethodService
 import com.hh2.katj.taxi.model.ChargeType
 import com.hh2.katj.taxi.model.FuelType
 import com.hh2.katj.taxi.model.Taxi
@@ -15,40 +15,37 @@ import com.hh2.katj.taxidriver.model.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
 import com.hh2.katj.trip.model.DepartureRoadAddress
 import com.hh2.katj.trip.model.DestinationRoadAddress
-import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
+import com.hh2.katj.trip.model.request.RequestTrip
+import com.hh2.katj.trip.model.response.ResponseTrip
 import com.hh2.katj.trip.repository.TripRepository
-import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
-import com.hh2.katj.util.exception.DataNotFoundException
-import com.hh2.katj.util.model.BaseTestEnitity
+import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
-import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
+import org.assertj.core.api.AssertionsForInterfaceTypes.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.data.repository.findByIdOrNull
-import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 @KATJTestContainerE2E
-class BillingServiceTest(
-    private val billingService: BillingService,
+class CallingServiceTest(
     private val paymentMethodService: PaymentMethodService,
+    private val callingService: CallingService,
     private val paymentMethodRepository: PaymentMethodRepository,
-    private val paymentMethodReader: PaymentMethodReader,
     private val userRepository: UserRepository,
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-) : BaseTestEnitity(){
+) {
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod
@@ -188,62 +185,76 @@ class BillingServiceTest(
         userRepository.deleteAllInBatch()
     }
 
+    //택시 호출 및 해당 택시 정보 수신
     @Test
-    fun `사용자가 기등록한 결제 정보를 사용하여 요금을 지불한다`() {
+    fun `사용자가 검색한 위치 정보를 가지고 택시를 호출`() {
         // given
-        val driveStartAt = LocalDateTime.now().minusMinutes(20)
-        val driveEndAt = LocalDateTime.now()
-        val trip = Trip(
-            user,
-            taxiDriver,
-            fare = 25000,
+        val requestCreateTripByUser: RequestTrip = RequestTrip(
+            user = user,
+            taxiDriver = taxiDriver,
             departure = departure,
+            fare = 5000,
             destination = destination,
             driveStartDate = LocalDate.now(),
-            driveStartAt = driveStartAt,
-            driveEndDate = LocalDate.now(),
-            driveEndAt = driveEndAt,
-            spentTime = Duration.between(driveStartAt, driveEndAt).toMinutesPart(),
-            tripStatus = TripStatus.ASSIGN_TAXI
+            driveStartAt = LocalDateTime.now(),
+            spentTime = 12000000,
+            tripStatus = TripStatus.CALL_TAXI,
         )
 
-        tripRepository.save(trip)
+        val requestTrip = requestCreateTripByUser.toEntity()
 
         // when
-        val payCompleteTrip = billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
+        val responseTrip: ResponseTrip = callingService.callTaxiByUser(requestTrip)
 
         // then
-        assertThat(payCompleteTrip.tripStatus).isEqualTo(TripStatus.END)
+        assertThat(responseTrip.tripStatus).isEqualTo(TripStatus.CALL_TAXI)
     }
 
     @Test
-    fun `사용자가 기등록한 결제 정보가 하나도 없다`() {
+    fun `택시 호출 요청시 호출의 상태가 CALL_TAXI가 아니면 호출에 실패한다`() {
         // given
-        paymentMethodRepository.deleteAllInBatch()
-
-        val driveStartAt = LocalDateTime.now().minusMinutes(20)
-        val driveEndAt = LocalDateTime.now()
-        val trip = Trip(
-            user,
-            taxiDriver,
-            fare = 25000,
+        val requestCreateTripByUser: RequestTrip = RequestTrip(
+            user = user,
+            taxiDriver = taxiDriver,
             departure = departure,
+            fare = 5000,
             destination = destination,
             driveStartDate = LocalDate.now(),
-            driveStartAt = driveStartAt,
-            driveEndDate = LocalDate.now(),
-            driveEndAt = driveEndAt,
-            spentTime = Duration.between(driveStartAt, driveEndAt).toMinutesPart(),
-            tripStatus = TripStatus.ASSIGN_TAXI
+            driveStartAt = LocalDateTime.now(),
+            spentTime = 12000000,
+            tripStatus = TripStatus.ASSIGN_TAXI,
         )
 
-        tripRepository.save(trip)
+        val requestTrip = requestCreateTripByUser.toEntity()
 
-        // when // then
-        assertThrows<DataNotFoundException> {
-            billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
+        // when //then
+        assertThrows<IllegalArgumentException> {
+            callingService.callTaxiByUser(requestTrip)
         }.apply {
-            Assertions.assertThat(message).isEqualTo("no payment method exists")
+            Assertions.assertThat(message).isEqualTo(ExceptionMessage.INCORRECT_STATUS_VALUE.name)
         }
     }
+
+    // 호출한 택시 정보를 수신 한다
+    @Test
+    fun `사용자가 호출한 택시 정보를 수신한다`() {
+        // given
+        val requestCreateTripByUser: RequestTrip = RequestTrip(
+            user = user,
+            taxiDriver = taxiDriver,
+            departure = departure,
+            fare = 5000,
+            destination = destination,
+            driveStartDate = LocalDate.now(),
+            driveStartAt = LocalDateTime.now(),
+            spentTime = 12000000,
+            tripStatus = TripStatus.ASSIGN_TAXI,
+        )
+
+        val requestTrip = requestCreateTripByUser.toEntity()
+
+
+        // then
+    }
+
 }

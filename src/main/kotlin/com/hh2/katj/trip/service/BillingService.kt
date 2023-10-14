@@ -61,7 +61,7 @@ class BillingService(
     }
 
     private fun requestPayCheck(trip: Trip) {
-        if (trip.tripStatus != TripStatus.PAY_REQUEST) {
+        if (trip.tripStatus != TripStatus.ASSIGN_TAXI) {
             throw IllegalArgumentException(INCORRECT_STATUS_VALUE.name)
         }
     }

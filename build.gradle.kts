@@ -30,6 +30,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+
+	// 스케줄링 처리를 위한 코루틴 라이브러리 추가
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 

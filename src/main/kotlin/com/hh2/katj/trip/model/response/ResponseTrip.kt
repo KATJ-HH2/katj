@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 
 data class ResponseTrip(
     val user: User,
-    val taxiDriver: TaxiDriver,
+    val taxiDriver: TaxiDriver?,
     val fare: Int,
     val departure: DepartureRoadAddress,
     val destination: DestinationRoadAddress,
@@ -18,6 +18,6 @@ data class ResponseTrip(
     val driveStartAt: LocalDateTime,
     val driveEndDate: LocalDate?,
     val driveEndAt: LocalDateTime?,
-    val spentTime: Int,
+    val spentTime: Int?,
     val tripStatus: TripStatus
 )

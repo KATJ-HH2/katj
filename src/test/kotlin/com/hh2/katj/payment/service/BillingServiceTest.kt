@@ -204,7 +204,7 @@ class BillingServiceTest(
             driveEndDate = LocalDate.now(),
             driveEndAt = driveEndAt,
             spentTime = Duration.between(driveStartAt, driveEndAt).toMinutesPart(),
-            tripStatus = TripStatus.PAY_REQUEST
+            tripStatus = TripStatus.ASSIGN_TAXI
         )
 
         tripRepository.save(trip)
@@ -213,7 +213,7 @@ class BillingServiceTest(
         val payCompleteTrip = billingService.userPayWithRegiPaymentMethod(user.id, trip.id)
 
         // then
-        assertThat(payCompleteTrip.tripStatus).isEqualTo(TripStatus.PAY_COMPLETE)
+        assertThat(payCompleteTrip.tripStatus).isEqualTo(TripStatus.END)
     }
 
     @Test
@@ -234,7 +234,7 @@ class BillingServiceTest(
             driveEndDate = LocalDate.now(),
             driveEndAt = driveEndAt,
             spentTime = Duration.between(driveStartAt, driveEndAt).toMinutesPart(),
-            tripStatus = TripStatus.PAY_REQUEST
+            tripStatus = TripStatus.ASSIGN_TAXI
         )
 
         tripRepository.save(trip)

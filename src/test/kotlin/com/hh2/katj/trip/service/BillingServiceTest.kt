@@ -1,4 +1,4 @@
-package com.hh2.katj.payment.service
+package com.hh2.katj.trip.service
 
 import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.payment.model.dto.request.RequestAddBankAccount
@@ -6,6 +6,7 @@ import com.hh2.katj.payment.model.dto.request.RequestAddCard
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.payment.model.entity.PaymentMethod
 import com.hh2.katj.payment.repository.PaymentMethodRepository
+import com.hh2.katj.payment.service.PaymentMethodService
 import com.hh2.katj.taxi.model.ChargeType
 import com.hh2.katj.taxi.model.FuelType
 import com.hh2.katj.taxi.model.Taxi
@@ -18,7 +19,6 @@ import com.hh2.katj.trip.model.DestinationRoadAddress
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
-import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
@@ -87,7 +87,7 @@ class BillingServiceTest(
 
     @BeforeEach
     fun setUp() {
-        val roadAddress: RoadAddress = RoadAddress(
+        val roadAddress = RoadAddress(
             addressName = "address_name",
             region1depthName = "r_1",
             region2depthName = "r_2",
@@ -125,7 +125,7 @@ class BillingServiceTest(
             issueDate = LocalDate.now().minusYears(5),
             securityId = "security_id",
             name = "Tom",
-            status = TaxiDriverStatus.STARTDRIVE,
+            status = TaxiDriverStatus.WAITING,
             gender = Gender.UNKNOWN,
             address = roadAddress,
             img = "123"

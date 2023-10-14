@@ -21,7 +21,7 @@ class Trip(
     driveStartAt: LocalDateTime,
     driveEndDate: LocalDate? = null,
     driveEndAt: LocalDateTime? = null,
-    spentTime: Int?,
+    spentTime: Int,
     tripStatus: TripStatus
 ): BaseEntity() {
     @ManyToOne(fetch = FetchType.LAZY)

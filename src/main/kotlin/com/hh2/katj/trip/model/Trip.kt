@@ -30,9 +30,9 @@ class Trip(
     val user: User = user
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "taxi_driver_id", nullable = false,
+    @JoinColumn(name = "taxi_driver_id", nullable = true,
         foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    val taxiDriver: TaxiDriver? = taxiDriver
+    var taxiDriver: TaxiDriver? = taxiDriver
 
     @Column(nullable = false)
     val fare: Int = fare
@@ -64,8 +64,8 @@ class Trip(
 
     fun toResponseDto(): ResponseTrip {
         return ResponseTrip(
-            user = this.user,
-            taxiDriver = this.taxiDriver,
+            userId = this.user.id,
+            taxiDriverId = this.taxiDriver?.id,
             fare = this.fare,
             departure = this.departure,
             destination = this.destination,
@@ -80,6 +80,10 @@ class Trip(
 
     fun updateStatus(payComplete: TripStatus) {
         this.tripStatus = payComplete
+    }
+
+    fun assignTaxiDriver(taxiDriver: TaxiDriver?) {
+        this.taxiDriver = taxiDriver
     }
 
 }

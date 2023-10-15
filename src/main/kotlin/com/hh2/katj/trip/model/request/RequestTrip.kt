@@ -11,7 +11,6 @@ import java.time.LocalDateTime
 
 data class RequestTrip (
     val user: User,
-    val taxiDriver: TaxiDriver?,
     val fare: Int,
     val departure: DepartureRoadAddress,
     val destination: DestinationRoadAddress,
@@ -25,7 +24,7 @@ data class RequestTrip (
     fun toEntity(): Trip {
         return Trip(
             user = this.user,
-            taxiDriver = this.taxiDriver,
+            taxiDriver = null,
             fare = this.fare,
             departure = this.departure,
             destination = this.destination,
@@ -34,7 +33,7 @@ data class RequestTrip (
             driveEndDate = this.driveEndDate,
             driveEndAt = this.driveEndAt,
             spentTime = this.spentTime,
-            tripStatus = this.tripStatus,
+            tripStatus = TripStatus.CALL_TAXI,
         )
     }
 

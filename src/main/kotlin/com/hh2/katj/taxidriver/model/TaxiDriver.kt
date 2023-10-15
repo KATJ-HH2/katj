@@ -37,7 +37,8 @@ class TaxiDriver(
     val name: String = name
 
     @Column(nullable = false)
-    val status: TaxiDriverStatus = status
+    var status: TaxiDriverStatus = status
+        protected set
 
     @Column(nullable = false)
     val gender: Gender = gender
@@ -47,4 +48,8 @@ class TaxiDriver(
 
     @Column(nullable = false)
     val img: String = img
+
+    fun updateTaxiDriverStatus(taxiDriverStatus: TaxiDriverStatus) {
+        this.status = taxiDriverStatus
+    }
 }

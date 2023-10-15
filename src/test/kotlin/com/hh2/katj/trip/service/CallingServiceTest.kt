@@ -15,6 +15,7 @@ import com.hh2.katj.taxidriver.model.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
 import com.hh2.katj.trip.model.DepartureRoadAddress
 import com.hh2.katj.trip.model.DestinationRoadAddress
+import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.model.request.RequestTrip
 import com.hh2.katj.trip.model.response.ResponseTrip
@@ -26,8 +27,7 @@ import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.AssertionsForInterfaceTypes.*
+import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -122,7 +122,7 @@ class CallingServiceTest(
             issueDate = LocalDate.now().minusYears(5),
             securityId = "security_id",
             name = "Tom",
-            status = TaxiDriverStatus.STARTDRIVE,
+            status = TaxiDriverStatus.WAITING,
             gender = Gender.UNKNOWN,
             address = roadAddress,
             img = "123"
@@ -162,7 +162,6 @@ class CallingServiceTest(
 
         user = userRepository.save(saveUser)
         taxiRepository.save(taxi)
-        taxiDriver = taxiDriverRepository.save(taxiDriver)
 
         val bankAccount1 = paymentMethodService.addBankAccount(user.id, firstBankAccountInfo.toEntity(user))
         val bankAccount2 = paymentMethodService.addBankAccount(user.id, secondBankAccountInfo.toEntity(user))
@@ -175,23 +174,21 @@ class CallingServiceTest(
         card_not_enough = paymentMethodRepository.findByIdOrNull(card2.id)!!
     }
 
-
-    @AfterEach
-    fun tearDown() {
-        tripRepository.deleteAllInBatch()
-        taxiRepository.deleteAllInBatch()
-        taxiDriverRepository.deleteAllInBatch()
-        paymentMethodRepository.deleteAllInBatch()
-        userRepository.deleteAllInBatch()
-    }
+//    @AfterEach
+//    fun tearDown() {
+//        tripRepository.deleteAllInBatch()
+//        taxiRepository.deleteAllInBatch()
+//        taxiDriverRepository.deleteAllInBatch()
+//        paymentMethodRepository.deleteAllInBatch()
+//        userRepository.deleteAllInBatch()
+//    }
 
     //택시 호출 및 해당 택시 정보 수신
     @Test
     fun `사용자가 검색한 위치 정보를 가지고 택시를 호출`() {
         // given
-        val requestCreateTripByUser: RequestTrip = RequestTrip(
+        val trip = Trip(
             user = user,
-            taxiDriver = taxiDriver,
             departure = departure,
             fare = 5000,
             destination = destination,
@@ -199,62 +196,43 @@ class CallingServiceTest(
             driveStartAt = LocalDateTime.now(),
             spentTime = 12000000,
             tripStatus = TripStatus.CALL_TAXI,
+            taxiDriver = null,
         )
 
-        val requestTrip = requestCreateTripByUser.toEntity()
-
         // when
-        val responseTrip: ResponseTrip = callingService.callTaxiByUser(requestTrip)
+        taxiDriverRepository.save(taxiDriver)
+        val responseTrip: ResponseTrip = callingService.callTaxiByUser(trip)
 
         // then
         assertThat(responseTrip.tripStatus).isEqualTo(TripStatus.CALL_TAXI)
+        assertThat(responseTrip.taxiDriverId).isNotNull()
     }
 
     @Test
-    fun `택시 호출 요청시 호출의 상태가 CALL_TAXI가 아니면 호출에 실패한다`() {
+    fun `매칭 가능한 택시기사가 없는 경우 예외 반환`() {
         // given
-        val requestCreateTripByUser: RequestTrip = RequestTrip(
+        val trip = Trip(
             user = user,
-            taxiDriver = taxiDriver,
             departure = departure,
             fare = 5000,
             destination = destination,
             driveStartDate = LocalDate.now(),
             driveStartAt = LocalDateTime.now(),
             spentTime = 12000000,
-            tripStatus = TripStatus.ASSIGN_TAXI,
+            tripStatus = TripStatus.CALL_TAXI,
+            taxiDriver = null,
         )
 
-        val requestTrip = requestCreateTripByUser.toEntity()
-
-        // when //then
-        assertThrows<IllegalArgumentException> {
-            callingService.callTaxiByUser(requestTrip)
-        }.apply {
-            Assertions.assertThat(message).isEqualTo(ExceptionMessage.INCORRECT_STATUS_VALUE.name)
-        }
-    }
-
-    // 호출한 택시 정보를 수신 한다
-    @Test
-    fun `사용자가 호출한 택시 정보를 수신한다`() {
-        // given
-        val requestCreateTripByUser: RequestTrip = RequestTrip(
-            user = user,
-            taxiDriver = taxiDriver,
-            departure = departure,
-            fare = 5000,
-            destination = destination,
-            driveStartDate = LocalDate.now(),
-            driveStartAt = LocalDateTime.now(),
-            spentTime = 12000000,
-            tripStatus = TripStatus.ASSIGN_TAXI,
-        )
-
-        val requestTrip = requestCreateTripByUser.toEntity()
-
+        // when,
+        val driver = taxiDriverRepository.save(taxiDriver)
+        driver.updateTaxiDriverStatus(TaxiDriverStatus.STARTDRIVE)
 
         // then
+        assertThrows<IllegalArgumentException> {
+            callingService.assignTaxiDriver(trip)
+        }.apply {
+            assertThat(message).isEqualTo(ExceptionMessage.NO_SUCH_VALUE_EXISTS.name)
+        }
     }
 
 }

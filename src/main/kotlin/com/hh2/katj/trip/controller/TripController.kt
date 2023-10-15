@@ -32,7 +32,7 @@ class TripController (
 
     /**
      * 택시 기사가 사용자에게 결제를 요청하고 결제가 완료되면
-     * trip status가 PAY_REQUEST면 결제 진행 후 PAY_COMPLETE로 변경
+     * trip status가 ASSIGN_TAXI 이면 결제 진행 후 END 로 변경
      */
     @GetMapping("/taxi-driver/request-pay/{tripId}")
     fun taxiDriverRequestPayToUser(@RequestParam userId: Long, @PathVariable tripId: Long): ResponseEntity<ResponseTrip> {

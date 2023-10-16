@@ -25,7 +25,7 @@ class TaxiTestFixtures {
                         .`when`()
                     .post("/taxi")
                         .then().log().all()
-                        .extract().jsonPath().getString("id")
+                        .extract().jsonPath().getString("carNo")
 
         }
     }

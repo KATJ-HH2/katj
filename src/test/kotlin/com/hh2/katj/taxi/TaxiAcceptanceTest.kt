@@ -41,6 +41,6 @@ class TaxiAcceptanceTest(
             false
         )
 
-        Assertions.assertThat(택시).isEqualTo("1")
+        Assertions.assertThat(택시).isEqualTo("62거4811")
     }
 }

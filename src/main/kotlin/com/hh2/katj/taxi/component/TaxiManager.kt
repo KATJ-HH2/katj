@@ -12,6 +12,7 @@ class TaxiManager(
 ) {
     @Transactional
     fun addTaxi(taxi: Taxi): ResponseAddTaxi {
-        return ResponseAddTaxi(taxiRepository.save(taxi).id)
+        val savedTaxi = taxiRepository.save(taxi)
+        return ResponseAddTaxi(savedTaxi.id, savedTaxi.carNo)
     }
 }

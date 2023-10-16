@@ -1,6 +1,7 @@
 package com.hh2.katj.trip.component
 
 import com.hh2.katj.trip.model.Trip
+import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
 import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
@@ -20,8 +21,19 @@ class TripReader (
     }
 
     @Transactional(readOnly = true)
+    fun findOneEndTripByUser(userId: Long, tripId: Long): Trip {
+        return tripRepository.findByIdAndUserIdAndTripStatus(tripId, userId, TripStatus.END) ?:
+                failWithMessage(ID_DOES_NOT_EXIST.name)
+    }
+
+    @Transactional(readOnly = true)
+    fun findAllEndTripByUserId(userId: Long): List<Trip>{
+        return tripRepository.findAllByUserIdAndTripStatus(userId, TripStatus.END)
+    }
+
+    @Transactional(readOnly = true)
     fun findByIdAndUserId(tripId: Long, userId: Long): Trip {
         return tripRepository.findByIdAndUserId(tripId, userId) ?:
-                failWithMessage(ID_DOES_NOT_EXIST.name)
+        failWithMessage(ID_DOES_NOT_EXIST.name)
     }
 }

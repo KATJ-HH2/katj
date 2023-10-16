@@ -2,7 +2,7 @@ package com.hh2.katj.trip.service
 
 import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.payment.model.entity.PaymentMethod
-import com.hh2.katj.payment.service.PaymentMethodService
+import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.trip.component.TripManager
 import com.hh2.katj.trip.component.TripReader
 import com.hh2.katj.trip.model.Trip
@@ -11,10 +11,8 @@ import com.hh2.katj.trip.model.response.ResponseTrip
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.service.UserService
 import com.hh2.katj.util.exception.DataNotFoundException
-import com.hh2.katj.util.exception.ExceptionMessage
-import com.hh2.katj.util.exception.ExceptionMessage.*
+import com.hh2.katj.util.exception.ExceptionMessage.INCORRECT_STATUS_VALUE
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 
 @Service
 class BillingService(
@@ -29,9 +27,14 @@ class BillingService(
         val validatedTrip = tripValidation(validatedUser.id, tripId)
 
         /**
-         * 요청온 trip의 상태 코드가 PAY_REQUEST인지 재검증
+         * 요청온 trip의 상태 코드가 ASSIGN_TAXI 인지 재검증
          */
         requestPayCheck(validatedTrip)
+
+        /**
+         * 택시 기사 상태가 WAITRING 인지 확인
+         */
+        taxiDriverStatusCheck(validatedTrip.taxiDriver!!)
 
         /**
          * 사용자 결제 수단 조회
@@ -56,8 +59,11 @@ class BillingService(
          * 사용자 입장에서 결제가 무사히 종료되면 기사에게 알리기?
          * 인데 그런거 없으니 PAY_COMPLETE로 변경되는거 기사쪽에서 알면 상태 변경 해야할듯
          */
-
         return updateTrip.toResponseDto()
+    }
+
+    private fun taxiDriverStatusCheck(taxiDriver: TaxiDriver) {
+        taxiDriver.statusWaiting()
     }
 
     private fun requestPayCheck(trip: Trip) {

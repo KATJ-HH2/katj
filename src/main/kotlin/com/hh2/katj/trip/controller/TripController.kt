@@ -32,12 +32,33 @@ class TripController (
 
     /**
      * 택시 기사가 사용자에게 결제를 요청하고 결제가 완료되면
-     * trip status가 PAY_REQUEST면 결제 진행 후 PAY_COMPLETE로 변경
+     * trip status가 ASSIGN_TAXI 이면 결제 진행 후 END 로 변경
      */
     @GetMapping("/taxi-driver/request-pay/{tripId}")
     fun taxiDriverRequestPayToUser(@RequestParam userId: Long, @PathVariable tripId: Long): ResponseEntity<ResponseTrip> {
         val responseTrip = billingService.userPayWithRegiPaymentMethod(userId, tripId)
         return ResponseEntity.ok(responseTrip)
     }
+
+    /**
+     * 사용자가 해당 택시 이용 기록을 조회한다
+     */
+    @GetMapping("/search/end-trip/{tripId}")
+    fun findOneEndTripByUser(@RequestParam userId: Long, @PathVariable tripId: Long) : ResponseEntity<ResponseTrip> {
+        val responseTrip = callingService.findOneEndTripByUser(userId, tripId)
+        return ResponseEntity.ok(responseTrip)
+    }
+
+    /**
+     * 사용자가 모든 택시 이용 기록을 조회한다
+     */
+    @GetMapping("/search/end-trip")
+    fun findAllEndTripByUser(@RequestParam userId: Long) : ResponseEntity<List<ResponseTrip>> {
+        val responseTripList = callingService.findAllEndTripByUser(userId)
+        return ResponseEntity.ok(responseTripList)
+    }
+
+
+
 
 }

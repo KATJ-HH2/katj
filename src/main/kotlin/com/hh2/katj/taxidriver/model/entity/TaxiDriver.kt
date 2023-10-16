@@ -54,7 +54,7 @@ class TaxiDriver(
     @Column(nullable = false)
     var img: String = img
 
-    fun update(request: AddTotalInfoRequest) {
+    fun update(request: TaxiDriver) {
         this.taxi = request.taxi
         this.driverLicenseId = request.driverLicenseId
         this.issueDate = request.issueDate
@@ -66,8 +66,8 @@ class TaxiDriver(
         this.img = request.img
     }
 
-    fun updateStatus(request: UpdateStatusRequest) {
-        this.status = request.status
+    fun updateStatus(status: TaxiDriverStatus) {
+        this.status = status
     }
 
     fun toResponseDto(): TaxiDriverResponse {

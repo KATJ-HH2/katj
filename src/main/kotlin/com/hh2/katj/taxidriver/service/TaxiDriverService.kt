@@ -1,6 +1,7 @@
 package com.hh2.katj.taxidriver.service
 
 import com.hh2.katj.taxidriver.component.TaxiDriverManager
+import com.hh2.katj.taxidriver.model.dto.request.UpdateStatusRequest
 import com.hh2.katj.taxidriver.model.dto.response.TaxiDriverResponse
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
@@ -34,4 +35,12 @@ class TaxiDriverService(
         return status
     }
 
+    /**
+     * 기사님 상태 변경
+     **/
+    fun updateStatus(taxiDriverId: Long, request: UpdateStatusRequest): TaxiDriverResponse {
+        val taxiDriver = checkValidation(taxiDriverId)
+        val updatedTaxiDriver = taxiDriverManager.updateStatus(taxiDriver.id, request.toEntity(taxiDriver))
+        return updatedTaxiDriver.toResponseDto()
+    }
 }

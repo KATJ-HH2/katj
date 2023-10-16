@@ -19,6 +19,7 @@ import com.hh2.katj.trip.model.DestinationRoadAddress
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
+import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository

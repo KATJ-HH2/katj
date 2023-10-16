@@ -5,8 +5,10 @@ import com.hh2.katj.taxidriver.model.dto.request.AddTotalInfoRequest
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
+import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.USER_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE
+import com.hh2.katj.util.exception.failWithMessage
 import com.hh2.katj.util.exception.findByIdOrThrowMessage
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -41,4 +43,17 @@ class TaxiDriverManager(
         return taxiDriver.status
     }
 
+    /**
+     * 기사님 상태 변경
+     **/
+    @Transactional
+    fun updateStatus(taxiDriverId: Long, request: TaxiDriver): TaxiDriver {
+        val TaxiDriver = findByTaxiDriverId(taxiDriverId)
+        try {
+            TaxiDriver.updateStatus(request.status)
+        } catch (e: Exception) {
+            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        }
+        return TaxiDriver
+    }
 }

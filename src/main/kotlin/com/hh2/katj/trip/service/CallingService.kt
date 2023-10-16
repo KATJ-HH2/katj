@@ -51,4 +51,17 @@ class CallingService (
         return userService.userValidationCheck(findUser.id)
     }
 
+    fun findOneEndTripByUser(userId: Long, tripId: Long): ResponseTrip {
+        val validatedUser = userValidation(userId)
+
+        val findOneTrip = tripReader.findOneEndTripByUser(validatedUser.id, tripId)
+        return findOneTrip.toResponseDto()
+    }
+
+    fun findAllEndTripByUser(userId: Long): List<ResponseTrip> {
+        val validatedUser = userValidation(userId)
+
+        return tripReader.findAllEndTripByUserId(validatedUser.id).map(Trip::toResponseDto)
+    }
+
 }

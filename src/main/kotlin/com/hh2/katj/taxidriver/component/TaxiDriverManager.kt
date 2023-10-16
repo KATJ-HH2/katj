@@ -15,14 +15,30 @@ import org.springframework.transaction.annotation.Transactional
 class TaxiDriverManager(
     private val taxiDriverRepository: TaxiDriverRepository
 ) {
+    /**
+     * taxiDriverId가 존재하면 해당 ID로 taxiDriver 객체 반환
+     * 존재하지 않으면 에러메세지 로깅
+     **/
     @Transactional(readOnly = true)
     fun findByTaxiDriverId(taxiDriverId: Long): TaxiDriver =
         taxiDriverRepository.findByIdOrThrowMessage(taxiDriverId, USER_DOES_NOT_EXIST.name)
 
+    /**
+     * 기사님 정보 저장
+     **/
     @Transactional
     fun saveTotalInfo(request: TaxiDriver): TaxiDriver {
         val infoAddedTaxiDriver = taxiDriverRepository.save(request)
         return infoAddedTaxiDriver
+    }
+
+    /**
+     * 기사님 상태 조회
+     **/
+    @Transactional(readOnly = true)
+    fun findStatus(taxiDriverId: Long): Enum<TaxiDriverStatus> {
+        val taxiDriver = findByTaxiDriverId(taxiDriverId)
+        return taxiDriver.status
     }
 
 }

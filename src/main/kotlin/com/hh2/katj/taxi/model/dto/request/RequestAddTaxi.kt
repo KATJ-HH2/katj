@@ -1,9 +1,8 @@
-package com.hh2.katj.taxi.model.dto
+package com.hh2.katj.taxi.model.dto.request
 
 import com.hh2.katj.taxi.model.ChargeType
 import com.hh2.katj.taxi.model.FuelType
 import com.hh2.katj.taxi.model.Taxi
-import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.time.LocalDate

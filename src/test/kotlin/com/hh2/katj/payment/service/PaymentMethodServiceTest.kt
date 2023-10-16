@@ -12,7 +12,7 @@ import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.*
-import com.hh2.katj.util.model.BaseTestEnitity
+import com.hh2.katj.util.model.BaseTestEntity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions.assertThat
@@ -29,7 +29,7 @@ class PaymentMethodServiceTest(
     private val paymentMethodRepository: PaymentMethodRepository,
     private val paymentMethodReader: PaymentMethodReader,
     private val userRepository: UserRepository,
-): BaseTestEnitity(){
+): BaseTestEntity(){
 
     @AfterEach
     fun tearDown() {

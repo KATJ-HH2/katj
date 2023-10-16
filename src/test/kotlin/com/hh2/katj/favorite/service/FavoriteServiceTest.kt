@@ -13,7 +13,7 @@ import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.DUPLICATED_DATA_ALREADY_EXISTS
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.failWithMessage
-import com.hh2.katj.util.model.BaseTestEnitity
+import com.hh2.katj.util.model.BaseTestEntity
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
@@ -27,7 +27,7 @@ class FavoriteServiceTest (
         private val userRepository: UserRepository,
         private val favoriteRepository: FavoriteRepository,
         private val favoriteService: FavoriteService,
-): BaseTestEnitity() {
+): BaseTestEntity() {
 
     @AfterEach
     fun tearUp() {

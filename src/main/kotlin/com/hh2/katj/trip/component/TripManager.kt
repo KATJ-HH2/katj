@@ -18,12 +18,17 @@ class TripManager(
         val findTrip = tripExistValidation(userId, tripId)
 
         try {
-            findTrip.updateStatus(TripStatus.PAY_COMPLETE)
+            findTrip.updateStatus(TripStatus.END)
         } catch (e: Exception) {
             throw Exception(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return findTrip
+    }
+
+    @Transactional
+    fun callTaxiByUser(request: Trip): Trip {
+        return tripRepository.save(request)
     }
 
     /**

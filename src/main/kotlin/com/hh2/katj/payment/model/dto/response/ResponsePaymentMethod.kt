@@ -2,6 +2,7 @@ package com.hh2.katj.payment.model.dto.response
 
 import com.hh2.katj.payment.model.entity.Bank
 import com.hh2.katj.user.model.entity.User
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 /**
@@ -15,7 +16,7 @@ data class ResponsePaymentMethod(
     var bankName: Bank?,
 
     var cardNumber: String?,
-    var expiryDate: LocalDateTime?,
+    var expiryDate: LocalDate?,
     var cvv: String?,
     var cardHolderName: String?,
 

@@ -20,7 +20,7 @@ class LocationHistoryService(
         // TODO 예외 메시지
         checkNotNull(response) { "api 호출 오류" }
         check(response.documents.isNotEmpty()) {
-            failWithMessage(ExceptionMessage.NO_SEARCH_LOCATION_RESULT.name)
+            failWithMessage(ExceptionMessage.NO_SEARCH_RESULT.name)
         }
 
         val roadAddress = response.documents[0].roadAddress

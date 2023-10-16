@@ -4,6 +4,7 @@ import com.hh2.katj.payment.model.dto.response.ResponsePaymentMethod
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.util.model.BaseEntity
 import jakarta.persistence.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
@@ -15,7 +16,7 @@ class PaymentMethod (
     bankAccountNumber: String?,
     bankName: Bank?,
     cardNumber: String?,
-    expiryDate: LocalDateTime?,
+    expiryDate: LocalDate?,
     cvv: String?,
     cardHolderName: String?,
     isValid: Boolean?,
@@ -43,7 +44,7 @@ class PaymentMethod (
                 protected set
         var cardNumber: String? = cardNumber
                 protected set
-        var expiryDate: LocalDateTime? = expiryDate
+        var expiryDate: LocalDate? = expiryDate
                 protected set
         var cvv: String? = cvv
                 protected set

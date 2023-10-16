@@ -1,13 +1,13 @@
 package com.hh2.katj.history.service
 
 import com.hh2.katj.history.repository.LocationHistoryRepository
-import com.hh2.katj.util.model.Gender
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.model.BaseTestEntity
+import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -52,7 +52,7 @@ class LocationHistoryServiceTest(
         assertThrows<IllegalArgumentException> {
             locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76555")
         }.apply {
-            assertThat(message).isEqualTo(ExceptionMessage.NO_SEARCH_LOCATION_RESULT.name)
+            assertThat(message).isEqualTo(ExceptionMessage.NO_SEARCH_RESULT.name)
         }
     }
 

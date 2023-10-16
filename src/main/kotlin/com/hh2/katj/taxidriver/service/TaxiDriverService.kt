@@ -10,14 +10,28 @@ import org.springframework.stereotype.Service
 class TaxiDriverService(
     private val taxiDriverManager: TaxiDriverManager
 ) {
-    fun findByTaxiDriverId(taxiDriverId: Long): TaxiDriver {
-        val taxiDriver = taxiDriverManager.findByTaxiDriverId(taxiDriverId)
-        return taxiDriver
+    /**
+     * taxiDriverId로 taxiDriver 객체 반환
+     **/
+    fun checkValidation(taxiDriverId: Long): TaxiDriver {
+        val validatedTaxiDriver = taxiDriverManager.findByTaxiDriverId(taxiDriverId)
+        return validatedTaxiDriver
     }
 
+    /**
+     * 기사님 정보 저장
+     **/
     fun saveTotalInfo(request: TaxiDriver): TaxiDriverResponse {
         val savedTotalInfo = taxiDriverManager.saveTotalInfo(request)
         return savedTotalInfo.toResponseDto()
+    }
+
+    /**
+     * 기사님 상태 조회
+     **/
+    fun getStatus(taxiDriverId: Long): Enum<TaxiDriverStatus> {
+        val status = taxiDriverManager.findStatus(taxiDriverId)
+        return status
     }
 
 }

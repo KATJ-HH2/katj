@@ -6,6 +6,8 @@ import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.taxidriver.model.dto.request.AddTotalInfoRequest
 import com.hh2.katj.taxidriver.model.dto.request.UpdateStatusRequest
 import com.hh2.katj.taxidriver.model.dto.response.TaxiDriverResponse
+import com.hh2.katj.util.exception.ExceptionMessage
+import com.hh2.katj.util.exception.failWithMessage
 import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.*
 import java.time.LocalDate
@@ -66,6 +68,11 @@ class TaxiDriver(
         this.img = request.img
     }
 
+    fun statusWaiting() {
+        if (this.status != TaxiDriverStatus.WAITING) {
+            failWithMessage(ExceptionMessage.INCORRECT_STATUS_VALUE.name)
+        }
+    }
     fun updateStatus(status: TaxiDriverStatus) {
         this.status = status
     }

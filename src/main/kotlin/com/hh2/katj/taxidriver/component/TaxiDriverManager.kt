@@ -1,14 +1,10 @@
 package com.hh2.katj.taxidriver.component
 
-import com.hh2.katj.taxi.model.Taxi
-import com.hh2.katj.taxidriver.model.dto.request.AddTotalInfoRequest
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
-import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.USER_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE
-import com.hh2.katj.util.exception.failWithMessage
 import com.hh2.katj.util.exception.findByIdOrThrowMessage
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

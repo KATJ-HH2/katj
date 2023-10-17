@@ -11,5 +11,5 @@ interface TripRepository: JpaRepository<Trip, Long> {
     fun findAllByUserId(userId: Long): List<Trip>
     fun findByIdAndUserIdAndTripStatus(tripId: Long, userId: Long, tripStatus: TripStatus): Trip?
     fun findAllByUserIdAndTripStatus(userId: Long, tripStatus: TripStatus): List<Trip>
-
+    fun findByTaxiDriverIdAndTripStatus(taxiDriverId: Long, tripStatus: TripStatus): Trip?
 }

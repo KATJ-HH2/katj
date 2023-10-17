@@ -3,7 +3,6 @@ package com.hh2.katj.trip.component
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
-import com.hh2.katj.util.exception.ExceptionMessage
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.failWithMessage
 import com.hh2.katj.util.exception.findByIdOrThrowMessage
@@ -35,5 +34,15 @@ class TripReader (
     fun findByIdAndUserId(tripId: Long, userId: Long): Trip {
         return tripRepository.findByIdAndUserId(tripId, userId) ?:
         failWithMessage(ID_DOES_NOT_EXIST.name)
+    }
+
+    @Transactional(readOnly = true)
+    fun findTripInfoByTaxiDriverId(taxiDriverId: Long): List<Any> {
+        val trip = tripRepository.findByTaxiDriverIdAndTripStatus(taxiDriverId, TripStatus.ASSIGN_TAXI)
+        val departure = trip?.departure?.departureAddressName?: String
+        val destination = trip?.destination?.destinationAddressName?: String
+        val fare = trip?.fare?: Int
+        val tripInfo = listOf(departure, destination, fare)
+        return tripInfo
     }
 }

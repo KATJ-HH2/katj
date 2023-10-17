@@ -1,20 +1,20 @@
 package com.hh2.katj.util.model
 
 import io.restassured.RestAssured
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class BaseTestEntity()
  {
 
      @LocalServerPort private val port: Int? = null
-     @BeforeEach
+     @BeforeAll
      fun init() {
          RestAssured.port = port!!
      }

@@ -25,6 +25,7 @@ import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.exception.ExceptionMessage.ID_DOES_NOT_EXIST
 import com.hh2.katj.util.exception.ExceptionMessage.INCORRECT_STATUS_VALUE
+import com.hh2.katj.util.model.BaseTestEntity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
@@ -46,7 +47,7 @@ class CallingServiceTest(
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-) {
+): BaseTestEntity() {
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod

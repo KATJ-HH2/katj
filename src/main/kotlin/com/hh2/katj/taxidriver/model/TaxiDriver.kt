@@ -40,8 +40,7 @@ class TaxiDriver(
     val name: String = name
 
     @Column(nullable = false)
-    var status: TaxiDriverStatus = status
-        protected set
+    val status: TaxiDriverStatus = status
 
     @Column(nullable = false)
     val gender: Gender = gender
@@ -51,10 +50,6 @@ class TaxiDriver(
 
     @Column(nullable = false)
     val img: String = img
-
-    fun updateTaxiDriverStatus(taxiDriverStatus: TaxiDriverStatus) {
-        this.status = taxiDriverStatus
-    }
 
     fun statusWaiting() {
         if (this.status != TaxiDriverStatus.WAITING) {

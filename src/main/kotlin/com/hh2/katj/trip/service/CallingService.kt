@@ -3,6 +3,7 @@ package com.hh2.katj.trip.service
 import com.hh2.katj.taxidriver.component.TaxiDriverReader
 import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.trip.component.TripManager
+import com.hh2.katj.trip.component.TripReader
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.response.ResponseTrip
 import com.hh2.katj.user.model.entity.User
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CallingService (
+    private val tripReader: TripReader,
     private val tripManager: TripManager,
     private val userService: UserService,
     private val taxiDriverReader: TaxiDriverReader,

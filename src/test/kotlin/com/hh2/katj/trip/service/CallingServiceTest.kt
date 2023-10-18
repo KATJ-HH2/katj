@@ -43,6 +43,7 @@ class CallingServiceTest(
 
     lateinit var user: User
     lateinit var taxiDriver: TaxiDriver
+    lateinit var roadAddress: RoadAddress
     var departure = DepartureRoadAddress(
         departureAddressName = "address_name",
         departureRegion1depthName = "r_1",
@@ -74,7 +75,7 @@ class CallingServiceTest(
 
     @BeforeEach
     fun setUp() {
-        val roadAddress: RoadAddress = RoadAddress(
+        roadAddress = RoadAddress(
             addressName = "address_name",
             region1depthName = "r_1",
             region2depthName = "r_2",
@@ -112,7 +113,7 @@ class CallingServiceTest(
             issueDate = LocalDate.now().minusYears(5),
             securityId = "security_id",
             name = "Tom",
-            status = TaxiDriverStatus.WAITING,
+            status = TaxiDriverStatus.STARTDRIVE,
             gender = Gender.UNKNOWN,
             address = roadAddress,
             img = "123"
@@ -146,9 +147,31 @@ class CallingServiceTest(
             tripStatus = TripStatus.CALL_TAXI,
             taxiDriver = null,
         )
+        val taxi = Taxi(
+            carNo = "taxi_num",
+            kind = ChargeType.NORMAL,
+            vin = "123A456BC",
+            manufactureDate = LocalDate.now().minusYears(4),
+            fuel = FuelType.GASOLINE,
+            color = "RED",
+            insureYN = true,
+            accidentYN = false,
+        )
+        val waitingTaxiDriver = TaxiDriver(
+            taxi = taxi,
+            driverLicenseId = "driver_license_id",
+            issueDate = LocalDate.now().minusYears(5),
+            securityId = "security_id",
+            name = "Tom",
+            status = TaxiDriverStatus.WAITING,
+            gender = Gender.UNKNOWN,
+            address = roadAddress,
+            img = "123"
+        )
+        taxiRepository.save(taxi)
+        taxiDriverRepository.save(waitingTaxiDriver)
 
         // when
-        taxiDriverRepository.save(taxiDriver)
         val responseTrip: ResponseTrip = callingService.callTaxiByUser(trip)
 
         // then
@@ -171,10 +194,7 @@ class CallingServiceTest(
             taxiDriver = null,
         )
 
-        // when
-        taxiDriverRepository.deleteAll()
-
-        // then
+        // when, then
         assertThrows<IllegalArgumentException> {
             callingService.assignTaxiDriver(trip)
         }.apply {
@@ -275,8 +295,8 @@ class CallingServiceTest(
             .containsExactlyInAnyOrder(firstTrip.spentTime, secondTrip.spentTime, thirdTrip.spentTime)
         assertThat(trips).extracting("tripStatus")
             .containsExactlyInAnyOrder(firstTrip.tripStatus, secondTrip.tripStatus, secondTrip.tripStatus)
-        assertThat(trips).extracting("user")
-            .containsExactlyInAnyOrder(firstTrip.user, secondTrip.user, thirdTrip.user)
+        assertThat(trips).extracting("userId")
+            .containsExactlyInAnyOrder(firstTrip.user.id, secondTrip.user.id, thirdTrip.user.id)
     }
 
 }

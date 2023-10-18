@@ -43,7 +43,7 @@ class CallingService (
         check(taxiDrivers.isNotEmpty()) { failWithMessage(NO_SUCH_VALUE_EXISTS.name) }
         val taxiDriver = taxiDrivers.random()
 
-        trip.assignTaxiDriver(taxiDriver)
+        tripManager.assignTaxiDriver(trip, taxiDriver)
 
         return taxiDriver
     }

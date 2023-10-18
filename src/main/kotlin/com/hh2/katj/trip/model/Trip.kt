@@ -84,6 +84,7 @@ class Trip(
 
     fun assignTaxiDriver(taxiDriver: TaxiDriver?) {
         this.taxiDriver = taxiDriver
+        this.tripStatus = TripStatus.ASSIGN_TAXI
     }
 
 }

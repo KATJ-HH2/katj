@@ -133,7 +133,7 @@ class CallingServiceTest(
 
     //택시 호출 및 해당 택시 정보 수신
     @Test
-    fun `사용자가 검색한 위치 정보를 가지고 택시를 호출`() {
+    fun `사용자가 검색한 위치 정보를 가지고 택시를 호출 및 자동 배정`() {
         // given
         val trip = Trip(
             user = user,
@@ -152,7 +152,7 @@ class CallingServiceTest(
         val responseTrip: ResponseTrip = callingService.callTaxiByUser(trip)
 
         // then
-        assertThat(responseTrip.tripStatus).isEqualTo(TripStatus.CALL_TAXI)
+        assertThat(responseTrip.tripStatus).isEqualTo(TripStatus.ASSIGN_TAXI)
         assertThat(responseTrip.taxiDriverId).isNotNull()
     }
 
@@ -171,9 +171,8 @@ class CallingServiceTest(
             taxiDriver = null,
         )
 
-        // when,
-        val driver = taxiDriverRepository.save(taxiDriver)
-        driver.updateTaxiDriverStatus(TaxiDriverStatus.STARTDRIVE)
+        // when
+        taxiDriverRepository.deleteAll()
 
         // then
         assertThrows<IllegalArgumentException> {

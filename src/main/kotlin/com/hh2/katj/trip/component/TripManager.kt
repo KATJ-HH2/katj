@@ -1,5 +1,6 @@
 package com.hh2.katj.trip.component
 
+import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
@@ -29,6 +30,11 @@ class TripManager(
     @Transactional
     fun callTaxiByUser(request: Trip): Trip {
         return tripRepository.save(request)
+    }
+
+    @Transactional
+    fun assignTaxiDriver(trip: Trip, taxiDriver: TaxiDriver) {
+        trip.assignTaxiDriver(taxiDriver)
     }
 
     /**

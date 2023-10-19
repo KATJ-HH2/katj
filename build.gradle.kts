@@ -33,6 +33,10 @@ dependencies {
 
 	// 스케줄링 처리를 위한 코루틴 라이브러리 추가
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+	
+	// Retry 추가
+	implementation("org.springframework:spring-aspects")
+	implementation("org.springframework.retry:spring-retry")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

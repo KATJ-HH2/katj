@@ -31,6 +31,13 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	// 로그백 의존성
+//	implementation("io.github.microutils:kotlin-logging:1.12.5")
+	implementation(group = "ca.pjer", name = "logback-awslogs-appender", version = "1.6.0")
+
+	// 프로퍼티 제어 in xml
+	implementation("org.codehaus.janino:janino:3.1.10")
+
 	// 스케줄링 처리를 위한 코루틴 라이브러리 추가
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 	

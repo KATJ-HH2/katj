@@ -33,4 +33,9 @@ class UserManager(
         paymentMethod.addPaymentMethodTo(user)
     }
 
+    @Transactional
+    fun createUser(user: User): User {
+        return userRepository.save(user)
+    }
+
 }

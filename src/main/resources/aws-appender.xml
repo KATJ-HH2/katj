@@ -4,7 +4,7 @@
             <level>ERROR</level>
         </filter>
         <layout>
-            <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
+            <pattern>%d{yyyyMMdd'T'HHmmss} [%thread] [%level] [%X{request_id}] [%logger{15}] %msg%n</pattern>
         </layout>
         <!-- 로그 그룹명 -->
         <logGroupName>katj-dev</logGroupName>

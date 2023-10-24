@@ -1,76 +1,5 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<configuration>-->
-<!--    <appender name="ASYNC_AWS_LOGS" class="ca.pjer.logback.AwsLogsAppender">-->
-<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
-<!--            <level>ERROR</level>-->
-<!--        </filter>-->
-<!--        <layout>-->
-<!--            <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>-->
-<!--        </layout>-->
-<!--                <if condition='property("spring.profiles.active").contains("local")'>-->
-<!--                    <then>-->
-<!--                        &lt;!&ndash; local 용 로그 그룹명 &ndash;&gt;-->
-<!--                        <logGroupName>katj-local</logGroupName>-->
-<!--                    </then>-->
-<!--                </if>-->
-<!--                <if condition='property("spring.profiles.active").contains("dev")'>-->
-<!--                    <then>-->
-<!--                        &lt;!&ndash; dev 용 로그 그룹명 &ndash;&gt;-->
-<!--                        <logGroupName>katj-dev</logGroupName>-->
-<!--                    </then>-->
-<!--                </if>-->
-<!--                <if condition='property("spring.profiles.active").contains("prod")'>-->
-<!--                    <then>-->
-<!--                        &lt;!&ndash; prod 용 로그 그룹명 &ndash;&gt;-->
-<!--                        <logGroupName>katj-prod</logGroupName>-->
-<!--                    </then>-->
-<!--                </if>-->
-<!--        <logStreamUuidPrefix>error-</logStreamUuidPrefix>-->
-<!--        <logRegion>ap-northeast-2</logRegion>-->
-<!--        <maxBatchLogEvents>50</maxBatchLogEvents>-->
-<!--        <maxFlushTimeMillis>30000</maxFlushTimeMillis>-->
-<!--        <maxBlockTimeMillis>5000</maxBlockTimeMillis>-->
-<!--        <retentionTimeDays>0</retentionTimeDays>-->
-<!--        &lt;!&ndash;        <accessKeyId></accessKeyId>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <secretAccessKey></secretAccessKey>&ndash;&gt;-->
-<!--    </appender>-->
-
-<!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-<!--            <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>-->
-<!--            <charset>UTF-8</charset>-->
-<!--        </encoder>-->
-<!--    </appender>-->
-
-<!--    <root level="INFO">-->
-<!--        <appender-ref ref="CONSOLE" />-->
-<!--    </root>-->
-
-<!--    <springProfile name="local">-->
-<!--        <logger name="org.springframework" level="INFO" />-->
-<!--        <logger name="inc.bfactory.kpop" level="INFO"/>-->
-<!--        <root level="INFO">-->
-<!--            <appender-ref ref="ASYNC_AWS_LOGS"/>-->
-<!--        </root>-->
-<!--    </springProfile>-->
-
-<!--&lt;!&ndash;    <springProfile name="dev">&ndash;&gt;-->
-<!--&lt;!&ndash;        <include resource="file-info-appender.xml"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        <root level="INFO">&ndash;&gt;-->
-<!--&lt;!&ndash;            <appender-ref ref="FILE-INFO"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        </root>&ndash;&gt;-->
-<!--&lt;!&ndash;        <logger level="DEBUG" name="org.hibernate.SQL">&ndash;&gt;-->
-<!--&lt;!&ndash;            <appender-ref ref="FILE-INFO"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        </logger>&ndash;&gt;-->
-<!--&lt;!&ndash;        <logger level="TRACE" name="org.hibernate.type.descriptor.sql.BasicBinder">&ndash;&gt;-->
-<!--&lt;!&ndash;            <appender-ref ref="FILE-INFO"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        </logger>&ndash;&gt;-->
-<!--&lt;!&ndash;    </springProfile>&ndash;&gt;-->
-<!--</configuration>-->
-
-
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true">
     <include resource="console-appender.xml"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
@@ -79,21 +8,28 @@
     <springProfile name="dev">
         <include resource="file-appender.xml"/>
         <root level="INFO">
-            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="ERROR_DEFAULT_FILE_APPENDER"/>
+            <appender-ref ref="INFO_DEFAULT_FILE_APPENDER"/>
         </root>
         <logger level="DEBUG" name="org.hibernate.SQL">
-            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="ERROR_DEFAULT_FILE_APPENDER"/>
+            <appender-ref ref="INFO_DEFAULT_FILE_APPENDER"/>
         </logger>
         <logger level="TRACE" name="org.hibernate.type.descriptor.sql.BasicBinder">
-            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="ERROR_DEFAULT_FILE_APPENDER"/>
+            <appender-ref ref="INFO_DEFAULT_FILE_APPENDER"/>
         </logger>
-    </springProfile>
-
-    <springProfile name="prod">
         <include resource="aws-appender.xml"/>
-
         <root level="ERROR">
             <appender-ref ref="ASYNC_AWS_LOGS"/>
         </root>
     </springProfile>
+
+    <springProfile name="prod">
+        <include resource="aws-appender.xml"/>
+        <root level="ERROR">
+            <appender-ref ref="ASYNC_AWS_LOGS"/>
+        </root>
+    </springProfile>
+
 </configuration>

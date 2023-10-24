@@ -3,7 +3,6 @@
     <include resource="defaults.xml" />
     <include resource="console-appender.xml" />
     <include resource="file-appender.xml" />
-    <include resource="aws-appender.xml" />
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />

@@ -33,7 +33,7 @@ class FavoriteManager (
         try {
             findFavorite.update(request)
         } catch (e: Exception) {
-            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+            throw RuntimeException(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return findFavorite
@@ -47,7 +47,7 @@ class FavoriteManager (
         try {
             favoriteRepository.delete(deleteFavorite)
         } catch (e: Exception) {
-            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+            throw RuntimeException(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return true
@@ -59,7 +59,7 @@ class FavoriteManager (
         try {
             favoriteRepository.deleteAllByUserId(userId)
         } catch (e: Exception) {
-            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+            throw RuntimeException(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return true
@@ -71,7 +71,7 @@ class FavoriteManager (
         val deleteRowCount = favoriteRepository.deleteFavoritesByUserIdAndIdIn(userId, deleteFavoriteIds)
 
         if (deleteRowCount != deleteFavoriteIds.size) {
-            throw Exception(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+            throw RuntimeException(INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return true

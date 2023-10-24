@@ -30,8 +30,8 @@ class PaymentMethodManager (
 
         try {
             paymentMethodRepository.delete(deletePaymentMethod)
-        } catch (e: Exception) {
-            throw Exception(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        } catch (e: RuntimeException) {
+            throw RuntimeException(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
         return true
     }
@@ -40,8 +40,8 @@ class PaymentMethodManager (
     fun deleteAllFavorite(userId: Long): Boolean {
         try {
             paymentMethodRepository.deleteAllByUserId(userId)
-        } catch (e: Exception) {
-            throw Exception(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+        } catch (e: RuntimeException) {
+            throw RuntimeException(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
         return true
     }

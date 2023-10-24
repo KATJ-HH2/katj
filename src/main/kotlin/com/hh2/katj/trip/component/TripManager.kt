@@ -21,7 +21,7 @@ class TripManager(
         try {
             findTrip.updateStatus(TripStatus.END)
         } catch (e: Exception) {
-            throw Exception(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
+            throw RuntimeException(ExceptionMessage.INTERNAL_SERVER_ERROR_FROM_DATABASE.name)
         }
 
         return findTrip

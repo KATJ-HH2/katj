@@ -1,7 +1,8 @@
 <included>
+<!--
     <property name="LOG_PATTERN_DEFAULT" value="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%X{request_id}] [%logger{36}] - %msg%n"/>
     <property name="LOG_PATTERN_DEFAULT_ERROR" value="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%X{request_id}] [%logger{36}] - %msg%n"/>
-
+-->
     <property resource="logs/logback-dev.properties"/>
     <!-- log file path -->
     <property name="LOG_PATH" value="${log.config.path}"/>
@@ -20,6 +21,9 @@
 
     <appender name="ERROR_DEFAULT_FILE_APPENDER"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>NEUTRAL</onMatch>
@@ -41,12 +45,12 @@
             <MaxIndex>10</MaxIndex>
 
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${LOG_PATTERN_DEFAULT}</pattern>
-        </encoder>
     </appender>
     <appender name="INFO_DEFAULT_FILE_APPENDER"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -68,8 +72,5 @@
             <MaxIndex>10</MaxIndex>
 
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${LOG_PATTERN_DEFAULT}</pattern>
-        </encoder>
     </appender>
 </included>

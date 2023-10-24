@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
-    <include resource="console-appender.xml"/>
+
+    <include resource="base.xml"/>
+
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>
 
     <springProfile name="dev">
-        <include resource="file-appender.xml"/>
         <root level="INFO">
             <appender-ref ref="ERROR_DEFAULT_FILE_APPENDER"/>
             <appender-ref ref="INFO_DEFAULT_FILE_APPENDER"/>

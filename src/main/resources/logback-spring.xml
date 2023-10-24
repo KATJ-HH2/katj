@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="base.xml"/>
-    <include resource="console-appender.xml"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>
 
     <springProfile name="dev">
-        <include resource="file-appender.xml"/>
-        <include resource="aws-appender.xml"/>
         <root level="INFO">
             <appender-ref ref="FILE"/>
             <appender-ref ref="ASYNC_AWS_LOGS"/>
@@ -22,9 +19,8 @@
     </springProfile>
 
     <springProfile name="prod">
-        <include resource="file-appender.xml"/>
-        <include resource="aws-appender.xml"/>
         <root level="ERROR">
+            <appender-ref ref="FILE"/>
             <appender-ref ref="ASYNC_AWS_LOGS"/>
         </root>
     </springProfile>

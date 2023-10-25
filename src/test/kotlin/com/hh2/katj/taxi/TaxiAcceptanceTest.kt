@@ -30,6 +30,8 @@ class TaxiAcceptanceTest(
     @DisplayName("택시 생성")
     @Test
     fun createTaxi() {
+        //given
+        //when
         val 택시 = 택시_생성(
             "62거4811",
             "KMHDL41BP8A000001",
@@ -41,6 +43,9 @@ class TaxiAcceptanceTest(
             false
         )
 
-        Assertions.assertThat(택시).isEqualTo("62거4811")
+        val cardNo = 택시.jsonPath().getString("carNo")
+
+        //then
+        Assertions.assertThat(cardNo).isEqualTo("62거4811")
     }
 }

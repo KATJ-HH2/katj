@@ -3,9 +3,8 @@ package com.hh2.katj.taxi.controller
 import com.hh2.katj.taxi.model.dto.request.RequestAddTaxi
 import com.hh2.katj.taxi.model.dto.request.toEntity
 import com.hh2.katj.taxi.model.dto.response.ResponseAddTaxi
-import com.hh2.katj.taxi.model.dto.response.getTaxiResponse
+import com.hh2.katj.taxi.model.dto.response.FindTaxiResponse
 import com.hh2.katj.taxi.service.TaxiService
-import jakarta.persistence.Id
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,7 +24,7 @@ class TaxiController(
     }
 
     @GetMapping("/taxi/{id}")
-    fun getTaxi(@PathVariable id: Long): ResponseEntity<getTaxiResponse> {
+    fun getTaxi(@PathVariable id: Long): ResponseEntity<FindTaxiResponse> {
         return ResponseEntity.ok().body(taxiService.findTaxi(id))
     }
 }

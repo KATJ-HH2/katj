@@ -11,7 +11,6 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.function.Executable
 import java.time.LocalDate
 import org.junit.jupiter.api.Assertions as JupiterApiAssertions
@@ -79,7 +78,8 @@ class TaxiAcceptanceTest(
         //then
         JupiterApiAssertions.assertAll(
             Executable { JupiterApiAssertions.assertEquals("62거1111", response.jsonPath().getString("carNo")) },
-            Executable { JupiterApiAssertions.assertEquals(FuelType.GASOLINE.toString(), response.jsonPath().getString("fuelType")) }
+            Executable { JupiterApiAssertions.assertEquals(FuelType.GASOLINE.toString(), response.jsonPath().getString("fuelType")) },
+            Executable { JupiterApiAssertions.assertEquals("RED", response.jsonPath().getString("color")) }
         )
     }
 }

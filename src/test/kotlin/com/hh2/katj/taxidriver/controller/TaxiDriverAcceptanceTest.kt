@@ -1,6 +1,5 @@
 package com.hh2.katj.taxidriver.controller
 
-import com.hh2.katj.taxidriver.fixtures.TaxiDriverFixtures.Companion.택시드라이버_생성
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
 import com.hh2.katj.util.model.BaseTestEntity
 import org.junit.jupiter.api.BeforeEach

@@ -29,5 +29,15 @@ class TaxiTestFixtures {
                         .then().log().all()
                         .extract()
         }
+
+        fun 택시_조회(택시: ExtractableResponse<Response>): ExtractableResponse<Response> {
+            val taxiId = 택시.jsonPath().getString("id")
+
+            return given().log().all()
+                .`when`().pathParam("id", taxiId)
+                .get("/taxi/{id}")
+                .then().log().all()
+                .extract()
+        }
     }
 }

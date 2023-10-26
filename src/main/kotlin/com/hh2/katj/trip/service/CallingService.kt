@@ -1,6 +1,7 @@
 package com.hh2.katj.trip.service
 
 import com.hh2.katj.payment.component.PaymentMethodReader
+import com.hh2.katj.taxidriver.component.TaxiDriverReader
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.service.TaxiDriverService
 import com.hh2.katj.trip.component.TripManager
@@ -24,7 +25,7 @@ class CallingService (
     private val taxiDriverService: TaxiDriverService,
     private val taxiDriverReader: TaxiDriverReader,
 
-){
+    ){
 
     fun callTaxiByUser(request: Trip): ResponseTrip {
         userValidation(request.user.id)
@@ -58,7 +59,7 @@ class CallingService (
     }
 
     private fun taxiDriverValidation(taxiDriverId: Long): TaxiDriver {
-        val validatedTaxiDriver = taxiDriverService.checkValidation(taxiDriverId)
+        val validatedTaxiDriver = taxiDriverService.findTaxiDriver(taxiDriverId)
         return validatedTaxiDriver
     }
 

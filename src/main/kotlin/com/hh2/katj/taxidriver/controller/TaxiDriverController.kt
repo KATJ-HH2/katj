@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.hh2.katj.taxidriver.model.dto.request.AddTotalInfoRequest
 import com.hh2.katj.taxidriver.model.dto.request.UpdateStatusRequest
 import com.hh2.katj.taxidriver.model.dto.response.TaxiDriverResponse
-import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.service.TaxiDriverService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -33,9 +33,9 @@ class TaxiDriverController(
      * 기사님 상태 조회
      **/
     @GetMapping("/status")
-    fun getStatus(@RequestParam id: Long): ResponseEntity<Enum<TaxiDriverStatus>> {
-        val status = taxiDriverService.getStatus(id)
-        return ResponseEntity.ok(status)
+    fun getStatus(@RequestParam id: Long): ResponseEntity<TaxiDriver> {
+        val taxiDriver = taxiDriverService.getStatus(id)
+        return ResponseEntity.ok(taxiDriver)
     }
 
     /**

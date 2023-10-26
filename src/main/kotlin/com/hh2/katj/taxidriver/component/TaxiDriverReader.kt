@@ -1,7 +1,7 @@
 package com.hh2.katj.taxidriver.component
 
-import com.hh2.katj.taxidriver.model.TaxiDriver
-import com.hh2.katj.taxidriver.model.TaxiDriverStatus
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
+import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional

@@ -30,9 +30,9 @@ class TaxiDriverService(
     /**
      * 기사님 상태 조회
      **/
-    fun getStatus(taxiDriverId: Long): Enum<TaxiDriverStatus> {
-        val status = taxiDriverManager.findStatus(taxiDriverId)
-        return status
+    fun getStatus(taxiDriverId: Long): TaxiDriver {
+        val taxiDriver = taxiDriverManager.findStatus(taxiDriverId)
+        return taxiDriver
     }
 
     /**

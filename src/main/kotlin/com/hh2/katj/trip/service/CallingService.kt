@@ -78,8 +78,6 @@ class CallingService (
 
     fun findTripInfoByTaxiDriverId(taxiDriverId: Long): List<Any> {
         val validatedTaxiDriver = taxiDriverValidation(taxiDriverId)
-        println("validatedTaxiDriver")
-        println(validatedTaxiDriver)
         val tripInfo = tripReader.findTripInfoByTaxiDriverId(validatedTaxiDriver.id)
         return tripInfo
     }

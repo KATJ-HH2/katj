@@ -34,9 +34,9 @@ class TaxiDriverManager(
      * 기사님 상태 조회
      **/
     @Transactional(readOnly = true)
-    fun findStatus(taxiDriverId: Long): Enum<TaxiDriverStatus> {
+    fun findStatus(taxiDriverId: Long): TaxiDriver {
         val taxiDriver = findByTaxiDriverId(taxiDriverId)
-        return taxiDriver.status
+        return taxiDriver
     }
 
     /**

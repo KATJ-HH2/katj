@@ -44,7 +44,6 @@ class TaxiDriverController(
     @PutMapping("/status")
     fun updateStatus(@RequestParam id: Long,
                      @RequestBody request: UpdateStatusRequest): ResponseEntity<TaxiDriverResponse> {
-//        val taxiDriver = taxiDriverService.checkValidation(id)
         val statusChangedTaxiDriver = taxiDriverService.updateStatus(id, request)
         return ResponseEntity.ok(statusChangedTaxiDriver)
     }

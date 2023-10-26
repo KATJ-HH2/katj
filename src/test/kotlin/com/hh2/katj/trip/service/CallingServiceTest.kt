@@ -6,6 +6,7 @@ import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.taxi.repository.TaxiRepository
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
+import com.hh2.katj.taxidriver.component.TaxiDriverReader
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
 import com.hh2.katj.trip.model.DepartureRoadAddress
 import com.hh2.katj.trip.model.DestinationRoadAddress
@@ -38,6 +39,7 @@ class CallingServiceTest(
     private val userRepository: UserRepository,
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
+    private val taxiDriverReader: TaxiDriverReader,
     private val tripRepository: TripRepository,
 ): BaseTestEntity() {
 
@@ -195,8 +197,8 @@ class CallingServiceTest(
         )
 
         // when, then
-        assertThrows<IllegalArgumentException> {
-            callingService.assignTaxiDriver(trip)
+        assertThrows<RuntimeException> {
+            taxiDriverReader.findWaitingTaxiDriver()
         }.apply {
             assertThat(message).isEqualTo(ExceptionMessage.NO_SUCH_VALUE_EXISTS.name)
         }

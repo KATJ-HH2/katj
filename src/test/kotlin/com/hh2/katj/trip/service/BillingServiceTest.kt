@@ -1,4 +1,4 @@
-package com.hh2.katj.trip.service
+package com.hh2.katj.payment.service
 
 import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.payment.model.dto.request.RequestAddBankAccount
@@ -18,12 +18,13 @@ import com.hh2.katj.trip.model.DestinationRoadAddress
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository
+import com.hh2.katj.trip.service.BillingService
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
 import com.hh2.katj.user.repository.UserRepository
 import com.hh2.katj.util.annotation.KATJTestContainerE2E
+import com.hh2.katj.util.model.BaseTestEntity
 import com.hh2.katj.util.exception.DataNotFoundException
-import com.hh2.katj.util.model.BaseTestEnitity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import org.assertj.core.api.Assertions
@@ -47,7 +48,8 @@ class BillingServiceTest(
     private val taxiRepository: TaxiRepository,
     private val taxiDriverRepository: TaxiDriverRepository,
     private val tripRepository: TripRepository,
-) : BaseTestEnitity(){
+
+): BaseTestEntity() {
 
     lateinit var bankAccount_enough: PaymentMethod
     lateinit var card_enough: PaymentMethod

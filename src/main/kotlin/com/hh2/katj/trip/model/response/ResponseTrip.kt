@@ -9,8 +9,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class ResponseTrip(
-    val user: User,
-    val taxiDriver: TaxiDriver?,
+    val userId: Long,
+    val taxiDriverId: Long?,
     val fare: Int,
     val departure: DepartureRoadAddress,
     val destination: DestinationRoadAddress,

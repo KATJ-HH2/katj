@@ -3,6 +3,7 @@ package com.hh2.katj.user.service
 import com.hh2.katj.user.component.UserManager
 import com.hh2.katj.user.model.entity.User
 import com.hh2.katj.user.model.entity.UserStatus
+import com.hh2.katj.user.model.request.ResponseUser
 import com.hh2.katj.util.exception.ExceptionMessage
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -12,6 +13,11 @@ import org.springframework.web.server.ResponseStatusException
 class UserService(
     private val userManager: UserManager
 ) {
+
+    fun createUser(request: User): ResponseUser {
+        val saveUser = userManager.createUser(request)
+        return saveUser.toResponseDto()
+    }
 
     fun findByUserId(userId: Long): User {
         val findUser = userManager.findByUserId(userId)

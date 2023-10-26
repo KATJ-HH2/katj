@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TaxiDriverRepository : JpaRepository<TaxiDriver, Long> {
+
+    fun findByStatus(status: TaxiDriverStatus): List<TaxiDriver>
 }

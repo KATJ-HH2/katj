@@ -1,5 +1,6 @@
 package com.hh2.katj.user.model.entity
 
+import com.hh2.katj.user.model.request.ResponseUser
 import com.hh2.katj.util.model.BaseEntity
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
@@ -67,6 +68,18 @@ class User (
                 result = 31 * result + roadAddress.hashCode()
                 result = 31 * result + status.hashCode()
                 return result
+        }
+
+        fun toResponseDto(): ResponseUser {
+                return ResponseUser(
+                    id = this.id,
+                    name = this.name,
+                    phoneNumber = this.phoneNumber,
+                    email = this.email,
+                    gender = this.gender,
+                    roadAddress = this.roadAddress,
+                    status = this.status
+                )
         }
 
 }

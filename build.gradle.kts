@@ -31,8 +31,19 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
+	// 로그백 의존성
+//	implementation("io.github.microutils:kotlin-logging:1.12.5")
+	implementation(group = "ca.pjer", name = "logback-awslogs-appender", version = "1.6.0")
+
+	// 프로퍼티 제어 in xml
+	implementation("org.codehaus.janino:janino:3.1.10")
+
 	// 스케줄링 처리를 위한 코루틴 라이브러리 추가
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+	
+	// Retry 추가
+	implementation("org.springframework:spring-aspects")
+	implementation("org.springframework.retry:spring-retry")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -41,6 +52,9 @@ dependencies {
 	testImplementation ("org.testcontainers:testcontainers:1.19.1") // TC 의존성
 	testImplementation ("org.testcontainers:junit-jupiter:1.19.1")  // TC 의존성
 	testImplementation ("org.testcontainers:mysql:1.19.1")     // MtSQL 컨테이너 사용
+
+	//rest-assured
+	testImplementation ("io.rest-assured:kotlin-extensions:5.3.2")
 }
 
 dependencyManagement {
@@ -68,10 +82,6 @@ tasks.withType<Test> {
 jacoco {
 	// JaCoCo 버전
 	toolVersion = "0.8.8"
-
-//  테스트결과 리포트를 저장할 경로 변경
-//  default는 "${project.reporting.baseDir}/jacoco"
-//  reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 

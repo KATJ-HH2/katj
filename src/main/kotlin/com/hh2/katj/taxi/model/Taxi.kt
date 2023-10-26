@@ -3,6 +3,8 @@ package com.hh2.katj.taxi.model
 import com.hh2.katj.util.model.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import java.time.LocalDate
 
 @Entity
@@ -24,12 +26,14 @@ class Taxi(
     val vin: String = vin
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     val kind: ChargeType = kind
 
     @Column(nullable = false)
     val manufactureDate: LocalDate = manufactureDate
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     val fuel: FuelType = fuel
 
     @Column(nullable = false)

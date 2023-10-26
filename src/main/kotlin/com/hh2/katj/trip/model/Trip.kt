@@ -1,10 +1,9 @@
 package com.hh2.katj.trip.model
 
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.util.model.BaseEntity
-import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.trip.model.response.ResponseTrip
 import com.hh2.katj.user.model.entity.User
-import com.hh2.katj.util.model.RoadAddress
 import jakarta.persistence.*
 import java.time.LocalDate
 import java.time.LocalDateTime

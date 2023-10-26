@@ -1,6 +1,6 @@
 package com.hh2.katj.trip.model.request
 
-import com.hh2.katj.taxidriver.model.TaxiDriver
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.trip.model.DepartureRoadAddress
 import com.hh2.katj.trip.model.DestinationRoadAddress
 import com.hh2.katj.trip.model.Trip

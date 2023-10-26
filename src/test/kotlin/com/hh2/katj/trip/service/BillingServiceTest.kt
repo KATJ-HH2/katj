@@ -11,7 +11,6 @@ import com.hh2.katj.taxi.model.ChargeType
 import com.hh2.katj.taxi.model.FuelType
 import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.taxi.repository.TaxiRepository
-import com.hh2.katj.taxidriver.model.TaxiDriver
 import com.hh2.katj.taxidriver.model.TaxiDriverStatus
 import com.hh2.katj.taxidriver.repository.TaxiDriverRepository
 import com.hh2.katj.trip.model.DepartureRoadAddress

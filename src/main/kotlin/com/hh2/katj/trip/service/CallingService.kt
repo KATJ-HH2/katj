@@ -1,6 +1,9 @@
 package com.hh2.katj.trip.service
 
+import com.hh2.katj.payment.component.PaymentMethodReader
 import com.hh2.katj.taxidriver.component.TaxiDriverReader
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
+import com.hh2.katj.taxidriver.service.TaxiDriverService
 import com.hh2.katj.trip.component.TripManager
 import com.hh2.katj.trip.component.TripReader
 import com.hh2.katj.trip.model.Trip
@@ -14,6 +17,8 @@ class CallingService (
     private val tripReader: TripReader,
     private val tripManager: TripManager,
     private val userService: UserService,
+    private val paymentMethodReader: PaymentMethodReader,
+    private val taxiDriverService: TaxiDriverService,
     private val taxiDriverReader: TaxiDriverReader,
 ){
 
@@ -33,6 +38,11 @@ class CallingService (
         return userService.userValidationCheck(findUser.id)
     }
 
+    private fun taxiDriverValidation(taxiDriverId: Long): TaxiDriver {
+        val validatedTaxiDriver = taxiDriverService.findTaxiDriver(taxiDriverId)
+        return validatedTaxiDriver
+    }
+
     fun findOneEndTripByUser(userId: Long, tripId: Long): ResponseTrip {
         val validatedUser = userValidation(userId)
 
@@ -44,6 +54,12 @@ class CallingService (
         val validatedUser = userValidation(userId)
 
         return tripReader.findAllEndTripByUserId(validatedUser.id).map(Trip::toResponseDto)
+    }
+
+    fun findTripInfoByTaxiDriverId(taxiDriverId: Long): List<Any> {
+        val validatedTaxiDriver = taxiDriverValidation(taxiDriverId)
+        val tripInfo = tripReader.findTripInfoByTaxiDriverId(validatedTaxiDriver.id)
+        return tripInfo
     }
 
 }

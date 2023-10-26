@@ -14,7 +14,7 @@ class TaxiDriverService(
     /**
      * taxiDriverId로 taxiDriver 객체 반환
      **/
-    fun checkValidation(taxiDriverId: Long): TaxiDriver {
+    fun findTaxiDriver(taxiDriverId: Long): TaxiDriver {
         val validatedTaxiDriver = taxiDriverManager.findByTaxiDriverId(taxiDriverId)
         return validatedTaxiDriver
     }
@@ -39,7 +39,7 @@ class TaxiDriverService(
      * 기사님 상태 변경
      **/
     fun updateStatus(taxiDriverId: Long, request: UpdateStatusRequest): TaxiDriverResponse {
-        val taxiDriver = checkValidation(taxiDriverId)
+        val taxiDriver = findTaxiDriver(taxiDriverId)
         val updatedTaxiDriver = taxiDriverManager.updateStatus(taxiDriver.id, request.toEntity(taxiDriver))
         return updatedTaxiDriver.toResponseDto()
     }

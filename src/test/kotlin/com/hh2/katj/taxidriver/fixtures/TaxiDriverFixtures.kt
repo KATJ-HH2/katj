@@ -36,7 +36,7 @@ class TaxiDriverFixtures {
                         .`when`()
                     .post("/taxidriver/enroll")
                         .then().log().all()
-                        .extract().jsonPath().getString("Id")
+                        .extract().jsonPath().getString("securityId")
         }
     }
 }

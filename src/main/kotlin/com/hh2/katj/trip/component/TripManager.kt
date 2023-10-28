@@ -1,6 +1,6 @@
 package com.hh2.katj.trip.component
 
-import com.hh2.katj.taxidriver.model.TaxiDriver
+import com.hh2.katj.taxidriver.model.entity.TaxiDriver
 import com.hh2.katj.trip.model.Trip
 import com.hh2.katj.trip.model.TripStatus
 import com.hh2.katj.trip.repository.TripRepository

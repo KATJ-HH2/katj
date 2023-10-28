@@ -1,8 +1,8 @@
-package com.hh2.katj.taxidriver.model
+package com.hh2.katj.taxidriver.model.entity
 
 enum class TaxiDriverStatus {
     WAITING,
-    ASSIGINMENT,
+    ASSIGNMENT,
     STARTDRIVE,
     ENDDRIVE
 }

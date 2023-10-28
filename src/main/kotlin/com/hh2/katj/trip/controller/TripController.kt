@@ -58,7 +58,12 @@ class TripController (
         return ResponseEntity.ok(responseTripList)
     }
 
-
-
-
+    /**
+     * 택시기사가 운행 예정 경로와 요금을 조회한다
+     */
+    @GetMapping("/taxi-driver/info")
+    fun findTripInfoByTaxiDriverId(@RequestParam taxiDriverId: Long): ResponseEntity<List<Any>> {
+        val tripInfo = callingService.findTripInfoByTaxiDriverId(taxiDriverId)
+        return ResponseEntity.ok(tripInfo)
+    }
 }

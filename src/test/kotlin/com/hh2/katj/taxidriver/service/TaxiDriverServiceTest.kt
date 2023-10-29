@@ -72,7 +72,9 @@ class TaxiDriverServiceTest(
             img = "1111"
         )
 
-        // when: 드라이버 정보 저장
+        // when: 드라이버 정보 저장 & requestTaxiDriver 요청 객체 생성
+        taxiRepository.save(taxi)
+
         val requestTaxiDriver = AddTotalInfoRequest(
             taxi = taxiDriver.taxi,
             driverLicenseId = taxiDriver.driverLicenseId,

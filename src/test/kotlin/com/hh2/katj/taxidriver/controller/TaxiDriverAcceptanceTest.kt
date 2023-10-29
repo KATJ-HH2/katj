@@ -67,8 +67,9 @@ class TaxiDriverAcceptanceTest(
                 address = address,
                 img = "1111"
         )
+        val securityId = taxiDriver.jsonPath().getString("securityId")
 
-        Assertions.assertThat(taxiDriver).isEqualTo("test")
+        Assertions.assertThat(securityId).isEqualTo("test")
     }
 
 }

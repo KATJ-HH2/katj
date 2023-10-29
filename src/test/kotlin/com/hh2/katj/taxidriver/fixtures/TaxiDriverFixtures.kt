@@ -6,6 +6,8 @@ import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.response.ExtractableResponse
+import io.restassured.response.Response
 import java.time.LocalDate
 
 class TaxiDriverFixtures {
@@ -18,7 +20,7 @@ class TaxiDriverFixtures {
                      status: TaxiDriverStatus,
                      gender: Gender,
                      address: RoadAddress,
-                     img: String): String {
+                     img: String): ExtractableResponse<Response> {
             val params: MutableMap<String, Any> = mutableMapOf()
 
             params.put("taxi", taxi.toString())
@@ -36,7 +38,7 @@ class TaxiDriverFixtures {
                         .`when`()
                     .post("/taxidriver/enroll")
                         .then().log().all()
-                        .extract().jsonPath().getString("securityId")
+                        .extract()
         }
     }
 }

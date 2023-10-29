@@ -21,7 +21,7 @@ class TaxiDriverServiceTest(
 
     @Test
     fun `택시_저장`(){
-        val taxi: String = TaxiTestFixtures.택시_생성(
+        val taxi = TaxiTestFixtures.택시_생성(
             "62거4811",
             "KMHDL41BP8A000001",
             ChargeType.NORMAL,

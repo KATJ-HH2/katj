@@ -1,7 +1,8 @@
 package com.hh2.katj.taxidriver.fixtures
 
 import com.hh2.katj.taxi.model.Taxi
-import com.hh2.katj.taxidriver.model.TaxiDriverStatus
+import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
+
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import io.restassured.RestAssured.given

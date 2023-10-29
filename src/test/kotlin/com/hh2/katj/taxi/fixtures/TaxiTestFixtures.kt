@@ -4,11 +4,13 @@ import com.hh2.katj.taxi.model.ChargeType
 import com.hh2.katj.taxi.model.FuelType
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.response.ExtractableResponse
+import io.restassured.response.Response
 import java.time.LocalDate
 
 class TaxiTestFixtures {
     companion object {
-        fun 택시_생성(carNo: String, vin: String, kind: ChargeType, manufactureDate: LocalDate, fuel: FuelType, color: String, insureYn: Boolean, accidentYn: Boolean): String {
+        fun 택시_생성(carNo: String, vin: String, kind: ChargeType, manufactureDate: LocalDate, fuel: FuelType, color: String, insureYn: Boolean, accidentYn: Boolean): ExtractableResponse<Response> {
             val params: MutableMap<String, String> = mutableMapOf()
 
             params.put("carNo", carNo)
@@ -25,8 +27,17 @@ class TaxiTestFixtures {
                         .`when`()
                     .post("/taxi")
                         .then().log().all()
-                        .extract().jsonPath().getString("carNo")
+                        .extract()
+        }
 
+        fun 택시_조회(택시: ExtractableResponse<Response>): ExtractableResponse<Response> {
+            val taxiId = 택시.jsonPath().getString("id")
+
+            return given().log().all()
+                .`when`().pathParam("id", taxiId)
+                .get("/taxi/{id}")
+                .then().log().all()
+                .extract()
         }
     }
 }

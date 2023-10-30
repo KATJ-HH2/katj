@@ -42,7 +42,6 @@ jobs:
       # src application 파일 생성
       - name: make application-test.yml
         run: |
-#          mkdir ./src/main/resources
           cd ./src/main/resources 
           touch ./application.yml 
           echo "${{ secrets.YML }}" > ./application.yml

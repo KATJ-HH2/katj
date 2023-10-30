@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HelloController {
+
+    var access = 0
+
     @GetMapping("/hello")
     fun hello(): String {
         return "slack notification hello world!!"
@@ -12,6 +15,7 @@ class HelloController {
 
     @GetMapping("/test")
     fun test(): String {
-        return "fix new dev ci/cd!!"
+        access += 1
+        return "app-${access}"
     }
 }

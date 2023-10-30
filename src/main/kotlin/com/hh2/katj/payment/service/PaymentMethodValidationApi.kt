@@ -1,13 +1,11 @@
 package com.hh2.katj.payment.service
 
 import com.hh2.katj.payment.model.entity.PaymentMethod
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
 class PaymentMethodValidationApi {
 
-    @Value("\${spring.profiles.active}")
     private val activeProfile: String? = null
 
     fun bankAccountValidation(paymentMethod: PaymentMethod): Boolean{
@@ -29,5 +27,5 @@ class PaymentMethodValidationApi {
 }
 
 private fun String?.isLocal(): Boolean {
-    return this.equals("local")
+    return true
 }

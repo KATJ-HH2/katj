@@ -1,0 +1,12 @@
+<included>
+    <!--
+        <property name="LOG_PATTERN_DEFAULT" value="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%X{request_id}] [%logger{36}] - %msg%n"/>
+        <property name="LOG_PATTERN_DEFAULT_ERROR" value="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%X{request_id}] [%logger{36}] - %msg%n"/>
+    -->
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+</included>

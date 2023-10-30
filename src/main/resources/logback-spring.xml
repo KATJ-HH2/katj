@@ -22,9 +22,9 @@
 
     <springProfile name="prod">
         <include resource="aws-appender.xml"/>
-
         <root level="ERROR">
             <appender-ref ref="ASYNC_AWS_LOGS"/>
         </root>
     </springProfile>
+
 </configuration>

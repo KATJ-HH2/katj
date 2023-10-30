@@ -40,3 +40,4 @@ application-prod.yml
 
 ### VS Code ###
 .vscode/
+/logs/dev/

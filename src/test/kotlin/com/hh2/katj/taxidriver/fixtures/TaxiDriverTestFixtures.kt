@@ -2,16 +2,26 @@ package com.hh2.katj.taxidriver.fixtures
 
 import com.hh2.katj.taxi.model.Taxi
 import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
-
 import com.hh2.katj.util.model.Gender
 import com.hh2.katj.util.model.RoadAddress
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import io.restassured.response.ExtractableResponse
+import io.restassured.response.Response
 import java.time.LocalDate
 
-class TaxiDriverFixtures {
+class TaxiDriverTestFixtures {
     companion object {
-        fun 택시드라이버_생성(taxi: Taxi, driverLicenseId: String, issueDate: LocalDate, securityId: String, name: String, status: TaxiDriverStatus, gender: Gender, address: RoadAddress, img: String): String {
+
+        fun 드라이버_생성(taxi: Taxi,
+                     driverLicenseId: String,
+                     issueDate: LocalDate,
+                     securityId: String,
+                     name: String,
+                     status: TaxiDriverStatus,
+                     gender: Gender,
+                     address: RoadAddress,
+                     img: String): ExtractableResponse<Response> {
             val params: MutableMap<String, Any> = mutableMapOf()
 
             params.put("taxi", taxi)
@@ -26,10 +36,11 @@ class TaxiDriverFixtures {
 
             return given().log().all()
                     .body(params).contentType(ContentType.JSON)
-                .`when`()
-                .post("/taxiDriver")
-                .then().log().all()
-                .extract().jsonPath().getString("id")
+                        .`when`()
+                    .post("/taxidriver/enroll")
+                        .then().log().all()
+                        .extract()
+
         }
     }
 }

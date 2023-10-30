@@ -4,7 +4,6 @@ import com.hh2.katj.taxidriver.component.TaxiDriverManager
 import com.hh2.katj.taxidriver.model.dto.request.UpdateStatusRequest
 import com.hh2.katj.taxidriver.model.dto.response.TaxiDriverResponse
 import com.hh2.katj.taxidriver.model.entity.TaxiDriver
-import com.hh2.katj.taxidriver.model.entity.TaxiDriverStatus
 import org.springframework.stereotype.Service
 
 @Service

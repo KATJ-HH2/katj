@@ -1,6 +1,5 @@
 package com.hh2.katj.taxidriver.controller
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.hh2.katj.taxidriver.model.dto.request.AddTotalInfoRequest
 import com.hh2.katj.taxidriver.model.dto.request.UpdateStatusRequest
 import com.hh2.katj.taxidriver.model.dto.response.TaxiDriverResponse

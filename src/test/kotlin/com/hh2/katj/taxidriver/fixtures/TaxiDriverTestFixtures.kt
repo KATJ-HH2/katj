@@ -10,8 +10,9 @@ import io.restassured.response.ExtractableResponse
 import io.restassured.response.Response
 import java.time.LocalDate
 
-class TaxiDriverFixtures {
+class TaxiDriverTestFixtures {
     companion object {
+
         fun 드라이버_생성(taxi: Taxi,
                      driverLicenseId: String,
                      issueDate: LocalDate,
@@ -23,14 +24,14 @@ class TaxiDriverFixtures {
                      img: String): ExtractableResponse<Response> {
             val params: MutableMap<String, Any> = mutableMapOf()
 
-            params.put("taxi", taxi.toString())
+            params.put("taxi", taxi)
             params.put("driverLicenseId", driverLicenseId)
             params.put("issueDate", issueDate.toString())
             params.put("securityId", securityId)
             params.put("name", name)
             params.put("status", status.toString())
             params.put("gender", gender.toString())
-            params.put("address", address.toString())
+            params.put("address", address)
             params.put("img", img)
 
             return given().log().all()
@@ -39,6 +40,7 @@ class TaxiDriverFixtures {
                     .post("/taxidriver/enroll")
                         .then().log().all()
                         .extract()
+
         }
     }
 }

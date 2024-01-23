@@ -55,6 +55,15 @@ dependencies {
 
 	//rest-assured
 	testImplementation ("io.rest-assured:kotlin-extensions:5.3.2")
+
+	// circuit breaker
+	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.0.2")
+	implementation("io.github.resilience4j:resilience4j-circuitbreaker:2.0.2")
+	implementation("io.github.resilience4j:resilience4j-retry:2.0.2")
+	implementation("io.github.resilience4j:resilience4j-timelimiter:2.0.2")
+	implementation("io.github.resilience4j:resilience4j-test:2.0.2")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 }
 
 dependencyManagement {

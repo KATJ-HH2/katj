@@ -1,5 +1,6 @@
 package com.hh2.katj.history.service
 
+import com.hh2.katj.config.RetryConfiguration
 import com.hh2.katj.history.component.KakaoApiManager
 import com.hh2.katj.history.component.LocationHistoryManager
 import com.hh2.katj.history.model.dto.ResponseLocationHistory
@@ -19,14 +20,19 @@ import kotlin.random.Random
 class LocationHistoryService(
     private val locationHistoryManager: LocationHistoryManager,
     private val kakaoApiManager: KakaoApiManager,
-//    private val circuitBreaker: io.github.resilience4j.circuitbreaker.CircuitBreaker
-    @Autowired private val myCircuitBreaker: io.github.resilience4j.circuitbreaker.CircuitBreaker
+    @Autowired private val myCircuitBreaker: io.github.resilience4j.circuitbreaker.CircuitBreaker,
+    @Autowired private val myRetry: io.github.resilience4j.retry.Retry
 ) {
+    @Retry(name="saveLocationHistory")
     @CircuitBreaker(name="saveLocationHistory")
     fun saveLocationHistory(user: User,
                             keyword: String,
                             faultPercentage: Int): ResponseLocationHistory {
-        val response = kakaoApiManager.requestAddressSearch(keyword)
+
+        val decorateSupplier = RetryConfiguration().decorateSupplier(myRetry) {
+            kakaoApiManager.requestAddressSearch(keyword)
+        }
+        val response = decorateSupplier.get()
         val random = Random.nextInt(0, 100)
         if (faultPercentage > random) {
             myCircuitBreaker.onError(0, TimeUnit.SECONDS, RuntimeException())

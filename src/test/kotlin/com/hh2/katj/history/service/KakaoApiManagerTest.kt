@@ -29,7 +29,7 @@ class KakaoApiManagerTest(
         val address = "서울시 관악구 법원단지5가길 76"
 
         // when
-        val result = kakaoApiManager.requestAddressSearch(address)
+        val result = kakaoApiManager.requestAddressSearch(address)?.body
 
         // then
         assertThat(result!!.meta.totalCount).isGreaterThanOrEqualTo(1)
@@ -42,7 +42,7 @@ class KakaoApiManagerTest(
         val address = "서울시 관악구 법원단지5가길 7655555"
 
         // when
-        val result = kakaoApiManager.requestAddressSearch(address)
+        val result = kakaoApiManager.requestAddressSearch(address)?.body
 
         // then
         assertThat(result!!.meta.totalCount).isEqualTo(0)

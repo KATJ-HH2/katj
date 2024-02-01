@@ -7,6 +7,7 @@ import com.hh2.katj.trip.model.DestinationRoadAddress
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import java.net.URI
@@ -19,7 +20,7 @@ class KakaoApiManager(
 
     private val kakaoRestApiKey: String = "e53e7a4c2825be5f0c4c487a91ae3e2b"
 
-    fun requestAddressSearch(address: String?): KakaoAddressSearchResponse? {
+    fun requestAddressSearch(address: String?): ResponseEntity<KakaoAddressSearchResponse>? {
         checkNotNull(address) { return null }
 
         val uri: URI = kakaoUriBuilder.buildUriByAddressSearch(address)
@@ -28,8 +29,8 @@ class KakaoApiManager(
 
         val httpEntity = HttpEntity<String>(headers)
 
-        val response = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoAddressSearchResponse::class.java).body
-        
+        val response = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoAddressSearchResponse::class.java)
+
         return response
     }
 

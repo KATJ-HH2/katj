@@ -13,8 +13,8 @@ class LocationHistoryManager(
 ) {
 
     @Transactional
-    fun addLocationHistory(user: User, keyword: String, roadAddress: RoadAddress): SearchLocationHistory {
-        val history = SearchLocationHistory(user = user, keyword = keyword, roadAddress = roadAddress)
+    fun addLocationHistory(user: User, keyword: String, roadAddress: RoadAddress, faultPercentage: Int): SearchLocationHistory {
+        val history = SearchLocationHistory(user = user, keyword = keyword, roadAddress = roadAddress, faultPercentage = faultPercentage)
         return locationHistoryRepository.save(history)
     }
 }

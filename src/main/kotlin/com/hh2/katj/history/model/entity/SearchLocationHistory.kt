@@ -12,6 +12,7 @@ class SearchLocationHistory(
     user: User,
     roadAddress: RoadAddress,
     keyword: String,
+    val faultPercentage: Int
 ) : BaseEntity() {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,6 +35,7 @@ class SearchLocationHistory(
         return ResponseLocationHistory(
             userId = user.id,
             roadAddress = roadAddress,
+            faultPercentage = faultPercentage
         )
     }
 }

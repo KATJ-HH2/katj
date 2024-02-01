@@ -37,7 +37,7 @@ class LocationHistoryServiceTest(
         val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76", faultPercentage = 100)
 
         // then
-        assertThat(response.roadAddress.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
+        assertThat(response.body?.roadAddress!!.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
     }
 
     @Test

@@ -24,7 +24,6 @@ class LocationHistoryController(
     fun addLocationHistory(@RequestBody request: RequestLocationHistory): ResponseEntity<ResponseLocationHistory> {
         val user = userService.findByUserId(userId = request.userId)
         val response = locationHistoryService.saveLocationHistory(user, request.keyword, request.faultPercentage)
-        return ResponseEntity.ok(response)
+        return response
     }
-
 }

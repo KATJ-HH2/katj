@@ -10,11 +10,10 @@ import com.hh2.katj.util.exception.failWithMessage
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker
 import io.github.resilience4j.retry.annotation.Retry
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
-
-//val logger = KotlinLogging.logger {}
 
 @Service
 class LocationHistoryService(
@@ -27,43 +26,54 @@ class LocationHistoryService(
     @CircuitBreaker(name="saveLocationHistory")
     fun saveLocationHistory(user: User,
                             keyword: String,
-                            faultPercentage: Int): ResponseLocationHistory {
+                            faultPercentage: Int): ResponseEntity<ResponseLocationHistory> {
 
-        val decorateSupplier = RetryConfiguration().decorateSupplier(myRetry) {
+        val addressSearchWithRetry = RetryConfiguration().decorateSupplier(myRetry) {
             kakaoApiManager.requestAddressSearch(keyword)
         }
-        val response = decorateSupplier.get()
-        val random = Random.nextInt(0, 100)
-        if (faultPercentage > random) {
+        val response = addressSearchWithRetry.get()
+        val responseBody = response?.body
+//        val random = Random.nextInt(0, 100)
+//        if (faultPercentage > random) {
+//            println(myCircuitBreaker.state)
+//            myCircuitBreaker.onError(0, TimeUnit.SECONDS, RuntimeException())
+//            // OPEN 상태에서만 fallback 메서드를 직접 호출
+//            if (myCircuitBreaker.state == io.github.resilience4j.circuitbreaker.CircuitBreaker.State.OPEN) {
+//                return fallbackSaveLocationHistory(user, keyword, faultPercentage, RuntimeException("CircuitBreaker is OPEN"))
+//            }
+//        }
+        try {
+            checkNotNull(responseBody) { "api 호출 오류" }
+            check(responseBody.documents.isNotEmpty()) {
+            failWithMessage(ExceptionMessage.NO_SEARCH_RESULT.name)
+            }
+        } catch(e: IllegalStateException) {
             myCircuitBreaker.onError(0, TimeUnit.SECONDS, RuntimeException())
             // OPEN 상태에서만 fallback 메서드를 직접 호출
             if (myCircuitBreaker.state == io.github.resilience4j.circuitbreaker.CircuitBreaker.State.OPEN) {
                 return fallbackSaveLocationHistory(user, keyword, faultPercentage, RuntimeException("CircuitBreaker is OPEN"))
             }
         }
-        checkNotNull(response) { "api 호출 오류" }
-        check(response.documents.isNotEmpty()) {
-            failWithMessage(ExceptionMessage.NO_SEARCH_RESULT.name)
-        }
-        myCircuitBreaker.onSuccess(0, TimeUnit.SECONDS)
-        val roadAddress = response.documents[0].roadAddress
 
-        return locationHistoryManager.addLocationHistory(user, keyword, roadAddress).toResponseDto()
+        myCircuitBreaker.onSuccess(0, TimeUnit.SECONDS)
+        val roadAddress = responseBody!!.documents[0].roadAddress
+
+        return ResponseEntity.ok(locationHistoryManager.addLocationHistory(user, keyword, roadAddress, faultPercentage).toResponseDto())
     }
 
     fun fallbackSaveLocationHistory(user: User,
                                     keyword: String,
                                     faultPercentage: Int,
-                                    t: Throwable): ResponseLocationHistory {
+                                    t: Throwable): ResponseEntity<ResponseLocationHistory> {
 
         println("fallback function is acting! -> " + t.message)
-        val response = kakaoApiManager.requestAddressSearch(keyword)
+        val response = kakaoApiManager.requestAddressSearch(keyword)?.body
         checkNotNull(response) { "api 호출 오류" }
         check(response.documents.isNotEmpty()) {
             failWithMessage(ExceptionMessage.NO_SEARCH_RESULT.name)
         }
 
         val roadAddress = response.documents[0].roadAddress
-        return locationHistoryManager.addLocationHistory(user, keyword, roadAddress).toResponseDto()
+        return ResponseEntity.ok(locationHistoryManager.addLocationHistory(user, keyword, roadAddress, faultPercentage).toResponseDto())
     }
 }

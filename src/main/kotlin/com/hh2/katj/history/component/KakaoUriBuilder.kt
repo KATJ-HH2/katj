@@ -1,26 +1,25 @@
 package com.hh2.katj.history.component
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URI
 
 @Component
-class KakaoUriBuilder {
-
-    private companion object {
-        const val KAKAO_SEARCH_ADDRESS_URL = "https://dapi.kakao.com/v2/local/search/address.json"
-        const val KAKAO_SEARCH_CAR_DIRECTION_URL = "https://apis-navi.kakaomobility.com/v1/directions"
-    }
+class KakaoUriBuilder(
+    @Value("\${kakao.api.address.url}") private val kakaoSearchAddressUrl: String,
+    @Value("\${kakao.api.direction.url}") private val kakaoSearchCarDirectionUrl: String
+) {
 
     fun buildUriByAddressSearch(address: String): URI {
-        val uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_SEARCH_ADDRESS_URL)
+        val uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoSearchAddressUrl)
         uriBuilder.queryParam("query", address)
 
         return uriBuilder.build().encode().toUri()
     }
 
     fun buildUriByCarDirectionSearch(origin: String, destination: String): URI {
-        val uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_SEARCH_CAR_DIRECTION_URL)
+        val uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoSearchCarDirectionUrl)
         uriBuilder.queryParam("origin", origin)
         uriBuilder.queryParam("destination", destination)
 

@@ -34,7 +34,7 @@ class LocationHistoryServiceTest(
 
         // when
         val saveUser = userRepository.save(user)
-        val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76", faultPercentage = 100)
+        val response = locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76")
 
         // then
         assertThat(response.body?.roadAddress!!.addressName).isEqualTo("서울 관악구 법원단지5가길 76")
@@ -50,7 +50,7 @@ class LocationHistoryServiceTest(
 
         // then
         assertThrows<IllegalArgumentException> {
-            locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76555", faultPercentage = 100)
+            locationHistoryService.saveLocationHistory(saveUser, keyword = "법원단지5가길 76555")
         }.apply {
             assertThat(message).isEqualTo(ExceptionMessage.NO_SEARCH_RESULT.name)
         }

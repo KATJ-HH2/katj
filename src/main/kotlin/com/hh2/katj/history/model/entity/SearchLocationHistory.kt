@@ -11,8 +11,7 @@ import jakarta.persistence.*
 class SearchLocationHistory(
     user: User,
     roadAddress: RoadAddress,
-    keyword: String,
-    val faultPercentage: Int
+    keyword: String
 ) : BaseEntity() {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,8 +33,7 @@ class SearchLocationHistory(
     fun toResponseDto(): ResponseLocationHistory {
         return ResponseLocationHistory(
             userId = user.id,
-            roadAddress = roadAddress,
-            faultPercentage = faultPercentage
+            roadAddress = roadAddress
         )
     }
 }

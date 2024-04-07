@@ -29,7 +29,6 @@ class LocationHistoryService(
 
         val addressSearchWithRetry = RetryConfiguration().decorateSupplier(myRetry) {
             kakaoApiManager.requestAddressSearch(keyword)
-
         }
 
         val response = addressSearchWithRetry.get()
@@ -65,7 +64,7 @@ class LocationHistoryService(
             failWithMessage(ExceptionMessage.NO_SEARCH_RESULT.name)
         }
 
-        val roadAddress = response.addresses[0].roadAddress
+        val roadAddress = response.addresses[0].address
         return ResponseEntity.ok(locationHistoryManager.addLocationHistory(user, keyword, roadAddress).toResponseDto())
     }
 }

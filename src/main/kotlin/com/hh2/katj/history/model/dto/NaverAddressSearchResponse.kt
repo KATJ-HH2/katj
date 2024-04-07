@@ -39,7 +39,7 @@ data class Addresses(
     @JsonProperty("y")
     val latitude: String?,
 ) {
-    val roadAddress: RoadAddress by lazy {
+    val address: RoadAddress by lazy {
         val separatedAddress: List<String> = addressName?.split(" ") ?: listOf()
         val zoneNo = addressElements.find { it.types.contains("POSTAL_CODE") }?.zoneNo ?: ""
 
@@ -47,12 +47,12 @@ data class Addresses(
             addressName = addressName,
             region1depthName = separatedAddress.getOrNull(0) ?: "",
             region2depthName = separatedAddress.getOrNull(1) ?: "",
-            region3depthName = separatedAddress.getOrNull(2) ?: "",
-            roadName = separatedAddress.getOrNull(3) ?: "",
+            region3depthName = null,
+            roadName = separatedAddress.getOrNull(2) ?: "",
             undergroundYn = null,
-            mainBuildingNo = separatedAddress.getOrNull(4) ?: "",
+            mainBuildingNo = separatedAddress.getOrNull(3) ?: "",
             subBuildingNo = null,
-            buildingName = separatedAddress.getOrNull(5) ?: "",
+            buildingName = separatedAddress.getOrNull(4) ?: "",
             zoneNo = zoneNo,
             longitude = longitude,
             latitude = latitude,

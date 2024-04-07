@@ -7,7 +7,7 @@ import java.net.URI
 
 @Component
 class NaverUriBuilder(
-    @Value("\${naver.api.address.url}") private val naverSearchAddressUrl: String,
+    @Value("\${api.naver.url.address}") private val naverSearchAddressUrl: String,
 ) {
     fun buildUriByAddressSearch(address: String): URI {
         val uriBuilder = UriComponentsBuilder.fromHttpUrl(naverSearchAddressUrl)

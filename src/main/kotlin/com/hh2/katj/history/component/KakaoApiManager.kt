@@ -4,6 +4,7 @@ import com.hh2.katj.history.model.dto.KakaoAddressSearchResponse
 import com.hh2.katj.history.model.dto.KakaoRouteSearchResponse
 import com.hh2.katj.trip.model.DepartureRoadAddress
 import com.hh2.katj.trip.model.DestinationRoadAddress
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -16,10 +17,8 @@ import java.net.URI
 class KakaoApiManager(
     private val kakaoUriBuilder: KakaoUriBuilder,
     private val restTemplate: RestTemplate,
+    @Value("\${api.kakao.key}") private val kakaoRestApiKey: String
 ) {
-
-    private val kakaoRestApiKey: String = "e53e7a4c2825be5f0c4c487a91ae3e2b"
-
     fun requestAddressSearch(address: String?): ResponseEntity<KakaoAddressSearchResponse>? {
         checkNotNull(address) { return null }
 

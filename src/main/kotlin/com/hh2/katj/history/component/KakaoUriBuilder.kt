@@ -7,8 +7,8 @@ import java.net.URI
 
 @Component
 class KakaoUriBuilder(
-    @Value("\${kakao.api.address.url}") private val kakaoSearchAddressUrl: String,
-    @Value("\${kakao.api.direction.url}") private val kakaoSearchCarDirectionUrl: String
+    @Value("\${api.kakao.url.address}") private val kakaoSearchAddressUrl: String,
+    @Value("\${api.kakao.url.direction}") private val kakaoSearchCarDirectionUrl: String
 ) {
 
     fun buildUriByAddressSearch(address: String): URI {

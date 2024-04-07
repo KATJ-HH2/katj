@@ -1,10 +1,8 @@
 package com.hh2.katj.history.model.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.hh2.katj.util.model.RoadAddress
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class NaverAddressSearchResponse(
     @JsonProperty("meta")
     var meta: NaverMeta,
@@ -45,14 +43,14 @@ data class Addresses(
 
         RoadAddress(
             addressName = addressName,
-            region1depthName = separatedAddress.getOrNull(0) ?: "",
-            region2depthName = separatedAddress.getOrNull(1) ?: "",
+            region1depthName = separatedAddress.getOrNull(0),
+            region2depthName = separatedAddress.getOrNull(1),
             region3depthName = null,
-            roadName = separatedAddress.getOrNull(2) ?: "",
+            roadName = separatedAddress.getOrNull(2),
             undergroundYn = null,
-            mainBuildingNo = separatedAddress.getOrNull(3) ?: "",
+            mainBuildingNo = separatedAddress.getOrNull(3),
             subBuildingNo = null,
-            buildingName = separatedAddress.getOrNull(4) ?: "",
+            buildingName = separatedAddress.getOrNull(4),
             zoneNo = zoneNo,
             longitude = longitude,
             latitude = latitude,
